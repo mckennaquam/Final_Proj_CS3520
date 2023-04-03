@@ -8,7 +8,7 @@ namespace final_proj
 {
 
     // class to represent the player
-    class player
+    class Player
     {
         // public methods for the player
         vector<int> check_stats();
@@ -25,15 +25,14 @@ namespace final_proj
             m_inventory = set<Item, Item_Rank>();
         }
 
-                // private fields for player
+        // private fields for player
     private:
         int m_health;
         int m_strength;
         int m_defense;
         int m_points;
         set<Item, Item_Rank> m_inventory;
-        int m_x;
-        int m_y;
+        shared_ptr<Base_Room> m_current_room;
     };
 
     // transparaent functor for item

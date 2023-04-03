@@ -12,6 +12,7 @@ namespace final_proj
         void hit_monster();
         void enter_room();
         string describe_room();
+        pair<int, int> location();
 
     private:
         int m_x;
