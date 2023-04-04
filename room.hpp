@@ -1,4 +1,6 @@
 #include "monster.hpp"
+#include <string>
+#include "player.hpp"
 
 using namespace std;
 
@@ -7,7 +9,6 @@ namespace final_proj
     class Base_Room
     {
     public:
-        void pick_up_object();
         void answer_riddle();
         void hit_monster();
         void enter_room();

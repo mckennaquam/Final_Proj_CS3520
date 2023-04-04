@@ -1,6 +1,8 @@
 #include <set>
 #include <map>
 #include <string>
+#include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -13,15 +15,17 @@ namespace final_proj
         // public methods for the player
         vector<int> check_stats();
         set<Item, Item_Rank> check_inventory();
-        void use_item();
+        void pick_up_object(Item new_item);
+        void use_item(Item selected_item);
 
     public:
         // custom constrctor for player
-        player(int &health, int &strength, int &defense)
+        Player(int &health, int &strength, int &defense)
         {
-            m_health = health;
+            m_health = m_maxHealth;
             m_strength = strength;
             m_defense = defense;
+            m_maxHealth = 100;
             m_inventory = set<Item, Item_Rank>();
         }
 
@@ -30,6 +34,7 @@ namespace final_proj
         int m_health;
         int m_strength;
         int m_defense;
+        int m_maxHealth;
         int m_points;
         set<Item, Item_Rank> m_inventory;
         shared_ptr<Base_Room> m_current_room;
