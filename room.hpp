@@ -1,6 +1,9 @@
+#ifndef ROOM_HPP_
+#define ROOM_HPP_
+
 #include "monster.hpp"
+#include "item.hpp"
 #include <string>
-#include "player.hpp"
 
 using namespace std;
 
@@ -42,3 +45,5 @@ namespace final_proj
         Base_Monster m_enemy;
     };
 }
+
+#endif

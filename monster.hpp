@@ -1,12 +1,19 @@
+#ifndef MONSTER_HPP_
+#define MONSTER_HPP_
+
+#include "item.hpp"
+
 using namespace std;
 
 namespace final_proj
 {
+    class Player;
+
     class Base_Monster
     {
     public:
         void take_damage();
-        void deal_damage();
+        void deal_damage(Player &player);
         bool is_alive();
 
     private:
@@ -17,3 +24,5 @@ namespace final_proj
         Item equipped;
     };
 }
+
+#endif

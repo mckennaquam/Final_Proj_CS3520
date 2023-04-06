@@ -1,5 +1,7 @@
 #include "player.hpp"
 #include "room.hpp"
+#include "monster.hpp"
+#include "room_factory.hpp"
 
 #include <iostream>
 #include <vector>
@@ -23,19 +25,19 @@ namespace
 namespace
 {
     // all possible commands get defined here
-    void list_commands(istringstream &, Player &, Base_Monster &);
-    void go(istringstream &, Player &, Base_Monster &);
-    void fight(istringstream &, Player &, Base_Monster &);
-    void use(istringstream &, Player &, Base_Monster &);
-    void describe_room(istringstream &, Player &, Base_Monster &);
-    void pick_up(istringstream &, Player &, Base_Monster &);
-    void check_inventory(istringstream &, Player &, Base_Monster &);
-    void check_stats(istringstream &, Player &, Base_Monster &);
-    void show_map(istringstream &, Player &, Base_Monster &);
+    void list_commands(istringstream &, Player &, Room_Factory &);
+    void go(istringstream &, Player &, Room_Factory &);
+    void fight(istringstream &, Player &, Room_Factory &);
+    void use(istringstream &, Player &, Room_Factory &);
+    void describe_room(istringstream &, Player &, Room_Factory &);
+    void pick_up(istringstream &, Player &, Room_Factory &);
+    void check_inventory(istringstream &, Player &, Room_Factory &);
+    void check_stats(istringstream &, Player &, Room_Factory &);
+    void show_map(istringstream &, Player &, Room_Factory &);
 }
 
 // map of functions here
-const map<string, function<void(istringstream &, Player &, Base_Monster &)>>
+const map<string, function<void(istringstream &, Player &, Room_Factory &)>>
     command_funcs = {
         // takes the player into the next room in the direction speficied
         {"go", go},
@@ -49,7 +51,7 @@ const map<string, function<void(istringstream &, Player &, Base_Monster &)>>
         // a short descrption of the room you are in
         {"describe room", describe_room},
         // picks up the item that is in the room is there is one
-        {"pick up", "pick_up"},
+        {"pick up", pick_up},
         // list the player's current inventory (and points)
         {"check inventory", check_inventory},
         // list the player's current stats
@@ -116,4 +118,13 @@ int main()
 namespace
 {
     // define the commands declreaded above here
+    void list_commands(istringstream &, Player &, Room_Factory &) {}
+    void go(istringstream &, Player &, Room_Factory &) {}
+    void fight(istringstream &, Player &, Room_Factory &) {}
+    void use(istringstream &, Player &, Room_Factory &) {}
+    void describe_room(istringstream &, Player &, Room_Factory &) {}
+    void pick_up(istringstream &, Player &, Room_Factory &) {}
+    void check_inventory(istringstream &, Player &, Room_Factory &) {}
+    void check_stats(istringstream &, Player &, Room_Factory &) {}
+    void show_map(istringstream &, Player &, Room_Factory &) {}
 }

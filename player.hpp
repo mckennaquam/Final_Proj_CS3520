@@ -1,8 +1,14 @@
+#ifndef PLAYER_HPP_
+#define PLAYER_HPP_
+
 #include <set>
 #include <map>
 #include <string>
 #include <vector>
 #include <memory>
+
+#include "room.hpp"
+#include "item.hpp"
 
 using namespace std;
 
@@ -14,7 +20,7 @@ namespace final_proj
     {
         // public methods for the player
         vector<int> check_stats();
-        set<Item, Item_Rank> check_inventory();
+        vector<Item> check_inventory();
         void pick_up_object(Item new_item);
         void use_item(Item selected_item);
 
@@ -26,7 +32,7 @@ namespace final_proj
             m_strength = strength;
             m_defense = defense;
             m_maxHealth = 100;
-            m_inventory = set<Item, Item_Rank>();
+            m_inventory = vector<Item>();
         }
 
         // private fields for player
@@ -36,26 +42,10 @@ namespace final_proj
         int m_defense;
         int m_maxHealth;
         int m_points;
-        set<Item, Item_Rank> m_inventory;
+        vector<Item> m_inventory;
         shared_ptr<Base_Room> m_current_room;
     };
 
-    // transparaent functor for item
-    struct Item_Rank
-    {
-        using is_transparent = void;
-
-        bool operator()(const final_proj::Item &i1, const final_proj::Item &i2) const;
-        bool operator()(const final_proj::Item &i1, const string &s1) const;
-        bool operator()(const string &s1, const final_proj::Item &i1) const;
-    };
-
-    // struct for item
-    struct Item
-    {
-        string m_name;
-        string m_type;
-        int m_stat;
-    };
-
 }
+
+#endif
