@@ -37,6 +37,9 @@ namespace final_proj
         vector<shared_ptr<Base_Room>> m_map;
         map<string, string> m_riddle;
         map<string, string>::const_iterator m_riddle_iter;
+
+        auto at(int x, int y);
+        void construct_room(int x, int y);
     };
 }
 
