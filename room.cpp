@@ -1,33 +1,85 @@
 #include "room.hpp"
 #include "player.hpp"
 
-
 using namespace std;
 
 // Empty namespace for helper methods
-namespace {
+namespace
+{
 
 }
 
 namespace final_proj
 {
-    void Base_Room::answer_riddle() {
 
+    int Base_Room::get_x() const
+    {
+        return m_x;
     }
 
-    void Base_Room::hit_monster() {
-
+    int Base_Room::get_y() const
+    {
+        return m_y;
     }
 
-    void Base_Room::enter_room() {
-
+    void Object_Room::answer_riddle(string answer)
+    {
     }
 
-    string Base_Room::describe_room() {
-
+    void Object_Room::hit_monster(int damage)
+    {
     }
 
-    pair<int, int> Base_Room::location() {
-
+    bool Object_Room::monster_alive()
+    {
     }
+
+    Item Object_Room::remove_obj()
+    {
+    }
+
+    string Object_Room::describe_room()
+    {
+    }
+
+    void Riddle_Room::answer_riddle(string answer)
+    {
+    }
+
+    void Riddle_Room::hit_monster(int damage)
+    {
+    }
+
+    bool Riddle_Room::monster_alive()
+    {
+    }
+
+    Item Riddle_Room::remove_obj()
+    {
+    }
+
+    string Riddle_Room::describe_room()
+    {
+    }
+
+    void Combat_Room::answer_riddle(string answer)
+    {
+    }
+
+    void Combat_Room::hit_monster(int damage)
+    {
+    }
+
+    bool Combat_Room::monster_alive()
+    {
+    }
+
+    Item Combat_Room::remove_obj()
+    {
+    }
+
+    string Combat_Room::describe_room()
+    {
+    }
+
 }

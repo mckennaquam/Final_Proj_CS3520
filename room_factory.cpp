@@ -25,11 +25,32 @@ namespace final_proj
             switch (rand() % 3)
             {
             case 0:
-            // make a teasure room
+                // make a teasure room
+                m_map.at((y * m_width) + x) = make_shared<Object_Room>(x, y);
             case 1:
-            // make a riddle room (if possible)
+                // make a riddle room (if possible)
+                // this means that we have run out of riddels in our dict and therefore cant make a new riddle room
+                if (m_riddle_iter == cend(m_riddle))
+                {
+                    // do one of the 2 other rooms
+                    if (0 == rand() % 1)
+                    {
+                        m_map.at((y * m_width) + x) = make_shared<Object_Room>(x, y);
+                    }
+                    else
+                    {
+                        m_map.at((y * m_width) + x) = make_shared<Object_Room>(x, y);
+                    }
+                }
+                else
+                {
+                    m_map.at((y * m_width) + x) = make_shared<Riddle_Room>(x, y);
+                    // go to the next riddle in out dict
+                    m_riddle_iter++;
+                }
             case 2:
                 // make a monster room
+                m_map.at((y * m_width) + x) = make_shared<Combat_Room>(x, y);
             }
         }
         else
