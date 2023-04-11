@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "exceptions.hpp"
 #include <algorithm>
 
 using namespace std;
@@ -6,7 +7,22 @@ using namespace std;
 // Empty namespace for helper methods
 namespace
 {
+    // Returns an iterator pointing to the element in the given container
+    // identified by the given Album name.
+    // Throws InvalidUserInputException if that element
+    // doesn't exist in the container.
+    template <typename Container>
+    auto find_item(Container &inventory, const string &name)
+    {
+        auto iter = inventory.find(name);
 
+        if (iter == cend(inventory))
+        {
+        throw final_proj::InvalidUserInputException("Item " + name + " not found");
+        }
+
+        return iter;
+    }
 }
 
 namespace final_proj
@@ -38,7 +54,7 @@ namespace final_proj
     void Player::pick_up_object(Item new_item)
     {
         // Check if item is type "health". If so, add it to the inventory
-        if (new_item.m_type.compare("health") == 0)
+        if (new_item.m_type.compare("potion") == 0)
         {
             m_inventory.insert(m_inventory.end(), new_item);
 
@@ -47,13 +63,13 @@ namespace final_proj
         }
         else if (new_item.m_type.compare("strength") == 0)
         {
-            if (new_item.m_stat > m_strength)
+            if (new_item.m_stat + m_baseStrength > m_strength)
             {
-                m_strength = new_item.m_stat;
+                m_strength = new_item.m_stat + m_baseStrength;
             }
             else
             {
-                // item is weak, we ignore the item, print out message like that
+                throw InvalidUserInputException("The " + new_item.m_name + " you picked up is weak! You drop it an proceed on.");
             }
 
             // Check if item is type "defense". If so, set item into use if and only if it is a
@@ -67,13 +83,15 @@ namespace final_proj
             }
             else
             {
-                // item is weak, we ignore the item, print out message like that
+                throw InvalidUserInputException("The " + new_item.m_name + " you picked up is weak! You drop it an proceed on.");
             }
         }
     }
 
     void Player::use_item(Item selected_item)
     {
+        auto iter = find_item(m_inventory, selected_item.m_name);
+
         // Ensure the player's health is below their max health
         if (m_health < m_maxHealth)
         {
@@ -83,17 +101,19 @@ namespace final_proj
             if (selected_item.m_stat + m_health > m_maxHealth)
             {
                 m_health = m_maxHealth;
+                m_inventory.erase(iter);
 
                 // If item will not surpass the max health, apply item normally
             }
             else
             {
                 m_health += selected_item.m_stat;
+                m_inventory.erase(iter);
             }
         }
         else
         {
-            // error, cannot use item because health is full
+            throw InvalidUserInputException("Your health is full!");
         }
     }
 }

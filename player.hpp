@@ -23,24 +23,29 @@ namespace final_proj
         vector<Item> check_inventory();
         void pick_up_object(Item new_item);
         void use_item(Item selected_item);
+        void take_damage(int damage_taken);
 
     public:
         // custom constrctor for player
-        Player(int &health, int &strength, int &defense)
+        Player()
         {
-            m_health = m_maxHealth;
-            m_strength = strength;
-            m_defense = defense;
             m_maxHealth = 100;
+            m_baseStrength = 50;
+            m_baseDefense = 0;
+            m_health = m_maxHealth;
+            m_strength = m_baseStrength;
+            m_defense = m_baseDefense;
             m_inventory = vector<Item>();
         }
 
         // private fields for player
     private:
+        int m_maxHealth;
+        int m_baseStrength;
+        int m_baseDefense;
         int m_health;
         int m_strength;
         int m_defense;
-        int m_maxHealth;
         int m_points;
         vector<Item> m_inventory;
         shared_ptr<Base_Room> m_current_room;

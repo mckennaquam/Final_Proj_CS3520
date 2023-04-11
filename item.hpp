@@ -96,11 +96,11 @@ namespace final_proj
                 switch (name)
                 {
                 case 0:
-                    m_name = "health";
+                    m_name = "health rank " + to_string(m_stat);
                 case 1:
-                    m_name = "attack";
+                    m_name = "attack rank " + to_string(m_stat);
                 case 2:
-                    m_name = "defense";
+                    m_name = "defense rank " + to_string(m_stat);
                 }
             }
             else
