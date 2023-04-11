@@ -66,6 +66,7 @@ namespace final_proj
             if (new_item.m_stat + m_baseStrength > m_strength)
             {
                 m_strength = new_item.m_stat + m_baseStrength;
+                //message that says we added it
             }
             else
             {
