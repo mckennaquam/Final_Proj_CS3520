@@ -12,16 +12,17 @@ namespace final_proj
     class Base_Room
     {
     public:
-        virtual bool answer_riddle(string answer) = 0;
-        virtual void hit_monster(int damage) = 0;
-        virtual bool monster_alive() const = 0;
+        bool answer_riddle(string answer);
+        void hit_monster(int damage);
+        bool monster_alive() const;
         virtual string describe_room() const = 0;
-        virtual Item remove_obj() = 0;
-        virtual string room_type() const = 0;
+        unique_ptr<Item> remove_obj();
+        string room_type() const;
         int get_x() const;
         int get_y() const;
         string get_type() const;
 
+    protected:
         Base_Room(int x, int y, string type)
         {
             m_x = x;
@@ -29,7 +30,6 @@ namespace final_proj
             m_type = type;
         }
 
-    protected:
         int m_x;
         int m_y;
         string m_type;
@@ -38,30 +38,23 @@ namespace final_proj
     class Object_Room : public Base_Room
     {
     public:
-        bool answer_riddle(string answer) override;
-        void hit_monster(int damage) override;
-        bool monster_alive() const override;
         string describe_room() const override;
-        Item remove_obj() override;
+        unique_ptr<Item> remove_obj();
 
         Object_Room(int x, int y) : Base_Room(x, y, "Treasure")
         {
-            m_item = Item();
+            m_item = make_unique<Item>();
         }
 
     protected:
-        Item m_item;
+        unique_ptr<Item> m_item;
     };
 
     class Riddle_Room : public Base_Room
     {
     public:
-        bool answer_riddle(string answer) override;
-        void hit_monster(int damage) override;
-        bool monster_alive() const override;
+        bool answer_riddle(string answer);
         string describe_room() const override;
-        Item remove_obj() override;
-        string room_type() const;
 
         Riddle_Room(int x, int y, string riddle, string answer) : Base_Room(x, y, "Riddle")
         {
@@ -77,12 +70,10 @@ namespace final_proj
     class Combat_Room : public Object_Room
     {
     public:
-        bool answer_riddle(string answer);
         void hit_monster(int damage);
         bool monster_alive() const;
         string describe_room() const;
-        Item remove_obj();
-        string room_type() const;
+        unique_ptr<Item> remove_obj();
 
         Combat_Room(int x, int y) : Object_Room(x, y)
         {
