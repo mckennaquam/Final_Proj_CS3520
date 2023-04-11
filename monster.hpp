@@ -13,8 +13,9 @@ namespace final_proj
     {
     public:
         void take_damage(int damage);
-        int deal_damage();
-        bool is_alive();
+        int deal_damage() const;
+        bool is_alive() const;
+        string get_name() const;
 
     private:
         string name;

@@ -29,7 +29,7 @@ namespace final_proj
             m_type = type;
         }
 
-    private:
+    protected:
         int m_x;
         int m_y;
         string m_type;
@@ -49,7 +49,7 @@ namespace final_proj
             m_item = Item();
         }
 
-    private:
+    protected:
         Item m_item;
     };
 
@@ -63,7 +63,7 @@ namespace final_proj
         Item remove_obj() override;
         string room_type() const;
 
-        Riddle_Room(int x, int y, string riddle, string answer) : Base_Room(x, y, "riddle")
+        Riddle_Room(int x, int y, string riddle, string answer) : Base_Room(x, y, "Riddle")
         {
             m_riddle = riddle;
             m_answer = answer;

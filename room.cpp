@@ -63,31 +63,47 @@ namespace final_proj
         m_enemy.take_damage(damage);
     }
 
-    // returns and removes the object contained in the room
+    // returns and marks the taken flag as true of the object contained in the room
     // works in object room and combat room is moster is dead
     // this method doesn't handel if the object is added to the player's inventory, just removed from the room
     Item Object_Room::remove_obj()
     {
-        Item to_return = m_item;
 
-        if (to_return == NULL)
+        if (m_item.m_taken)
         {
             throw InvalidUserInputException("You have already picked up the object in this room");
         }
         else
         {
-            m_item = NULL;
-            return to_return;
+            m_item.m_taken = true;
+            return m_item;
         }
     }
 
-    Item Riddel_Room::remove_obj()
+    Item Riddle_Room::remove_obj()
     {
         throw InvalidUserInputException("There is no object to pick up in this room");
     }
 
     Item Combat_Room::remove_obj()
     {
-        return;
+        if (m_enemy.is_alive())
+        {
+            throw InvalidUserInputException("You can't take the " + m_item.m_name +
+                                            " in here! The " + m_enemy.get_name() + " is still alive!");
+        }
+        else
+        {
+            if (m_item.m_taken)
+            {
+                throw InvalidUserInputException("You have already picked up the object in this room");
+            }
+            else
+            {
+                m_item.m_taken = true;
+                return m_item;
+            }
+        }
     }
+
 }

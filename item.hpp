@@ -69,9 +69,11 @@ namespace final_proj
         string m_name;
         string m_type;
         int m_stat;
+        bool m_taken;
 
         Item()
         {
+            m_taken = false;
             int type = rand() % 101;
             if (type >= 10)
             {
