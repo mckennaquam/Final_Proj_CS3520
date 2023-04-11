@@ -12,8 +12,8 @@ namespace final_proj
     class Base_Monster
     {
     public:
-        void take_damage();
-        void deal_damage(Player &player);
+        void take_damage(int damage);
+        int deal_damage();
         bool is_alive();
 
     private:

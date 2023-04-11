@@ -1,5 +1,6 @@
 #include "room.hpp"
 #include "player.hpp"
+#include "exceptions.hpp"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ namespace
 
 namespace final_proj
 {
-
+    // basic functions for getting x and y coordinates and room type
     int Base_Room::get_x() const
     {
         return m_x;
@@ -22,64 +23,71 @@ namespace final_proj
         return m_y;
     }
 
-    void Object_Room::answer_riddle(string answer)
+    string Base_Room::get_type() const
     {
+        return m_type;
     }
 
+    // returns true if player enters the correct answer to the riddle
+    // only works in riddle room
+    bool Object_Room::answer_riddle(string answer)
+    {
+        throw InvalidUserInputException("There is no riddle to answer here!");
+    }
+
+    bool Riddle_Room::answer_riddle(string answer)
+    {
+        return answer == m_answer;
+    }
+
+    bool Combat_Room::answer_riddle(string answer)
+    {
+        throw InvalidUserInputException("There is no riddle to answer here!");
+    }
+
+    // deals damage to the monster contained in the room
+    // only works in combat room
+    // (maybe need to rework this, depends on combat impl)
     void Object_Room::hit_monster(int damage)
     {
-    }
-
-    bool Object_Room::monster_alive()
-    {
-    }
-
-    Item Object_Room::remove_obj()
-    {
-    }
-
-    string Object_Room::describe_room()
-    {
-    }
-
-    void Riddle_Room::answer_riddle(string answer)
-    {
+        throw InvalidUserInputException("There is no monster to fight here!");
     }
 
     void Riddle_Room::hit_monster(int damage)
     {
-    }
-
-    bool Riddle_Room::monster_alive()
-    {
-    }
-
-    Item Riddle_Room::remove_obj()
-    {
-    }
-
-    string Riddle_Room::describe_room()
-    {
-    }
-
-    void Combat_Room::answer_riddle(string answer)
-    {
+        throw InvalidUserInputException("There is no monster to fight here!");
     }
 
     void Combat_Room::hit_monster(int damage)
     {
+        m_enemy.take_damage(damage);
     }
 
-    bool Combat_Room::monster_alive()
+    // returns and removes the object contained in the room
+    // works in object room and combat room is moster is dead
+    // this method doesn't handel if the object is added to the player's inventory, just removed from the room
+    Item Object_Room::remove_obj()
     {
+        Item to_return = m_item;
+
+        if (to_return == NULL)
+        {
+            throw InvalidUserInputException("You have already picked up the object in this room");
+        }
+        else
+        {
+            m_item = NULL;
+            return to_return;
+        }
+    }
+
+    Item Riddel_Room::remove_obj()
+    {
+        throw InvalidUserInputException("There is no object to pick up in this room");
     }
 
     Item Combat_Room::remove_obj()
     {
+        return;
     }
-
-    string Combat_Room::describe_room()
-    {
-    }
-
 }

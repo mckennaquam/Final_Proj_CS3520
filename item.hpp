@@ -73,17 +73,33 @@ namespace final_proj
         Item()
         {
             int type = rand() % 101;
-            if (type >= 20)
+            if (type >= 10)
             {
                 m_type = "damage";
                 m_name = generate_name_damage();
                 m_stat = (rand() % 20) + 1;
             }
-            else if (type > 20 && type <= 40)
+            else if (type > 10 && type <= 20)
             {
                 m_type = "defense";
                 m_name = generate_name_defense();
                 m_stat = (rand() % 20) + 1;
+            }
+            else if (type > 20 && type <= 40)
+            {
+                m_type = "potion";
+                m_stat = (rand() % 10) + 1;
+
+                int name = rand() % 3;
+                switch (name)
+                {
+                case 0:
+                    m_name = "health";
+                case 1:
+                    m_name = "attack";
+                case 2:
+                    m_name = "defense";
+                }
             }
             else
             {
