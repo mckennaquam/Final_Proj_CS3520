@@ -69,11 +69,16 @@ namespace final_proj
         string m_name;
         string m_type;
         int m_stat;
-        bool m_taken;
+
+        Item(string name, string type, int stat)
+        {
+            m_name = name;
+            m_type = type;
+            m_stat = stat;
+        }
 
         Item()
         {
-            m_taken = false;
             int type = rand() % 101;
             if (type >= 10)
             {
@@ -109,6 +114,11 @@ namespace final_proj
                 m_name = generate_name_treasure();
                 m_stat = (rand() % 50) + 1;
             }
+        }
+
+        bool operator<(const Item &rhs) const
+        {
+            return m_name < rhs.m_name;
         }
     };
 

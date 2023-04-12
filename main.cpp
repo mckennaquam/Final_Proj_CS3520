@@ -56,8 +56,6 @@ const map<string, function<void(istringstream &, Player &, Room_Factory &)>>
         {"check inventory", check_inventory},
         // list the player's current stats
         {"check stats", check_stats},
-        // provides a list of current commands
-        {"list commands", list_commands},
         // shows a simple map of the gameboard
         {"show map", show_map}};
 
@@ -118,7 +116,9 @@ int main()
 namespace
 {
     // define the commands declreaded above here
-    void list_commands(istringstream &, Player &, Room_Factory &) {}
+    void list_commands(istringstream is &, Player &, Room_Factory &)
+    {
+    }
     void go(istringstream &, Player &, Room_Factory &) {}
     void fight(istringstream &, Player &, Room_Factory &) {}
     void use(istringstream &, Player &, Room_Factory &) {}

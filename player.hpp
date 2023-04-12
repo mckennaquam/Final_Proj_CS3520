@@ -23,9 +23,10 @@ namespace final_proj
         // public methods for the player
         vector<int> check_stats();
         vector<Item> check_inventory();
-        void pick_up_object(Item new_item);
+        void pick_up_object(unique_ptr<Item> new_item);
         void use_item(Item selected_item);
         void take_damage(int damage_taken);
+        void remove_buff();
 
         // custom constrctor for player
         Player()
@@ -36,7 +37,7 @@ namespace final_proj
             m_health = m_maxHealth;
             m_strength = m_baseStrength;
             m_defense = m_baseDefense;
-            m_inventory = vector<unique_ptr<Item>>();
+            m_inventory = vector<Item>();
             m_in_use = nullptr;
         }
 
@@ -49,7 +50,7 @@ namespace final_proj
         int m_strength;
         int m_defense;
         int m_points;
-        vector<unique_ptr<Item>> m_inventory;
+        vector<Item> m_inventory;
         unique_ptr<Item> m_in_use;
         shared_ptr<Base_Room> m_current_room;
     };
