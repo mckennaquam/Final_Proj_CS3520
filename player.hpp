@@ -18,6 +18,8 @@ namespace final_proj
     // class to represent the player
     class Player
     {
+
+    public:
         // public methods for the player
         vector<int> check_stats();
         vector<Item> check_inventory();
@@ -25,7 +27,6 @@ namespace final_proj
         void use_item(Item selected_item);
         void take_damage(int damage_taken);
 
-    public:
         // custom constrctor for player
         Player()
         {
@@ -35,7 +36,8 @@ namespace final_proj
             m_health = m_maxHealth;
             m_strength = m_baseStrength;
             m_defense = m_baseDefense;
-            m_inventory = vector<Item>();
+            m_inventory = vector<unique_ptr<Item>>();
+            m_in_use = nullptr;
         }
 
         // private fields for player
@@ -47,7 +49,8 @@ namespace final_proj
         int m_strength;
         int m_defense;
         int m_points;
-        vector<Item> m_inventory;
+        vector<unique_ptr<Item>> m_inventory;
+        unique_ptr<Item> m_in_use;
         shared_ptr<Base_Room> m_current_room;
     };
 

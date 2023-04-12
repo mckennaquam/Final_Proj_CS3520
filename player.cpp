@@ -14,14 +14,26 @@ namespace
     template <typename Container>
     auto find_item(Container &inventory, const string &name)
     {
-        auto iter = inventory.find(name);
+        // auto iter = inventory.find(name);
 
+        for (auto i = cbegin(inventory); i != cend(inventory); i++)
+        {
+            if (*i->m_name == name)
+            {
+                return i;
+            }
+        }
+
+        throw final_proj::InvalidUserInputException("Item " + name + " not found");
+
+        /*
         if (iter == cend(inventory))
         {
         throw final_proj::InvalidUserInputException("Item " + name + " not found");
         }
 
         return iter;
+        */
     }
 }
 
@@ -66,7 +78,7 @@ namespace final_proj
             if (new_item.m_stat + m_baseStrength > m_strength)
             {
                 m_strength = new_item.m_stat + m_baseStrength;
-                //message that says we added it
+                // message that says we added it
             }
             else
             {
