@@ -17,9 +17,9 @@ namespace final_proj
         bool monster_alive() const;
         int montser_attack_damage() const;
         string monster_attack_type() const;
+        string monster_name() const;
         virtual string describe_room() const = 0;
         unique_ptr<Item> remove_obj();
-        string room_type() const;
         int get_x() const;
         int get_y() const;
         string get_type() const;
@@ -76,6 +76,7 @@ namespace final_proj
         bool monster_alive() const;
         int montser_attack_damage() const;
         string monster_attack_type() const;
+        string monster_name() const;
         string describe_room() const;
         unique_ptr<Item> remove_obj();
 
@@ -85,7 +86,7 @@ namespace final_proj
         }
 
     private:
-        Base_Monster m_enemy;
+        unique_ptr<Base_Monster> m_enemy;
     };
 }
 

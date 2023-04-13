@@ -33,10 +33,12 @@ namespace final_proj
     {
         throw InvalidUserInputException("There is no riddle to answer in here!");
     }
+
     void Base_Room::hit_monster(int damage)
     {
         throw InvalidUserInputException("There is no monster to fight here!");
     }
+
     bool Base_Room::monster_alive() const
     {
         throw InvalidUserInputException("There is no monster here!");
@@ -47,19 +49,26 @@ namespace final_proj
         throw InvalidUserInputException("There is no item to pick up here!");
     }
 
+    int Base_Room::montser_attack_damage() const
+    {
+        throw InvalidUserInputException("There is no monster here!");
+    }
+
+    string Base_Room::monster_attack_type() const
+    {
+        throw InvalidUserInputException("There is no monster here!");
+    }
+
+    string Base_Room::monster_name() const
+    {
+        throw InvalidUserInputException("There is no monster here!");
+    }
+
     // returns true if player enters the correct answer to the riddle
     // only works in riddle room
     bool Riddle_Room::answer_riddle(string answer)
     {
         return answer == m_answer;
-    }
-
-    // deals damage to the monster contained in the room
-    // only works in combat room
-    // (maybe need to rework this, depends on combat impl)
-    void Combat_Room::hit_monster(int damage)
-    {
-        m_enemy.take_damage(damage);
     }
 
     // returns and marks the taken flag as true of the object contained in the room
@@ -79,9 +88,9 @@ namespace final_proj
 
     unique_ptr<Item> Combat_Room::remove_obj()
     {
-        if (m_enemy.is_alive())
+        if (m_enemy->is_alive())
         {
-            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy.get_name() + " here!");
+            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy->get_name() + " here!");
         }
         else
         {
@@ -89,4 +98,41 @@ namespace final_proj
         }
     }
 
+    // describe rooms
+    string Object_Room::describe_room() const
+    {
+        return "to do";
+    }
+
+    string Riddle_Room::describe_room() const
+    {
+        return "to do";
+    }
+
+    string Combat_Room::describe_room() const
+    {
+        return "to do";
+    }
+
+    // Implementing combat only rooms
+
+    // deals damage to the monster contained in the room
+    // only works in combat room
+    // (maybe need to rework this, depends on combat impl)
+    void Combat_Room::hit_monster(int damage)
+    {
+        m_enemy->take_damage(damage);
+    }
+    int Combat_Room::montser_attack_damage() const
+    {
+        return m_enemy->deal_damage();
+    }
+    string Combat_Room::monster_attack_type() const
+    {
+        return m_enemy->attack_type();
+    }
+    string Combat_Room::monster_name() const
+    {
+        return m_enemy->get_name();
+    }
 }

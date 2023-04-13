@@ -21,9 +21,6 @@ namespace
         getline(iss, removing_extra);
     }
 
-    void handle_combat(int p_damage, string &p_type, int m_damage, string &m_type) {
-        
-    }
 }
 
 namespace
@@ -129,7 +126,12 @@ namespace
         // otherwise the method will contiue and no damage will be dont to the monster
         current_room->hit_monster(0);
 
-        string tutorial = "tutorial";
+        string tutorial = "You have started combat with " + current_room->monster_name() + "for each turn you can do 1 of 3 things \n" + 
+        "1) retreat out of combat with \"retreat\" \n 2) use an item with \"use [item name]\" \n" +
+        "3) engage in combat with \"bludgeon\" or \"slash\" or \"pierce\" \n" +
+        "When you engae in combat you use one of the three attack types and the monster will chose an attack type as well \n"
+        "Bludgeon beats slash, slash beats pierce, and pierce beats bludgeon \n"
+        "depending on if you or the monster successfully hit the other damage will then be assigned";
 
         cout << tutorial << endl;
 
@@ -138,11 +140,14 @@ namespace
             string input;
             iss >> input; // use health poyion
 
-            if (input.compare("help") == 0) {
+            if (input == "help") {
 
-            } else if (input.compare("retreat") == 0) {
+                cout << tutorial << endl;
 
-            } else if (input.compare("use") == 0) {
+            } else if (input == "retreat") {
+                cout << "you run away from the fight!" << endl;
+                break;
+            } else if (input == "use") {
                 string name;
                 string rank;
                 int num;
@@ -152,11 +157,47 @@ namespace
 
                 p.use_item_combat(name, num);
 
-            } else if (input.compare("bludgeon") == 0 || input.compare("pierce") == 0|| input.compare("slash") == 0) {
+            } else if (input == "bludgeon" || input == "pierce"|| input == "slash") {
                 int monster_damage = current_room->montser_attack_damage();
                 string monster_type = current_room-> monster_attack_type();
 
-                handle_combat(p.get_strength(), input, monster_damage, monster_type);
+                if (input == "bludgeon") {
+                    if (monster_type == "slash") {
+                        current_room->hit_monster(p.get_strength());
+                        cout << "You hit the" + current_room->monster_name() + " for " + to_string(p.get_strength()) + 
+                        " points of damage!" << endl;
+                    } else if (monster_type == "pierce") {
+                        p.take_damage(monster_damage);
+                        cout << "The " + current_room->monster_name() + "dealt " + to_string(monster_damage) 
+                        + " points of damage! Ouch!" << endl;
+                    } else {
+                        cout << "You and the " + current_room->monster_name() + " miss!" << endl;
+                    }
+                } else if (input == "pierce") {
+                    if (monster_type == "bludgeon") {
+                        current_room->hit_monster(p.get_strength());
+                        cout << "You hit the " + current_room->monster_name() + " for " + to_string(p.get_strength()) 
+                        + " points of damage!" << endl;
+                    } else if (monster_type == "slash") {
+                        p.take_damage(monster_damage);
+                        cout << "The " + current_room->monster_name() + " dealt " + to_string(monster_damage) 
+                        + " points of damage! Ouch!" << endl;
+                    } else {
+                        cout << "You and the " + current_room->monster_name() + " miss!" << endl;
+                    }
+                } else {
+                    if (monster_type == "pierce") {
+                        current_room->hit_monster(p.get_strength());
+                        cout << "You hit the " + current_room->monster_name() + " for " + to_string(p.get_strength()) 
+                        + " points of damage!" << endl;
+                    } else if (monster_type == "bludgeon") {
+                        p.take_damage(monster_damage);
+                        cout << "The " + current_room->monster_name() + " dealt " + to_string(monster_damage) 
+                        + " points of damage! Ouch!" << endl;
+                    } else {
+                        cout << "You and the " + current_room->monster_name() + " miss!" << endl;
+                    }
+                }
             } else {
                 cout << "Action not recognized! Try again or ask for \"help\"" << endl;
             }
@@ -178,7 +219,7 @@ namespace
     void show_commands(istringstream &, Player &, Room_Factory &)
     {
         vector<string> command_name;  
-        transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name),[](auto &iter){iter->first;});
-        copy(cbegin(command_funcs), cend(command_funcs), std::ostream_iterator<string>(cout, "\n"));
+        transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name),[](auto &iter){return iter.first;});
+        copy(cbegin(command_name), cend(command_name), std::ostream_iterator<string>(cout, "\n"));
     }
 }

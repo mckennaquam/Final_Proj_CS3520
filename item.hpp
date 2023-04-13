@@ -116,9 +116,9 @@ namespace final_proj
             }
         }
 
-        bool operator<(const Item &rhs) const
+        bool operator==(const Item &rhs) const
         {
-            return m_name < rhs.m_name;
+            return m_name == rhs.m_name;
         }
     };
 

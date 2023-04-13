@@ -23,7 +23,9 @@ namespace
     template <typename Container>
     auto find_item(Container &inventory, const string &name)
     {
-        auto iter = inventory.find(name);
+        final_proj::Item compare = final_proj::Item(name, 0, 0);
+
+        auto iter = find(cbegin(inventory), cend(inventory), compare);
 
         throw final_proj::InvalidUserInputException("Item " + name + " not found");
 
@@ -40,7 +42,7 @@ namespace final_proj
 {
 
     // Return a vector of the current stats of the player, ie. their health, strength, and defense
-    vector<int> Player::check_stats()
+    vector<int> Player::check_stats() const
     {
         vector<int> stat_vector;
 
