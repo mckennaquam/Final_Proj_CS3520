@@ -79,4 +79,8 @@ namespace final_proj
         }
     }
 
+    string Room_Factory::show_map() {
+        return "slay";
+    }
+
 }

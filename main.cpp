@@ -20,12 +20,15 @@ namespace
         string removing_extra;
         getline(iss, removing_extra);
     }
+
+    void handle_combat(int p_damage, string &p_type, int m_damage, string &m_type) {
+        
+    }
 }
 
 namespace
 {
     // all possible commands get defined here
-    void list_commands(istringstream &, Player &, Room_Factory &);
     void go(istringstream &, Player &, Room_Factory &);
     void fight(istringstream &, Player &, Room_Factory &);
     void use(istringstream &, Player &, Room_Factory &);
@@ -33,7 +36,8 @@ namespace
     void pick_up(istringstream &, Player &, Room_Factory &);
     void check_inventory(istringstream &, Player &, Room_Factory &);
     void check_stats(istringstream &, Player &, Room_Factory &);
-    void show_map(istringstream &, Player &, Room_Factory &);
+    void show_map(istringstream &, Player &, Room_Factory &rf);
+    void show_commands(istringstream &, Player &, Room_Factory &);
 }
 
 // map of functions here
@@ -45,7 +49,7 @@ const map<string, function<void(istringstream &, Player &, Room_Factory &)>>
         // handles fighting and retreating within the fight command
         {"fight", fight},
         // shows the player a list of the commands avaliable
-        {"list commands", list_commands},
+        {"show commands", show_commands},
         // uses the spefified item
         {"use", use},
         // a short descrption of the room you are in
@@ -116,15 +120,65 @@ int main()
 namespace
 {
     // define the commands declreaded above here
-    void list_commands(istringstream is &, Player &, Room_Factory &)
-    {
+    void go(istringstream & iss, Player &, Room_Factory &) {}
+
+    void fight(istringstream & iss, Player & p, Room_Factory &) {
+        shared_ptr<Base_Room> current_room = p.get_current_room();
+        // checking to make sure this is a combat room
+        // if it isnt an illegal user input error will be thrown and exit the method
+        // otherwise the method will contiue and no damage will be dont to the monster
+        current_room->hit_monster(0);
+
+        string tutorial = "tutorial";
+
+        cout << tutorial << endl;
+
+        while (p.player_alive() && current_room->monster_alive()) {
+            cout << "What's your next move?" << endl;
+            string input;
+            iss >> input; // use health poyion
+
+            if (input.compare("help") == 0) {
+
+            } else if (input.compare("retreat") == 0) {
+
+            } else if (input.compare("use") == 0) {
+                string name;
+                string rank;
+                int num;
+                iss >> name;
+                iss >> rank;
+                iss >> num;
+
+                p.use_item_combat(name, num);
+
+            } else if (input.compare("bludgeon") == 0 || input.compare("pierce") == 0|| input.compare("slash") == 0) {
+                int monster_damage = current_room->montser_attack_damage();
+                string monster_type = current_room-> monster_attack_type();
+
+                handle_combat(p.get_strength(), input, monster_damage, monster_type);
+            } else {
+                cout << "Action not recognized! Try again or ask for \"help\"" << endl;
+            }
+
+            remove_extra(iss);
+        }
     }
-    void go(istringstream &, Player &, Room_Factory &) {}
-    void fight(istringstream &, Player &, Room_Factory &) {}
+
     void use(istringstream &, Player &, Room_Factory &) {}
     void describe_room(istringstream &, Player &, Room_Factory &) {}
     void pick_up(istringstream &, Player &, Room_Factory &) {}
     void check_inventory(istringstream &, Player &, Room_Factory &) {}
     void check_stats(istringstream &, Player &, Room_Factory &) {}
-    void show_map(istringstream &, Player &, Room_Factory &) {}
+    
+    void show_map(istringstream &, Player &, Room_Factory & rf) {
+        cout << rf.show_map() << endl;
+    }
+
+    void show_commands(istringstream &, Player &, Room_Factory &)
+    {
+        vector<string> command_name;  
+        transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name),[](auto &iter){iter->first;});
+        copy(cbegin(command_funcs), cend(command_funcs), std::ostream_iterator<string>(cout, "\n"));
+    }
 }

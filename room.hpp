@@ -15,6 +15,8 @@ namespace final_proj
         bool answer_riddle(string answer);
         void hit_monster(int damage);
         bool monster_alive() const;
+        int montser_attack_damage() const;
+        string monster_attack_type() const;
         virtual string describe_room() const = 0;
         unique_ptr<Item> remove_obj();
         string room_type() const;
@@ -72,6 +74,8 @@ namespace final_proj
     public:
         void hit_monster(int damage);
         bool monster_alive() const;
+        int montser_attack_damage() const;
+        string monster_attack_type() const;
         string describe_room() const;
         unique_ptr<Item> remove_obj();
 
