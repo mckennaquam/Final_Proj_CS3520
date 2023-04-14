@@ -1,10 +1,45 @@
 #include "room_factory.hpp"
 #include "exceptions.hpp"
+#include "player.hpp"
 
 using namespace std;
 
 namespace
 {
+    string add_divide(int width)
+    {
+        string divide;
+        for (int i = 0; i < width; i++)
+        {
+            divide = "+-";
+        }
+        divide += "+\n";
+        return divide;
+    }
+
+    string room_type(shared_ptr<final_proj::Base_Room> room)
+    {
+        if (room == nullptr)
+        {
+            return " ";
+        }
+        else if (room->get_type() == "Riddle")
+        {
+            return "R";
+        }
+        else if (room->get_type() == "Object")
+        {
+            return "T";
+        }
+        else if (room->get_type() == "Combat")
+        {
+            return "M";
+        }
+        else
+        {
+            return "?";
+        }
+    }
 
 }
 
@@ -79,8 +114,39 @@ namespace final_proj
         }
     }
 
-    string Room_Factory::show_map() {
-        return "slay";
+    // Generates the map for the show map function
+    string Room_Factory::show_map(int x, int y)
+    {
+        string map = "";
+        map += add_divide(m_width);
+
+        for (int i = 0; i < m_height; i++)
+        {
+            for (int j = 0; j < m_width; j++)
+            {
+                // if we are at the player's position then display an C
+                if ((i == y) && (j == x))
+                {
+                    map += "|X";
+                }
+                // otherwise display the correponding room symbol
+                else
+                {
+                    map += "|";
+                    map += room_type(get_room_at(j, i));
+                }
+            }
+            map += "|\n";
+            map += add_divide(m_width);
+        }
+
+        return map;
+    }
+
+    // returns the legend for the map
+    string Room_Factory::show_legend()
+    {
+        return "Legend:\nX - You are here\nO - Treasure room\nR - Riddle room\nM - Monster room";
     }
 
 }

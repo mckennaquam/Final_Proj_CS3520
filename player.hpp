@@ -37,7 +37,7 @@ namespace final_proj
         Player()
         {
             m_maxHealth = 100;
-            m_baseStrength = 50;
+            m_baseStrength = 10;
             m_baseDefense = 0;
             m_health = m_maxHealth;
             m_strength = m_baseStrength;

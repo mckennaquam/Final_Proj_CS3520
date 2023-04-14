@@ -49,6 +49,12 @@ namespace final_proj
         }
 
     protected:
+        // constructor for derrived classes to use base room constructor for name
+        Object_Room(int x, int y, string name) : Base_Room(x, y, name)
+        {
+            m_item = make_unique<Item>();
+        }
+
         unique_ptr<Item> m_item;
     };
 
@@ -80,7 +86,7 @@ namespace final_proj
         string describe_room() const;
         unique_ptr<Item> remove_obj();
 
-        Combat_Room(int x, int y) : Object_Room(x, y)
+        Combat_Room(int x, int y) : Object_Room(x, y, "Combat")
         {
             // gotta put the monster stuff here
         }

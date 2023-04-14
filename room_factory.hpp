@@ -30,7 +30,8 @@ namespace final_proj
 
         // gets the room at specified cooidinates
         shared_ptr<Base_Room> get_room_at(int x, int y);
-        string show_map();
+        string show_map(int x, int y);
+        string show_legend();
 
     private:
         int m_width;
