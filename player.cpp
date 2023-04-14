@@ -79,6 +79,7 @@ namespace final_proj
             if (new_item->m_stat + m_baseStrength > m_strength)
             {
                 m_strength = new_item->m_stat + m_baseStrength;
+
                 // message that says we added it
             }
             else
@@ -107,19 +108,21 @@ namespace final_proj
         }
     }
 
-    void Player::use_item(Item selected_item)
+    void Player::use_item(string item_name)
     {
-        auto iter = find_item(m_inventory, selected_item.m_name);
+        auto iter = find_item(m_inventory, item_name);
 
-        if (str_contains(selected_item.m_name, "attack"))
+        if (str_contains(iter->m_name, "attack"))
         {
-            m_strength += selected_item.m_stat;
-            m_in_use = make_unique<Item>(selected_item.m_name, selected_item.m_type, selected_item.m_stat);
+            m_strength += iter->m_stat;
+            m_in_use = make_unique<Item>(iter->m_name, iter->m_type, iter->m_stat);
+            m_inventory.erase(iter);
         }
-        else if (str_contains(selected_item.m_name, "defense"))
+        else if (str_contains(iter->m_name, "defense"))
         {
-            m_defense += selected_item.m_stat;
-            m_in_use = make_unique<Item>(selected_item.m_name, selected_item.m_type, selected_item.m_stat);
+            m_defense += iter->m_stat;
+            m_in_use = make_unique<Item>(iter->m_name, iter->m_type, iter->m_stat);
+            m_inventory.erase(iter);
         }
         else
         {
@@ -129,7 +132,7 @@ namespace final_proj
 
                 // Ensure the item will not set the player's health above their max health. If so,
                 // set the player's health to their max health
-                if (selected_item.m_stat + m_health > m_maxHealth)
+                if (iter->m_stat + m_health > m_maxHealth)
                 {
                     m_health = m_maxHealth;
                     m_inventory.erase(iter);
@@ -138,7 +141,7 @@ namespace final_proj
                 }
                 else
                 {
-                    m_health += selected_item.m_stat;
+                    m_health += iter->m_stat;
                     m_inventory.erase(iter);
                 }
             }
@@ -169,5 +172,10 @@ namespace final_proj
     void Player::take_damage(int damage_taken)
     {
         m_health -= damage_taken;
+    }
+
+    void Player::update_location(shared_ptr<Base_Room> new_room)
+    {
+        m_current_room = new_room;
     }
 }

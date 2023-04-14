@@ -25,11 +25,11 @@ namespace final_proj
         vector<Item> check_inventory() const;
         int get_strength() const;
         void pick_up_object(unique_ptr<Item> new_item);
-        void use_item(Item selected_item);
+        void use_item(string item_name);
         void take_damage(int damage_taken);
         void remove_buff();
         shared_ptr<Base_Room> get_current_room() const;
-        void update_location();
+        void update_location(shared_ptr<Base_Room> new_room);
         bool player_alive() const;
         void use_item_combat(string type, int rank);
 

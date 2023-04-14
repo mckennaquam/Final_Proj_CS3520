@@ -2,6 +2,7 @@
 #include "room.hpp"
 #include "monster.hpp"
 #include "room_factory.hpp"
+#include "exceptions.hpp"
 
 #include <iostream>
 #include <vector>
@@ -117,7 +118,35 @@ int main()
 namespace
 {
     // define the commands declreaded above here
-    void go(istringstream &iss, Player &, Room_Factory &) {}
+    void go(istringstream &iss, Player &p, Room_Factory &rf)
+    {
+        string direction;
+        iss >> direction;
+
+        int player_x = p.get_current_room()->get_x();
+        int player_y = p.get_current_room()->get_y();
+
+        if (direction == "north")
+        {
+            p.update_location(rf.get_room_at(player_x, player_y - 1));
+        }
+        else if (direction == "east")
+        {
+            p.update_location(rf.get_room_at(player_x + 1, player_y));
+        }
+        else if (direction == "south")
+        {
+            p.update_location(rf.get_room_at(player_x, player_y + 1));
+        }
+        else if (direction == "west")
+        {
+            p.update_location(rf.get_room_at(player_x - 1, player_y));
+        }
+        else
+        {
+            throw InvalidUserInputException("Must use cardinal direction (north, east, south, west) for movement");
+        }
+    }
 
     void fight(istringstream &iss, Player &p, Room_Factory &)
     {
@@ -239,7 +268,9 @@ namespace
         iss >> name;
         iss >> rank;
         iss >> stat;
-        name += (rank + stat);
+        name += (" " + rank + " " + stat);
+
+        p.use_item(name);
     }
 
     void describe_room(istringstream &, Player &p, Room_Factory &)
@@ -253,7 +284,7 @@ namespace
 
     void check_inventory(istringstream &, Player &, Room_Factory &)
     {
-    }
+        }
 
     void check_stats(istringstream &, Player &p, Room_Factory &)
     {
