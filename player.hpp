@@ -22,7 +22,7 @@ namespace final_proj
     public:
         // public methods for the player
         vector<int> check_stats() const;
-        vector<Item> check_inventory() const;
+        vector<string> check_inventory() const;
         int get_strength() const;
         void pick_up_object(unique_ptr<Item> new_item);
         void use_item(string item_name);
@@ -31,7 +31,6 @@ namespace final_proj
         shared_ptr<Base_Room> get_current_room() const;
         void update_location(shared_ptr<Base_Room> new_room);
         bool player_alive() const;
-        void use_item_combat(string type, int rank);
 
         // custom constrctor for player
         Player()

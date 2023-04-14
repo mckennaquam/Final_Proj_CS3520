@@ -125,6 +125,7 @@ namespace
 
         int player_x = p.get_current_room()->get_x();
         int player_y = p.get_current_room()->get_y();
+        string old_room_type = p.get_current_room()->get_type();
 
         if (direction == "north")
         {
@@ -145,6 +146,13 @@ namespace
         else
         {
             throw InvalidUserInputException("Must use cardinal direction (north, east, south, west) for movement");
+        }
+
+        if (old_room_type == "Combat")
+        {
+            p.remove_buff();
+            vector<int> stats = p.check_stats();
+            cout << "You feel the effects of the potion wearing off your strength is now " + to_string(stats.at(1)) + " and your defense is now " + to_string(stats.at(2)) << endl;
         }
     }
 
@@ -183,14 +191,22 @@ namespace
             }
             else if (input == "use")
             {
-                string name;
-                string rank;
-                int num;
-                iss >> name;
-                iss >> rank;
-                iss >> num;
+                try
+                {
+                    string name;
+                    string rank;
+                    string stat;
+                    iss >> name;
+                    iss >> rank;
+                    iss >> stat;
+                    name += (" " + rank + " " + stat);
 
-                p.use_item_combat(name, num);
+                    p.use_item(name);
+                }
+                catch (InvalidUserInputException e)
+                {
+                    cout << e.what() << endl;
+                }
             }
             else if (input == "bludgeon" || input == "pierce" || input == "slash")
             {
@@ -278,13 +294,17 @@ namespace
         p.get_current_room()->describe_room();
     }
 
-    void pick_up(istringstream &, Player &, Room_Factory &)
+    void pick_up(istringstream &, Player &p, Room_Factory &)
     {
+        p.pick_up_object(p.get_current_room()->remove_obj());
     }
 
-    void check_inventory(istringstream &, Player &, Room_Factory &)
+    void check_inventory(istringstream &, Player &p, Room_Factory &)
     {
-        }
+        cout << "inventory contains: " << endl;
+        vector<string> inventory = p.check_inventory();
+        copy(cbegin(inventory), cend(inventory), std::ostream_iterator<string>(cout, "\n"));
+    }
 
     void check_stats(istringstream &, Player &p, Room_Factory &)
     {

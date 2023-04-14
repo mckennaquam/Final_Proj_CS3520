@@ -1,5 +1,6 @@
 #include "player.hpp"
 #include "exceptions.hpp"
+#include <iostream>
 #include <algorithm>
 
 using namespace std;
@@ -53,23 +54,25 @@ namespace final_proj
         return stat_vector;
     }
 
-    /*
-        // Return a set of a player's inventory
-        set<Item > Player::check_inventory() {
-            set<Item, Item_Rank> inventory;
+    // Return a set of a player's inventory
+    vector<string> Player::check_inventory() const
+    {
+        vector<string> inventory;
 
-            transform(cbegin(m_inventory), cend(m_inventory), back_inserter(inventory), [](const auto
-            &element) { return element.second; });
+        transform(cbegin(m_inventory), cend(m_inventory), back_inserter(inventory), [](const auto &element)
+                  { return element->m_name; });
 
-            return inventory;
-        }
-    */
+        return inventory;
+    }
+
     void Player::pick_up_object(unique_ptr<Item> new_item)
     {
         // Check if item is type "health". If so, add it to the inventory
         if (new_item->m_type.compare("potion") == 0)
         {
             m_inventory.insert(m_inventory.end(), *new_item);
+
+            cout << "You pick up the potion of " + new_item->m_name + ", to use it type the command \"use" + new_item->m_name + "\"";
 
             // Check if item is type "strength". If so, set item into use if and only if it is a
             // "stronger" item
@@ -81,6 +84,7 @@ namespace final_proj
                 m_strength = new_item->m_stat + m_baseStrength;
 
                 // message that says we added it
+                cout << "You pick up the " + new_item->m_name + "! Your stength is now " + to_string(m_strength) << endl;
             }
             else
             {
@@ -95,6 +99,8 @@ namespace final_proj
             if (new_item->m_stat > m_defense)
             {
                 m_defense = new_item->m_stat;
+                // message that says we added it
+                cout << "You pick up the " + new_item->m_name + "! Your defense is now " + to_string(m_defense) << endl;
             }
             else
             {
@@ -105,6 +111,7 @@ namespace final_proj
         {
             // item is treasure, add to points!
             m_points += new_item->m_stat;
+            cout << "You pick up the " + new_item->m_name + "! Your score is now " + to_string(m_points) << endl;
         }
     }
 
@@ -156,7 +163,7 @@ namespace final_proj
     {
         if (m_in_use != nullptr)
         {
-            if (m_in_use->m_name, "attack")
+            if (str_contains(m_in_use->m_name, "attack"))
             {
                 m_strength -= m_in_use->m_stat;
                 m_in_use = nullptr;
