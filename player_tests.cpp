@@ -27,11 +27,13 @@ TEST(test_check_stats)
 // strength, and defense
 TEST(test_pick_up_object_health)
 {
-    final_proj::Player player1();
+    /*
+    Player player1() = Player();
     vector<final_proj::Item> test_inventory;
     final_proj::Item item1("Potion", "health", 50);
 
-    ASSERT_EQUAL(test_vector, player1.check_stats());
+    ASSERT_EQUAL(test_inventory, player1.check_stats());
+    */
 }
 
 

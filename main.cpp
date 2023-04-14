@@ -5,6 +5,7 @@
 #include "exceptions.hpp"
 
 #include <iostream>
+#include <iterator>
 #include <vector>
 #include <sstream>
 #include <map>

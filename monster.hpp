@@ -31,6 +31,10 @@ namespace final_proj
     class Skeleton : public Base_Monster
     {
     public:
+        int deal_damage() const = 0;
+        string attack_type() const = 0;
+        string describe_enemy() const = 0;
+
         Skeleton()
         {
             m_name = "Skeleton";
@@ -54,6 +58,10 @@ namespace final_proj
     class Slime : public Base_Monster
     {
     public:
+        int deal_damage() const = 0;
+        string attack_type() const = 0;
+        string describe_enemy() const = 0;
+
         Slime()
         {
             m_name = "Slime";
@@ -68,6 +76,10 @@ namespace final_proj
     class Lich : public Base_Monster
     {
     public:
+        int deal_damage() const = 0;
+        string attack_type() const = 0;
+        string describe_enemy() const = 0;
+        
         Lich()
         {
             m_name = "Lich";

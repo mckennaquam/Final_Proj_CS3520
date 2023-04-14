@@ -60,7 +60,7 @@ namespace final_proj
         vector<string> inventory;
 
         transform(cbegin(m_inventory), cend(m_inventory), back_inserter(inventory), [](const auto &element)
-                  { return element->m_name; });
+                  { return element.m_name; });
 
         return inventory;
     }

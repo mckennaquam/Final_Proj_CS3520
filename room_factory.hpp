@@ -4,6 +4,7 @@
 #include "room.hpp"
 #include <map>
 #include <vector>
+#include <memory>
 
 using namespace std;
 

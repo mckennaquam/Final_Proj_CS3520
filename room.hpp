@@ -4,6 +4,7 @@
 #include "monster.hpp"
 #include "item.hpp"
 #include <string>
+#include <memory>
 
 using namespace std;
 
