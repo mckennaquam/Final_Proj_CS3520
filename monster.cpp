@@ -20,6 +20,11 @@ namespace final_proj
         return m_name;
     }
 
+    int Base_Monster::point_val() const
+    {
+        return m_points;
+    }
+
     int Skeleton::deal_damage() const
     {
         return m_stength / 2 + (rand() % m_stength);
@@ -30,12 +35,13 @@ namespace final_proj
         int attack = rand() % 100;
         if (attack <= 25)
         {
-           return "bludgeon";
-        } 
+            return "bludgeon";
+        }
         else if (attack > 25 && attack <= 50)
         {
             return "slash";
-        } else
+        }
+        else
         {
             return "pierce";
         }
@@ -66,12 +72,13 @@ namespace final_proj
         int attack = rand() % 100;
         if (attack <= 25)
         {
-           return "pierce";
-        } 
+            return "pierce";
+        }
         else if (attack > 25 && attack <= 50)
         {
             return "slash";
-        } else
+        }
+        else
         {
             return "bludgeon";
         }

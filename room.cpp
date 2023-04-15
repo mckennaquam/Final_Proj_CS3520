@@ -30,12 +30,12 @@ namespace final_proj
     }
 
     // throwing errors if the command is not supported for that room type
-    bool Base_Room::answer_riddle(string )
+    bool Base_Room::answer_riddle(string)
     {
         throw InvalidUserInputException("There is no riddle to answer in here!");
     }
 
-    void Base_Room::hit_monster(int )
+    void Base_Room::hit_monster(int)
     {
         throw InvalidUserInputException("There is no monster to fight here!");
     }
@@ -61,6 +61,11 @@ namespace final_proj
     }
 
     string Base_Room::monster_name() const
+    {
+        throw InvalidUserInputException("There is no monster here!");
+    }
+
+    int Base_Room::monster_points() const
     {
         throw InvalidUserInputException("There is no monster here!");
     }
@@ -135,6 +140,11 @@ namespace final_proj
     string Combat_Room::monster_attack_type() const
     {
         return m_enemy->attack_type();
+    }
+
+    int Combat_Room::monster_points() const
+    {
+        return m_enemy->point_val();
     }
     /*
     string Combat_Room::monster_name() const

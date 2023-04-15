@@ -19,6 +19,7 @@ namespace final_proj
         int montser_attack_damage() const;
         string monster_attack_type() const;
         string monster_name() const;
+        int monster_points() const;
         virtual string describe_room() const = 0;
         unique_ptr<Item> remove_obj();
         int get_x() const;
@@ -84,6 +85,7 @@ namespace final_proj
         int montser_attack_damage() const;
         string monster_attack_type() const;
         string monster_name() const;
+        int monster_points() const;
         string describe_room() const;
         unique_ptr<Item> remove_obj();
 

@@ -31,6 +31,7 @@ namespace final_proj
         shared_ptr<Base_Room> get_current_room() const;
         void update_location(shared_ptr<Base_Room> new_room);
         bool player_alive() const;
+        void update_points(int points);
 
         // custom constrctor for player
         Player()

@@ -18,6 +18,7 @@ namespace final_proj
         bool is_alive() const;
         int get_health() const;
         string get_name() const;
+        int point_val() const;
 
     protected:
         string m_name;
@@ -79,7 +80,7 @@ namespace final_proj
         int deal_damage() const = 0;
         string attack_type() const = 0;
         string describe_enemy() const = 0;
-        
+
         Lich()
         {
             m_name = "Lich";

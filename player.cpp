@@ -185,4 +185,9 @@ namespace final_proj
     {
         m_current_room = new_room;
     }
+
+    void Player::update_points(int points)
+    {
+        m_points += points;
+    }
 }

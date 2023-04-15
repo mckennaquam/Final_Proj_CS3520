@@ -155,15 +155,20 @@ namespace
             vector<int> stats = p.check_stats();
             cout << "You feel the effects of the potion wearing off your strength is now " + to_string(stats.at(1)) + " and your defense is now " + to_string(stats.at(2)) << endl;
         }
+
+        cout << p.get_current_room()->describe_room() << endl;
     }
 
     void fight(istringstream &iss, Player &p, Room_Factory &)
     {
         shared_ptr<Base_Room> current_room = p.get_current_room();
         // checking to make sure this is a combat room
-        // if it isnt an illegal user input error will be thrown and exit the method
-        // otherwise the method will contiue and no damage will be dont to the monster
-        current_room->hit_monster(0);
+        // and if it is a monster room then make sure the player
+        // hasnt already beat the monster
+        if (!current_room->monster_alive())
+        {
+            throw InvalidUserInputException("You can't fighit a monster you already killed!");
+        }
 
         string tutorial = "You have started combat with " + current_room->monster_name() + "for each turn you can do 1 of 3 things \n" +
                           "1) retreat out of combat with \"retreat\" \n 2) use an item with \"use [item name]\" \n" +
@@ -275,6 +280,12 @@ namespace
 
             remove_extra(iss);
         }
+
+        if (!current_room->monster_alive())
+        {
+            p.update_points(current_room->monster_points());
+            cout << "You slayed the " + current_room->monster_name() + "! and earned " + to_string(current_room->monster_points()) + " points!" << endl;
+        }
     }
 
     void use(istringstream &iss, Player &p, Room_Factory &)
@@ -297,7 +308,7 @@ namespace
 
     void pick_up(istringstream &, Player &p, Room_Factory &)
     {
-        p.pick_up_object(p.get_current_room()->remove_obj());
+        p.pick_up_object(move(p.get_current_room()->remove_obj()));
     }
 
     void check_inventory(istringstream &, Player &p, Room_Factory &)
