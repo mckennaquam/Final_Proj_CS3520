@@ -1,6 +1,5 @@
 #include "room_factory.hpp"
 #include "exceptions.hpp"
-#include "player.hpp"
 
 using namespace std;
 
@@ -147,6 +146,10 @@ namespace final_proj
     string Room_Factory::show_legend() const
     {
         return "Legend:\nX - You are here\nO - Treasure room\nR - Riddle room\nM - Monster room";
+    }
+
+    void Room_Factory::player_start(Player & p) {
+        p.update_location(get_room_at(0,0));
     }
 
 }

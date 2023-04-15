@@ -92,7 +92,7 @@ namespace final_proj
         }
     }
 
-    /*
+    
     unique_ptr<Item> Combat_Room::remove_obj()
     {
         if (m_enemy->Base_Monster::is_alive())
@@ -104,7 +104,7 @@ namespace final_proj
             Object_Room::remove_obj();
         }
     }
-    */
+    
 
     // describe rooms
     string Object_Room::describe_room() const
@@ -127,12 +127,12 @@ namespace final_proj
     // deals damage to the monster contained in the room
     // only works in combat room
     // (maybe need to rework this, depends on combat impl)
-    /*
+    
     void Combat_Room::hit_monster(int damage)
     {
         m_enemy->take_damage(damage);
     }
-    */
+    
     int Combat_Room::montser_attack_damage() const
     {
         return m_enemy->deal_damage();
@@ -146,10 +146,14 @@ namespace final_proj
     {
         return m_enemy->point_val();
     }
-    /*
+    
     string Combat_Room::monster_name() const
     {
         return m_enemy->Base_Monster::get_name();
     }
-    */
+
+    bool Combat_Room::monster_alive() const {
+        return m_enemy->is_alive();
+    }
+    
 }

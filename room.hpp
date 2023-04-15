@@ -13,15 +13,15 @@ namespace final_proj
     class Base_Room
     {
     public:
-        bool answer_riddle(string answer);
-        void hit_monster(int damage);
-        bool monster_alive() const;
-        int montser_attack_damage() const;
-        string monster_attack_type() const;
-        string monster_name() const;
-        int monster_points() const;
+        virtual bool answer_riddle(string answer);
+        virtual void hit_monster(int damage);
+        virtual bool monster_alive() const;
+        virtual int montser_attack_damage() const;
+        virtual string monster_attack_type() const;
+        virtual string monster_name() const;
+        virtual int monster_points() const;
         virtual string describe_room() const = 0;
-        unique_ptr<Item> remove_obj();
+        virtual unique_ptr<Item> remove_obj();
         int get_x() const;
         int get_y() const;
         string get_type() const;
@@ -43,7 +43,7 @@ namespace final_proj
     {
     public:
         string describe_room() const override;
-        unique_ptr<Item> remove_obj();
+        unique_ptr<Item> remove_obj() override;
 
         Object_Room(int x, int y) : Base_Room(x, y, "Treasure")
         {
@@ -63,7 +63,7 @@ namespace final_proj
     class Riddle_Room : public Base_Room
     {
     public:
-        bool answer_riddle(string answer);
+        bool answer_riddle(string answer) override;
         string describe_room() const override;
 
         Riddle_Room(int x, int y, string riddle, string answer) : Base_Room(x, y, "Riddle")
@@ -80,14 +80,14 @@ namespace final_proj
     class Combat_Room : public Object_Room
     {
     public:
-        void hit_monster(int damage);
-        bool monster_alive() const;
-        int montser_attack_damage() const;
-        string monster_attack_type() const;
-        string monster_name() const;
-        int monster_points() const;
+        void hit_monster(int damage) override;
+        bool monster_alive() const override;
+        int montser_attack_damage() const override;
+        string monster_attack_type() const override;
+        string monster_name() const override;
+        int monster_points() const override;
         string describe_room() const override;
-        unique_ptr<Item> remove_obj();
+        unique_ptr<Item> remove_obj() override;
 
         Combat_Room(int x, int y) : Object_Room(x, y, "Combat")
         {

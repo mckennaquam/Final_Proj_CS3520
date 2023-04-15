@@ -51,21 +51,21 @@ const map<
         // handles fighting and retreating within the fight command
         {"fight", fight},
         // shows the player a list of the commands avaliable
-        {"show commands", show_commands},
+        {"show_commands", show_commands},
         // uses the spefified item
         {"use", use},
         // a short descrption of the room you are in
-        {"describe room", describe_room},
+        {"describe_room", describe_room},
         // picks up the item that is in the room is there is one
-        {"pick up", pick_up},
+        {"pick_up", pick_up},
         // list the player's current inventory (and points)
-        {"check inventory", check_inventory},
+        {"check_inventory", check_inventory},
         // list the player's current stats
-        {"check stats", check_stats},
+        {"check_stats", check_stats},
         // shows a simple map of the gameboard
-        {"show map", show_map},
+        {"show_map", show_map},
         // lets the player attempt to answer a riddle
-        {"answer riddle", answer_riddle}};
+        {"answer_riddle", answer_riddle}};
 
 int main()
 {
@@ -73,6 +73,7 @@ int main()
 
     Room_Factory rf = Room_Factory(10, 10);
     Player p = Player();
+    rf.player_start(p);
     // Read lines from cin as long as the state of the stream is good.
     // This while loop condition is provided for you.
     while (std::getline(cin, input) && p.player_alive())
@@ -104,6 +105,7 @@ int main()
         // the library, scene builder, and scene objects you created.
         // If InvalidUserInputException is thrown, print out the message
         // returned by the "what()" member function on the exception.
+        
         if (command_funcs.find(command) == cend(command_funcs))
         {
             cout << "Unrecognized command" << endl;

@@ -34,6 +34,7 @@ TEST(test_pick_up_object_health)
 {
 }
 
+/*
 // Test to ensure check_stats returns a vector of the player's stats in the order of health, 
 // strength, and defense
 TEST(test_pick_up_object_strength)
@@ -61,15 +62,17 @@ TEST(test_pick_up_object_strength_weaker)
 // strength, and defense
 TEST(test_pick_up_object_defense)
 {
-    /*
+    
     Player player1() = Player();
     vector<final_proj::Item> test_inventory;
     final_proj::Item item1("Potion", "health", 50);
 
     ASSERT_EQUAL(test_inventory, player1.check_stats());
-    */
 }
+    */
 
+
+/*
 TEST(test_pick_up_object_defense_weaker) 
 {
 
@@ -207,6 +210,7 @@ TEST(test_update_location)
 {
 
 }
+*/
 
 
 
