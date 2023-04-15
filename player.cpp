@@ -107,11 +107,15 @@ namespace final_proj
                 throw InvalidUserInputException("The " + new_item->m_name + " you picked up is weak! You drop it an proceed on.");
             }
         }
-        else
+        else if (new_item->m_type == "treasure")
         {
             // item is treasure, add to points!
             m_points += new_item->m_stat;
             cout << "You pick up the " + new_item->m_name + "! Your score is now " + to_string(m_points) << endl;
+        }
+        else
+        {
+            throw UnsupportedBehavoir("type of item not regonized - player pick up item");
         }
     }
 
@@ -131,7 +135,7 @@ namespace final_proj
             m_in_use = make_unique<Item>(iter->m_name, iter->m_type, iter->m_stat);
             m_inventory.erase(iter);
         }
-        else
+        else if (str_contains(iter->m_name, "health"))
         {
             // Ensure the player's health is below their max health
             if (m_health < m_maxHealth)
@@ -157,6 +161,10 @@ namespace final_proj
                 throw InvalidUserInputException("Your health is full!");
             }
         }
+        else
+        {
+            throw UnsupportedBehavoir("type of object not regonized - player use item");
+        }
     }
 
     void Player::remove_buff()
@@ -168,10 +176,14 @@ namespace final_proj
                 m_strength -= m_in_use->m_stat;
                 m_in_use = nullptr;
             }
-            else
+            else if (str_contains(m_in_use->m_name, "defense"))
             {
                 m_defense -= m_in_use->m_stat;
                 m_in_use = nullptr;
+            }
+            else
+            {
+                throw UnsupportedBehavoir("type of object not recognized - player remove buff");
             }
         }
     }
@@ -189,5 +201,20 @@ namespace final_proj
     void Player::update_points(int points)
     {
         m_points += points;
+    }
+
+    int Player::get_strength() const
+    {
+        return m_baseStrength;
+    }
+
+    bool Player::player_alive() const
+    {
+        return m_health > 0;
+    }
+
+    shared_ptr<Base_Room> Player::get_current_room() const
+    {
+        return m_current_room;
     }
 }

@@ -28,14 +28,15 @@ namespace
 namespace
 {
     // all possible commands get defined here
-    void go(istringstream &, Player &, Room_Factory &);
-    void fight(istringstream &, Player &, Room_Factory &);
-    void use(istringstream &, Player &, Room_Factory &);
-    void describe_room(istringstream &, Player &, Room_Factory &);
-    void pick_up(istringstream &, Player &, Room_Factory &);
-    void check_inventory(istringstream &, Player &, Room_Factory &);
-    void check_stats(istringstream &, Player &, Room_Factory &);
-    void show_map(istringstream &, Player &, Room_Factory &rf);
+    void go(istringstream &iss, Player &p, Room_Factory &rf);
+    void fight(istringstream &iss, Player &p, Room_Factory &);
+    void answer_riddle(istringstream &iss, Player &p, Room_Factory &);
+    void use(istringstream &iss, Player &p, Room_Factory &);
+    void describe_room(istringstream &, const Player &p, Room_Factory &);
+    void pick_up(istringstream &, Player &p, Room_Factory &);
+    void check_inventory(istringstream &, const Player &p, Room_Factory &);
+    void check_stats(istringstream &, const Player &p, Room_Factory &);
+    void show_map(istringstream &, Player &, const Room_Factory &rf);
     void show_commands(istringstream &, Player &, Room_Factory &);
 }
 
@@ -60,7 +61,9 @@ const map<string, function<void(istringstream &, Player &, Room_Factory &)>>
         // list the player's current stats
         {"check stats", check_stats},
         // shows a simple map of the gameboard
-        {"show map", show_map}};
+        {"show map", show_map},
+        // lets the player attempt to answer a riddle
+        {"answer riddle", answer_riddle}};
 
 int main()
 {
@@ -102,15 +105,15 @@ int main()
         }
         else
         {
-            // try
-            //{
-            //     auto func = command_funcs.find(command);
-            // func->second();
-            //}
-            // catch (InvalidUserInputException &e)
-            //{
-            //    cout << e.what() << endl;
-            //}
+            try
+            {
+                auto func = command_funcs.find(command);
+                func->second();
+            }
+            catch (InvalidUserInputException &e)
+            {
+                cout << e.what() << endl;
+            }
         }
         remove_extra(iss);
     }

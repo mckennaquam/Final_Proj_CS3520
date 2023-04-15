@@ -86,7 +86,7 @@ namespace final_proj
         string monster_attack_type() const;
         string monster_name() const;
         int monster_points() const;
-        string describe_room() const;
+        string describe_room() const override;
         unique_ptr<Item> remove_obj();
 
         Combat_Room(int x, int y) : Object_Room(x, y, "Combat")

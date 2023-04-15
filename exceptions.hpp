@@ -20,6 +20,20 @@ namespace final_proj
     private:
         std::string m_msg;
     };
+
+    class UnsupportedBehavoir : public std::exception
+    {
+    public:
+        UnsupportedBehavoir(const std::string &msg) : m_msg(msg) {}
+
+        const char *what() const noexcept override
+        {
+            return m_msg.c_str();
+        }
+
+    private:
+        std::string m_msg;
+    };
 }
 
 #endif
