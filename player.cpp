@@ -72,7 +72,7 @@ namespace final_proj
         {
             m_inventory.insert(m_inventory.end(), *new_item);
 
-            cout << "You pick up the potion of " + new_item->m_name + ", to use it type the command \"use" + new_item->m_name + "\"";
+            cout << "You pick up the potion of " + new_item->m_name + ", to use it type the command \"use " + new_item->m_name + "\"";
 
             // Check if item is type "strength". If so, set item into use if and only if it is a
             // "stronger" item
@@ -84,7 +84,7 @@ namespace final_proj
                 m_strength = new_item->m_stat + m_baseStrength;
 
                 // message that says we added it
-                cout << "You pick up the " + new_item->m_name + "! Your stength is now " + to_string(m_strength) << endl;
+                cout << "You pick up the " + new_item->m_name + "! Your strength is now " + to_string(m_strength) << endl;
             }
             else
             {
