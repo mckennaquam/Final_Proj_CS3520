@@ -80,7 +80,7 @@ TEST(test_pick_up_object_treasure)
 
 }
 
-TEST(test_use_item_strength) 
+TEST(test_pick_up_item_strength) 
 {
     Player player1 = Player();
     Item strength_item = Item("Sword", "weapon", 5);
@@ -88,15 +88,7 @@ TEST(test_use_item_strength)
 
     string strength_item_name = "Sword";
 
-    player1.pick_up_object(strength_item_pointer);
-    /*
-    function "std::unique_ptr<_Tp, _Dp>::unique_ptr(const std::unique_ptr<_Tp, _Dp> &) 
-    [with _Tp=final_proj::Item, _Dp=std::default_delete<final_proj::Item>]" 
-    (declared at line 468 of "/usr/include/c++/11/bits/unique_ptr.h") cannot be referenced -- 
-    it is a deleted functionC/C++(1776
-    */
-
-    player1.use_item(strength_item_name);
+    player1.pick_up_object(move(strength_item_pointer));
 
     vector<int> test_vector;
 
