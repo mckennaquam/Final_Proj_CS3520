@@ -7,21 +7,21 @@ using namespace std;
 
 namespace
 {
-    string generate_name_damage()
+    string generate_name_weapon()
     {
         int name = rand() % 5;
         switch (name)
         {
         case 0:
-            return "sword";
+            return "Sword";
         case 1:
-            return "dagger";
+            return "Dagger";
         case 2:
-            return "bow";
+            return "Bow";
         case 3:
-            return "battle axe";
+            return "Battle Axe";
         case 4:
-            return "flail";
+            return "Flail";
         }
     }
 
@@ -31,15 +31,15 @@ namespace
         switch (name)
         {
         case 0:
-            return "shield";
+            return "Shield";
         case 1:
-            return "helmet";
+            return "Helmet";
         case 2:
-            return "breastplate";
+            return "Breastplate";
         case 3:
-            return "greaves";
+            return "Greaves";
         case 4:
-            return "chainmail";
+            return "Chainmail";
         }
     }
 
@@ -49,15 +49,15 @@ namespace
         switch (name)
         {
         case 0:
-            return "gold";
+            return "Gold";
         case 1:
-            return "jewels";
+            return "Jewels";
         case 2:
-            return "faberge egg";
+            return "Faberge egg";
         case 3:
-            return "doubloons";
+            return "Doubloons";
         case 4:
-            return "a sense of satisfaction";
+            return "a Sense of Satisfaction";
         }
     }
 }
@@ -82,8 +82,8 @@ namespace final_proj
             int type = rand() % 101;
             if (type >= 10)
             {
-                m_type = "damage";
-                m_name = generate_name_damage();
+                m_type = "weapon";
+                m_name = generate_name_weapon();
                 m_stat = (rand() % 20) + 1;
             }
             else if (type > 10 && type <= 20)

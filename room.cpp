@@ -1,6 +1,7 @@
 #include "room.hpp"
 #include "player.hpp"
 #include "exceptions.hpp"
+#include "monster.hpp"
 
 using namespace std;
 
@@ -29,12 +30,12 @@ namespace final_proj
     }
 
     // throwing errors if the command is not supported for that room type
-    bool Base_Room::answer_riddle(string answer)
+    bool Base_Room::answer_riddle(string )
     {
         throw InvalidUserInputException("There is no riddle to answer in here!");
     }
 
-    void Base_Room::hit_monster(int damage)
+    void Base_Room::hit_monster(int )
     {
         throw InvalidUserInputException("There is no monster to fight here!");
     }
@@ -86,17 +87,19 @@ namespace final_proj
         }
     }
 
+    /*
     unique_ptr<Item> Combat_Room::remove_obj()
     {
-        if (m_enemy->is_alive())
+        if (m_enemy->Base_Monster::is_alive())
         {
-            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy->get_name() + " here!");
+            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy->Base_Monster::get_name() + " here!");
         }
         else
         {
             Object_Room::remove_obj();
         }
     }
+    */
 
     // describe rooms
     string Object_Room::describe_room() const
@@ -119,10 +122,12 @@ namespace final_proj
     // deals damage to the monster contained in the room
     // only works in combat room
     // (maybe need to rework this, depends on combat impl)
+    /*
     void Combat_Room::hit_monster(int damage)
     {
         m_enemy->take_damage(damage);
     }
+    */
     int Combat_Room::montser_attack_damage() const
     {
         return m_enemy->deal_damage();
@@ -131,8 +136,10 @@ namespace final_proj
     {
         return m_enemy->attack_type();
     }
+    /*
     string Combat_Room::monster_name() const
     {
-        return m_enemy->get_name();
+        return m_enemy->Base_Monster::get_name();
     }
+    */
 }
