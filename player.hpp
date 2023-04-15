@@ -44,6 +44,7 @@ namespace final_proj
             m_defense = m_baseDefense;
             m_inventory = vector<Item>();
             m_in_use = nullptr;
+            m_points = 0;
         }
 
         // private fields for player

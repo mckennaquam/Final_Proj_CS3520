@@ -32,9 +32,9 @@ namespace final_proj
     class Skeleton : public Base_Monster
     {
     public:
-        int deal_damage() const = 0;
-        string attack_type() const = 0;
-        string describe_enemy() const = 0;
+        int deal_damage() const override;
+        string attack_type() const override;
+        string describe_enemy() const override;
 
         Skeleton()
         {
@@ -59,9 +59,9 @@ namespace final_proj
     class Slime : public Base_Monster
     {
     public:
-        int deal_damage() const = 0;
-        string attack_type() const = 0;
-        string describe_enemy() const = 0;
+        int deal_damage() const override;
+        string attack_type() const override;
+        string describe_enemy() const override;
 
         Slime()
         {
@@ -77,9 +77,9 @@ namespace final_proj
     class Lich : public Base_Monster
     {
     public:
-        int deal_damage() const = 0;
-        string attack_type() const = 0;
-        string describe_enemy() const = 0;
+        int deal_damage() const override;
+        string attack_type() const override;
+        string describe_enemy() const override;
 
         Lich()
         {

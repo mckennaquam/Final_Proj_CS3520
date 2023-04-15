@@ -77,7 +77,7 @@ namespace final_proj
             // Check if item is type "strength". If so, set item into use if and only if it is a
             // "stronger" item
         }
-        else if (new_item->m_type.compare("strength") == 0)
+        else if (new_item->m_type.compare("weapon") == 0)
         {
             if (new_item->m_stat + m_baseStrength > m_strength)
             {
