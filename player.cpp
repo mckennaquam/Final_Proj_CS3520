@@ -217,4 +217,9 @@ namespace final_proj
     {
         return m_current_room;
     }
+
+    int Player::get_points() const
+    {
+        return m_points;
+    }
 }

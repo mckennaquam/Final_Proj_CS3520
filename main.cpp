@@ -10,6 +10,7 @@
 #include <sstream>
 #include <map>
 #include <functional>
+#include <string>
 
 using namespace std;
 
@@ -36,12 +37,13 @@ namespace
     void pick_up(istringstream &, Player &p, Room_Factory &);
     void check_inventory(istringstream &, const Player &p, Room_Factory &);
     void check_stats(istringstream &, const Player &p, Room_Factory &);
-    void show_map(istringstream &, Player &, const Room_Factory &rf);
+    void show_map(istringstream &, const Player &p, const Room_Factory &rf);
     void show_commands(istringstream &, Player &, Room_Factory &);
 }
 
 // map of functions here
-const map<string, function<void(istringstream &, Player &, Room_Factory &)>>
+const map<
+    string, std::function<void(istringstream &, final_proj::Player &, final_proj::Room_Factory &)>>
     command_funcs = {
         // takes the player into the next room in the direction speficied
         {"go", go},
@@ -68,9 +70,12 @@ const map<string, function<void(istringstream &, Player &, Room_Factory &)>>
 int main()
 {
     string input;
+
+    Room_Factory rf = Room_Factory(10, 10);
+    Player p = Player();
     // Read lines from cin as long as the state of the stream is good.
     // This while loop condition is provided for you.
-    while (std::getline(cin, input))
+    while (std::getline(cin, input) && p.player_alive())
     {
         // Skip over blank lines (provided for you). You do not need to handle
         // leading whitespace, and we will not test your code on that.
@@ -88,7 +93,7 @@ int main()
 
         if (command == "quit")
         {
-            return 0;
+            break;
         }
 
         // Look up the command function in the map of commands.
@@ -108,7 +113,7 @@ int main()
             try
             {
                 auto func = command_funcs.find(command);
-                func->second();
+                func->second(iss, p, rf);
             }
             catch (InvalidUserInputException &e)
             {
@@ -117,6 +122,18 @@ int main()
         }
         remove_extra(iss);
     }
+
+    if (p.player_alive())
+    {
+        cout << "Thanks for playing! Your final score was: " + to_string(p.get_points()) + "!" << endl;
+    }
+    else
+    {
+        cout << "The" + p.get_current_room()->monster_name() + " stikes you down! You are forced to leave the dungeon in disgrace." << endl;
+        cout << "Your final score was " + to_string(p.get_points()) + "! Thanks for playing!" << endl;
+    }
+
+    return 0;
 }
 
 namespace
@@ -304,7 +321,7 @@ namespace
         p.use_item(name);
     }
 
-    void describe_room(istringstream &, Player &p, Room_Factory &)
+    void describe_room(istringstream &, const Player &p, Room_Factory &)
     {
         p.get_current_room()->describe_room();
     }
@@ -314,14 +331,14 @@ namespace
         p.pick_up_object(move(p.get_current_room()->remove_obj()));
     }
 
-    void check_inventory(istringstream &, Player &p, Room_Factory &)
+    void check_inventory(istringstream &, const Player &p, Room_Factory &)
     {
         cout << "inventory contains: " << endl;
         vector<string> inventory = p.check_inventory();
         copy(cbegin(inventory), cend(inventory), std::ostream_iterator<string>(cout, "\n"));
     }
 
-    void check_stats(istringstream &, Player &p, Room_Factory &)
+    void check_stats(istringstream &, const Player &p, Room_Factory &)
     {
         vector<int> stats = p.check_stats();
         cout << "health: " + to_string(stats.at(0)) << endl;
@@ -329,7 +346,7 @@ namespace
         cout << "defense: " + to_string(stats.at(2)) << endl;
     }
 
-    void show_map(istringstream &, Player &p, Room_Factory &rf)
+    void show_map(istringstream &, const Player &p, const Room_Factory &rf)
     {
         // get the players current position for the map
         int x = p.get_current_room()->get_x();
@@ -346,5 +363,22 @@ namespace
         transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name), [](auto &iter)
                   { return iter.first; });
         copy(cbegin(command_name), cend(command_name), std::ostream_iterator<string>(cout, "\n"));
+        cout << "quit" << endl;
+    }
+
+    void answer_riddle(istringstream &iss, Player &p, Room_Factory &)
+    {
+        string answer;
+        iss >> answer;
+
+        if (p.get_current_room()->answer_riddle(answer))
+        {
+            p.update_points(25);
+            cout << "you got it!! Your score now is " + to_string(p.get_points()) << endl;
+        }
+        else
+        {
+            cout << "hmm that's not it...." << endl;
+        }
     }
 }

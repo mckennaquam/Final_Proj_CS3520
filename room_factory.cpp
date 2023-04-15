@@ -45,7 +45,7 @@ namespace
 
 namespace final_proj
 {
-    auto Room_Factory::at(int x, int y)
+    shared_ptr<Base_Room> Room_Factory::at(int x, int y) const
     {
         if (x < 0 || x >= m_width || y < 0 || y <= m_height)
         {
@@ -115,7 +115,7 @@ namespace final_proj
     }
 
     // Generates the map for the show map function
-    string Room_Factory::show_map(int x, int y)
+    string Room_Factory::show_map(int x, int y) const
     {
         string map = "";
         map += add_divide(m_width);
@@ -133,7 +133,7 @@ namespace final_proj
                 else
                 {
                     map += "|";
-                    map += room_type(get_room_at(j, i));
+                    map += at(j, i)->get_type();
                 }
             }
             map += "|\n";
@@ -144,7 +144,7 @@ namespace final_proj
     }
 
     // returns the legend for the map
-    string Room_Factory::show_legend()
+    string Room_Factory::show_legend() const
     {
         return "Legend:\nX - You are here\nO - Treasure room\nR - Riddle room\nM - Monster room";
     }

@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <iterator>
 
 using namespace std;
 
@@ -22,6 +23,9 @@ namespace final_proj
             // inialize the map and set all of it's value to the null ptr
             m_map = vector<shared_ptr<Base_Room>>(height * width, nullptr);
 
+            // set the first room
+            m_map.at(0) = make_shared<Object_Room>(0, 0);
+
             // initalize the list for riddle rooms
             m_riddle = {
                 {"What has hands but cannot clap?", "clock"},
@@ -31,8 +35,8 @@ namespace final_proj
 
         // gets the room at specified cooidinates
         shared_ptr<Base_Room> get_room_at(int x, int y);
-        string show_map(int x, int y);
-        string show_legend();
+        string show_map(int x, int y) const;
+        string show_legend() const;
 
     private:
         int m_width;
@@ -41,7 +45,7 @@ namespace final_proj
         map<string, string> m_riddle;
         map<string, string>::const_iterator m_riddle_iter;
 
-        auto at(int x, int y);
+        shared_ptr<Base_Room> at(int x, int y) const;
         void construct_room(int x, int y);
     };
 }
