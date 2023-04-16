@@ -29,7 +29,14 @@ namespace final_proj
             // initalize the list for riddle rooms
             m_riddle = {
                 {"What has hands but cannot clap?", "clock"},
-                {"What's bought by the yard and worn by the foot?", "carpet"}};
+                {"What's bought by the yard and worn by the foot?", "carpet"},
+                {"What has a neck but no head?", "bottle"},
+                {"What occurs one in a minuet, twice in a moment and never in 1,000 years?", "m"},
+                {"What has 13 hearts but no other organs?", "cards"},
+                {"What do you bury when it's alive and dig up when it's dead?", "plant"},
+                {"How do you keep your pants up when you're preforming? it's amazing!", "belt"},
+                {"What is 3/7 chicken, 2/3 cat, and 2/4 goat?", "chicago"},
+                {"What goes all around the world but stays in a corner?", "stamp"}};
             m_riddle_iter = cbegin(m_riddle);
 
             // inialize the map

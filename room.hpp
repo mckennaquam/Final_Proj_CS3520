@@ -52,9 +52,10 @@ namespace final_proj
 
     protected:
         // constructor for derrived classes to use base room constructor for name
+        // and do custom item
         Object_Room(int x, int y, string name) : Base_Room(x, y, name)
         {
-            m_item = make_shared<Item>();
+            // m_item = make_shared<Item>(item);
         }
 
         shared_ptr<Item> m_item;
@@ -93,6 +94,7 @@ namespace final_proj
         {
             // gotta put the monster stuff here
             m_enemy = make_unique<Slime>();
+            m_item = make_shared<Item>(m_enemy->get_item());
         }
 
     private:

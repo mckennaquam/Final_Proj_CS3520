@@ -25,6 +25,11 @@ namespace final_proj
         return m_points;
     }
 
+    Item Base_Monster::get_item() const
+    {
+        return m_equipped;
+    }
+
     int Skeleton::deal_damage() const
     {
         return m_stength / 2 + (rand() % m_stength);
@@ -116,18 +121,20 @@ namespace final_proj
     string Lich::attack_type() const
     {
         int attack = rand() % 3;
-        switch (attack)
+        if (attack == 0)
         {
-        case 0:
             return "pierce";
-            break;
-        case 1:
+        }
+        else if (attack == 1)
+        {
             return "slash";
-            break;
-        case 2:
+        }
+        else if (attack == 2)
+        {
             return "bludgeon";
-            break;
-        default:
+        }
+        else
+        {
             return "error";
         }
     }

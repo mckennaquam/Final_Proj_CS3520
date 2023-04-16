@@ -19,6 +19,7 @@ namespace final_proj
         int get_health() const;
         string get_name() const;
         int point_val() const;
+        Item get_item() const;
 
     protected:
         string m_name;
