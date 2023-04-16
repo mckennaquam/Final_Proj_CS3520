@@ -147,11 +147,12 @@ namespace final_proj
     {
         return "Legend:\nX - You are here\nO - Treasure room\nR - Riddle room\nM - Monster room";
     }
-
-    void Room_Factory::player_start(Player &p)
-    {
-        shared_ptr<Base_Room> start_room = get_room_at(0, 0);
-        p.update_location(start_room);
-    }
+    /*
+        void Room_Factory::player_start(Player &p)
+        {
+            shared_ptr<Base_Room> start_room = get_room_at(0, 0);
+            p.update_location(start_room);
+        }
+        */
 
 }

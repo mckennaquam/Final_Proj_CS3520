@@ -2,7 +2,6 @@
 #define ROOM_FACTORY_HPP_
 
 #include "room.hpp"
-#include "player.hpp"
 #include <map>
 #include <vector>
 #include <memory>
@@ -15,6 +14,12 @@ namespace final_proj
     class Room_Factory
     {
     public:
+        // gets the room at specified cooidinates
+        shared_ptr<Base_Room> get_room_at(int x, int y);
+        string show_map(int x, int y) const;
+        string show_legend() const;
+        // void player_start(Player &p);
+
         Room_Factory(int height, int width)
         {
             // set the height and width of the game board
@@ -39,12 +44,6 @@ namespace final_proj
                 {"What's bought by the yard and worn by the foot?", "carpet"}};
             m_riddle_iter = cbegin(m_riddle);
         }
-
-        // gets the room at specified cooidinates
-        shared_ptr<Base_Room> get_room_at(int x, int y);
-        string show_map(int x, int y) const;
-        string show_legend() const;
-        void player_start(Player &p);
 
     private:
         int m_width;

@@ -73,9 +73,11 @@ int main()
 
     Room_Factory rf = Room_Factory(10, 10);
     Player p = Player();
-    rf.player_start(p);
-    // Read lines from cin as long as the state of the stream is good.
-    // This while loop condition is provided for you.
+    shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
+    p.update_location(start_room);
+    // rf.player_start(p);
+    //  Read lines from cin as long as the state of the stream is good.
+    //  This while loop condition is provided for you.
     while (std::getline(cin, input) && p.player_alive())
     {
         // Skip over blank lines (provided for you). You do not need to handle
