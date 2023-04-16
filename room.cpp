@@ -30,7 +30,7 @@ namespace final_proj
     }
 
     // throwing errors if the command is not supported for that room type
-    bool Base_Room::answer_riddle(string)
+    bool Base_Room::answer_riddle(string &answer)
     {
         throw InvalidUserInputException("There is no riddle to answer in here!");
     }
@@ -45,7 +45,7 @@ namespace final_proj
         throw InvalidUserInputException("There is no monster here!");
     }
 
-    unique_ptr<Item> Base_Room::remove_obj()
+    shared_ptr<Item> Base_Room::remove_obj()
     {
         throw InvalidUserInputException("There is no item to pick up here!");
     }
@@ -72,7 +72,7 @@ namespace final_proj
 
     // returns true if player enters the correct answer to the riddle
     // only works in riddle room
-    bool Riddle_Room::answer_riddle(string answer)
+    bool Riddle_Room::answer_riddle(string &answer)
     {
         return answer == m_answer;
     }
@@ -80,7 +80,7 @@ namespace final_proj
     // returns and marks the taken flag as true of the object contained in the room
     // works in object room and combat room is moster is dead
     // this method doesn't handel if the object is added to the player's inventory, just removed from the room
-    unique_ptr<Item> Object_Room::remove_obj()
+    shared_ptr<Item> Object_Room::remove_obj()
     {
         if (m_item == nullptr)
         {
@@ -88,23 +88,23 @@ namespace final_proj
         }
         else
         {
-            return move(m_item);
+            shared_ptr<Item> to_return = m_item;
+            m_item = nullptr;
+            return m_item;
         }
     }
 
-    
-    unique_ptr<Item> Combat_Room::remove_obj()
+    shared_ptr<Item> Combat_Room::remove_obj()
     {
-        if (m_enemy->Base_Monster::is_alive())
+        if (m_enemy->is_alive())
         {
-            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy->Base_Monster::get_name() + " here!");
+            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy->get_name() + " here!");
         }
         else
         {
             Object_Room::remove_obj();
         }
     }
-    
 
     // describe rooms
     string Object_Room::describe_room() const
@@ -127,12 +127,12 @@ namespace final_proj
     // deals damage to the monster contained in the room
     // only works in combat room
     // (maybe need to rework this, depends on combat impl)
-    
+
     void Combat_Room::hit_monster(int damage)
     {
         m_enemy->take_damage(damage);
     }
-    
+
     int Combat_Room::montser_attack_damage() const
     {
         return m_enemy->deal_damage();
@@ -146,14 +146,15 @@ namespace final_proj
     {
         return m_enemy->point_val();
     }
-    
+
     string Combat_Room::monster_name() const
     {
-        return m_enemy->Base_Monster::get_name();
+        return m_enemy->get_name();
     }
 
-    bool Combat_Room::monster_alive() const {
+    bool Combat_Room::monster_alive() const
+    {
         return m_enemy->is_alive();
     }
-    
+
 }

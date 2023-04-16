@@ -54,7 +54,7 @@ namespace final_proj
         else
         {
             // return the room at that position
-            return m_map.at((y * m_width) + x);
+            return m_map.at(y).at(x);
         }
     }
 
@@ -64,7 +64,7 @@ namespace final_proj
         {
         case 0:
             // make a teasure room
-            m_map.at((y * m_width) + x) = make_shared<Object_Room>(x, y);
+            m_map.at(y).at(x) = make_shared<Object_Room>(x, y);
         case 1:
             // make a riddle room (if possible)
             // this means that we have run out of riddels in our dict and therefore cant make a new riddle room
@@ -73,22 +73,22 @@ namespace final_proj
                 // do one of the 2 other rooms
                 if (0 == rand() % 1)
                 {
-                    m_map.at((y * m_width) + x) = make_shared<Object_Room>(x, y);
+                    m_map.at(y).at(x) = make_shared<Object_Room>(x, y);
                 }
                 else
                 {
-                    m_map.at((y * m_width) + x) = make_shared<Object_Room>(x, y);
+                    m_map.at(y).at(x) = make_shared<Object_Room>(x, y);
                 }
             }
             else
             {
-                m_map.at((y * m_width) + x) = make_shared<Riddle_Room>(x, y, m_riddle_iter->first, m_riddle_iter->second);
+                m_map.at(y).at(x) = make_shared<Riddle_Room>(x, y, m_riddle_iter->first, m_riddle_iter->second);
                 // go to the next riddle in out dict
                 m_riddle_iter++;
             }
         case 2:
             // make a monster room
-            m_map.at((y * m_width) + x) = make_shared<Combat_Room>(x, y);
+            m_map.at(y).at(x) = make_shared<Combat_Room>(x, y);
         }
     }
 
@@ -148,8 +148,10 @@ namespace final_proj
         return "Legend:\nX - You are here\nO - Treasure room\nR - Riddle room\nM - Monster room";
     }
 
-    void Room_Factory::player_start(Player & p) {
-        p.update_location(get_room_at(0,0));
+    void Room_Factory::player_start(Player &p)
+    {
+        shared_ptr<Base_Room> start_room = get_room_at(0, 0);
+        p.update_location(start_room);
     }
 
 }

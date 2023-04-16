@@ -22,10 +22,16 @@ namespace final_proj
             m_width = width;
 
             // inialize the map and set all of it's value to the null ptr
-            m_map = vector<shared_ptr<Base_Room>>(height * width, nullptr);
+            // m_map = vector<shared_ptr<Base_Room>>(height * width, nullptr);
+            m_map = vector<vector<shared_ptr<Base_Room>>>();
+            for (int i = 0; i < height; i++)
+            {
+                m_map.push_back(vector<shared_ptr<Base_Room>>(width, nullptr));
+            }
 
             // set the first room
-            m_map.at(0) = make_shared<Object_Room>(0, 0);
+            // m_map.at(0) = make_shared<Object_Room>(0, 0);
+            m_map.at(0).at(0) = make_shared<Object_Room>(0, 0);
 
             // initalize the list for riddle rooms
             m_riddle = {
@@ -43,7 +49,7 @@ namespace final_proj
     private:
         int m_width;
         int m_height;
-        vector<shared_ptr<Base_Room>> m_map;
+        vector<vector<shared_ptr<Base_Room>>> m_map;
         map<string, string> m_riddle;
         map<string, string>::const_iterator m_riddle_iter;
 

@@ -24,12 +24,12 @@ namespace final_proj
         vector<int> check_stats() const;
         vector<string> check_inventory() const;
         int get_strength() const;
-        void pick_up_object(unique_ptr<Item> new_item);
-        void use_item(string item_name);
+        void pick_up_object(shared_ptr<Item> &new_item);
+        void use_item(string &item_name);
         void take_damage(int damage_taken);
         void remove_buff();
         shared_ptr<Base_Room> get_current_room() const;
-        void update_location(shared_ptr<Base_Room> new_room);
+        void update_location(shared_ptr<Base_Room> &new_room);
         bool player_alive() const;
         void update_points(int points);
         int get_points() const;

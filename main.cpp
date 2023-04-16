@@ -105,7 +105,7 @@ int main()
         // the library, scene builder, and scene objects you created.
         // If InvalidUserInputException is thrown, print out the message
         // returned by the "what()" member function on the exception.
-        
+
         if (command_funcs.find(command) == cend(command_funcs))
         {
             cout << "Unrecognized command" << endl;
@@ -150,26 +150,30 @@ namespace
         int player_y = p.get_current_room()->get_y();
         string old_room_type = p.get_current_room()->get_type();
 
+        shared_ptr<Base_Room> new_room;
+
         if (direction == "north")
         {
-            p.update_location(rf.get_room_at(player_x, player_y - 1));
+            new_room = rf.get_room_at(player_x, player_y - 1);
         }
         else if (direction == "east")
         {
-            p.update_location(rf.get_room_at(player_x + 1, player_y));
+            new_room = rf.get_room_at(player_x + 1, player_y);
         }
         else if (direction == "south")
         {
-            p.update_location(rf.get_room_at(player_x, player_y + 1));
+            new_room = rf.get_room_at(player_x, player_y + 1);
         }
         else if (direction == "west")
         {
-            p.update_location(rf.get_room_at(player_x - 1, player_y));
+            new_room = rf.get_room_at(player_x - 1, player_y);
         }
         else
         {
             throw InvalidUserInputException("Must use cardinal direction (north, east, south, west) for movement");
         }
+
+        p.update_location(new_room);
 
         if (old_room_type == "Combat")
         {
@@ -189,7 +193,7 @@ namespace
         // hasnt already beat the monster
         if (!current_room->monster_alive())
         {
-            throw InvalidUserInputException("You can't fighit a monster you already killed!");
+            throw InvalidUserInputException("You can't fight a monster you already killed!");
         }
 
         string tutorial = "You have started combat with " + current_room->monster_name() + "for each turn you can do 1 of 3 things \n" +
@@ -330,7 +334,8 @@ namespace
 
     void pick_up(istringstream &, Player &p, Room_Factory &)
     {
-        p.pick_up_object(move(p.get_current_room()->remove_obj()));
+        shared_ptr<Item> new_item = p.get_current_room()->remove_obj();
+        p.pick_up_object(new_item);
     }
 
     void check_inventory(istringstream &, const Player &p, Room_Factory &)

@@ -65,7 +65,7 @@ namespace final_proj
         return inventory;
     }
 
-    void Player::pick_up_object(unique_ptr<Item> new_item)
+    void Player::pick_up_object(shared_ptr<Item> &new_item)
     {
         // Check if item is type "health". If so, add it to the inventory
         if (new_item->m_type.compare("potion") == 0)
@@ -119,7 +119,7 @@ namespace final_proj
         }
     }
 
-    void Player::use_item(string item_name)
+    void Player::use_item(string &item_name)
     {
         auto iter = find_item(m_inventory, item_name);
 
@@ -193,7 +193,7 @@ namespace final_proj
         m_health -= damage_taken;
     }
 
-    void Player::update_location(shared_ptr<Base_Room> new_room)
+    void Player::update_location(shared_ptr<Base_Room> &new_room)
     {
         m_current_room = new_room;
     }
