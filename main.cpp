@@ -74,7 +74,7 @@ int main()
     Room_Factory rf = Room_Factory(10, 10);
     cout << "generation finished" << endl;
     Player p = Player();
-    shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
+    shared_ptr<Base_Room> start_room = rf.get_room_at(0);
     p.update_location(start_room);
     // rf.player_start(p);
     //  Read lines from cin as long as the state of the stream is good.
@@ -146,6 +146,7 @@ namespace
     // define the commands declreaded above here
     void go(istringstream &iss, Player &p, Room_Factory &rf)
     {
+        /*
         string direction;
         iss >> direction;
 
@@ -186,6 +187,28 @@ namespace
         }
 
         cout << p.get_current_room()->describe_room() << endl;
+        */
+        string direction;
+        iss >> direction;
+
+        int current_x = p.get_current_room()->get_x();
+        shared_ptr<Base_Room> new_room;
+        if (direction == "forward")
+        {
+            new_room = rf.get_room_at(current_x + 1);
+        }
+        else if (direction == "backwards")
+        {
+            new_room = rf.get_room_at(current_x - 1);
+        }
+        else
+        {
+            throw InvalidUserInputException("Must use cardinal direction (forward, backwards) for movement");
+        }
+
+        p.update_location(new_room);
+        cout << "now at " + to_string(p.get_current_room()->get_x()) << endl;
+        cout << "room type " + p.get_current_room()->get_type() << endl;
     }
 
     void fight(istringstream &iss, Player &p, Room_Factory &)
@@ -358,6 +381,7 @@ namespace
 
     void show_map(istringstream &, const Player &p, const Room_Factory &rf)
     {
+        /*
         // get the players current position for the map
         int x = p.get_current_room()->get_x();
         int y = p.get_current_room()->get_y();
@@ -365,6 +389,7 @@ namespace
         // display map and key
         cout << rf.show_map(x, y) << endl;
         cout << rf.show_legend() << endl;
+        */
     }
 
     void show_commands(istringstream &, Player &, Room_Factory &)

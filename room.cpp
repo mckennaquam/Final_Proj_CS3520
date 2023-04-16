@@ -90,7 +90,7 @@ namespace final_proj
         {
             shared_ptr<Item> to_return = m_item;
             m_item = nullptr;
-            return m_item;
+            return to_return;
         }
     }
 
@@ -109,27 +109,7 @@ namespace final_proj
     // describe rooms
     string Object_Room::describe_room() const
     {
-        int name = rand() % 5;
-        switch (name)
-        {
-        case 0:
-            return "You enter a room filled wall to wall with gilded treasure, glistening under the light of a singular beam peaking through a small opening in the ceiling.";
-            break;
-        case 1:
-            return "Dagger";
-            break;
-        case 2:
-            return "Bow";
-            break;
-        case 3:
-            return "Battle Axe";
-            break;
-        case 4:
-            return "Flail";
-            break;
-        default:
-            return "error";
-        }
+        return "You enter a room filled wall to wall with gilded treasure, glistening under the light of a singular beam peaking through a small opening in the ceiling.";
     }
 
     string Riddle_Room::describe_room() const
@@ -139,7 +119,7 @@ namespace final_proj
 
     string Combat_Room::describe_room() const
     {
-        return "to do";
+        return "todo";
     }
 
     // Implementing combat only rooms

@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <iterator>
+#include <cstdlib>
 
 using namespace std;
 
@@ -15,10 +16,9 @@ namespace final_proj
     {
     public:
         // gets the room at specified cooidinates
-        shared_ptr<Base_Room> get_room_at(int x, int y);
-        string show_map(int x, int y) const;
-        string show_legend() const;
-        // void player_start(Player &p);
+        shared_ptr<Base_Room> get_room_at(int x);
+        // string show_map(int x, int y) const;
+        // string show_legend() const;
 
         Room_Factory(int height, int width)
         {
@@ -26,23 +26,21 @@ namespace final_proj
             m_height = height;
             m_width = width;
 
-            // inialize the map and set all of it's value to the null ptr
-            // m_map = vector<shared_ptr<Base_Room>>(height * width, nullptr);
-            m_map = vector<shared_ptr<Base_Room>>();
-            for (int i = 0; i < width; i++)
-            {
-                m_map.push_back(construct_room(i, 0));
-            }
-
-            // set the first room
-             m_map.at(0) = make_shared<Object_Room>(0, 0);
-            //m_map.at(0).at(0) = make_shared<Object_Room>(0, 0);
-
             // initalize the list for riddle rooms
             m_riddle = {
                 {"What has hands but cannot clap?", "clock"},
                 {"What's bought by the yard and worn by the foot?", "carpet"}};
             m_riddle_iter = cbegin(m_riddle);
+
+            // inialize the map
+            m_map = vector<shared_ptr<Base_Room>>();
+            for (int i = 0; i < width; i++)
+            {
+                m_map.push_back(construct_room(i));
+            }
+
+            // set the first room
+            m_map.at(0) = make_shared<Object_Room>(0, 0);
         }
 
     private:
@@ -52,7 +50,7 @@ namespace final_proj
         map<string, string> m_riddle;
         map<string, string>::const_iterator m_riddle_iter;
 
-        shared_ptr<Base_Room> construct_room(int x, int y);
+        shared_ptr<Base_Room> construct_room(int x);
     };
 }
 

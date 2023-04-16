@@ -3,6 +3,7 @@
 
 #include "exceptions.hpp"
 #include <string>
+#include <cstdlib>
 
 using namespace std;
 
@@ -11,24 +12,29 @@ namespace
     string generate_name_weapon()
     {
         int name = rand() % 5;
-        switch (name)
+
+        if (name == 0)
         {
-        case 0:
             return "Sword";
-            break;
-        case 1:
+        }
+        else if (name == 1)
+        {
             return "Dagger";
-            break;
-        case 2:
+        }
+        else if (name == 2)
+        {
             return "Bow";
-            break;
-        case 3:
-            return "Battle Axe";
-            break;
-        case 4:
+        }
+        else if (name == 3)
+        {
+            return "Battle Ax";
+        }
+        else if (name == 4)
+        {
             return "Flail";
-            break;
-        default:
+        }
+        else
+        {
             return "error";
         }
     }
@@ -36,24 +42,28 @@ namespace
     string generate_name_defense()
     {
         int name = rand() % 5;
-        switch (name)
+        if (name == 0)
         {
-        case 0:
             return "Shield";
-            break;
-        case 1:
+        }
+        else if (name == 1)
+        {
             return "Helmet";
-            break;
-        case 2:
+        }
+        else if (name == 2)
+        {
             return "Breastplate";
-            break;
-        case 3:
+        }
+        else if (name == 3)
+        {
             return "Greaves";
-            break;
-        case 4:
+        }
+        else if (name == 4)
+        {
             return "Chainmail";
-            break;
-        default:
+        }
+        else
+        {
             return "error";
         }
     }
@@ -61,24 +71,28 @@ namespace
     string generate_name_treasure()
     {
         int name = rand() % 5;
-        switch (name)
+        if (name == 0)
         {
-        case 0:
             return "Gold";
-            break;
-        case 1:
+        }
+        else if (name == 1)
+        {
             return "Jewels";
-            break;
-        case 2:
-            return "Faberge egg";
-            break;
-        case 3:
-            return "Doubloons";
-            break;
-        case 4:
+        }
+        else if (name == 2)
+        {
             return "a Sense of Satisfaction";
-            break;
-        default:
+        }
+        else if (name == 3)
+        {
+            return "Faberge egg";
+        }
+        else if (name == 4)
+        {
+            return "Doubloons";
+        }
+        else
+        {
             return "error";
         }
     }
@@ -120,19 +134,20 @@ namespace final_proj
                 m_stat = (rand() % 10) + 1;
 
                 int name = rand() % 3;
-
-                switch (name)
+                if (name == 0)
                 {
-                case 0:
                     m_name = "Health rank " + to_string(m_stat);
-                    break;
-                case 1:
+                }
+                else if (name == 1)
+                {
                     m_name = "Attack rank " + to_string(m_stat);
-                    break;
-                case 2:
+                }
+                else if (name == 2)
+                {
                     m_name = "Defense rank " + to_string(m_stat);
-                    break;
-                default:
+                }
+                else
+                {
                     m_name = "error";
                 }
             }

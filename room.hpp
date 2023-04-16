@@ -92,6 +92,7 @@ namespace final_proj
         Combat_Room(int x, int y) : Object_Room(x, y, "Combat")
         {
             // gotta put the monster stuff here
+            m_enemy = make_unique<Slime>();
         }
 
     private:
