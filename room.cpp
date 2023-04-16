@@ -109,7 +109,27 @@ namespace final_proj
     // describe rooms
     string Object_Room::describe_room() const
     {
-        return "to do";
+        int name = rand() % 5;
+        switch (name)
+        {
+        case 0:
+            return "You enter a room filled wall to wall with gilded treasure, glistening under the light of a singular beam peaking through a small opening in the ceiling.";
+            break;
+        case 1:
+            return "Dagger";
+            break;
+        case 2:
+            return "Bow";
+            break;
+        case 3:
+            return "Battle Axe";
+            break;
+        case 4:
+            return "Flail";
+            break;
+        default:
+            return "error";
+        }
     }
 
     string Riddle_Room::describe_room() const

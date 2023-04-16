@@ -72,6 +72,7 @@ int main()
     string input;
 
     Room_Factory rf = Room_Factory(10, 10);
+    cout << "generation finished" << endl;
     Player p = Player();
     shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
     p.update_location(start_room);

@@ -9,6 +9,9 @@ game: monster.hpp player.cpp player.hpp room_factory.hpp room.cpp room_factory.c
 player_tests.exe: player.cpp player.hpp room.cpp room.hpp item.hpp player_tests.cpp monster.cpp monster.hpp
 	$(CXX) $(CXXFLAGS) player.cpp room.cpp player_tests.cpp monster.cpp -o $@
 
+room_factory_tests.exe: player.cpp player.hpp room.cpp room.hpp item.hpp room_factory_tests.cpp monster.cpp monster.hpp room_factory.hpp room_factory.cpp
+	$(CXX) $(CXXFLAGS) player.cpp room.cpp room_factory.cpp room_factory_tests.cpp monster.cpp -o $@
+
 main.exe: monster.cpp player.cpp room.cpp room_factory.cpp main.cpp
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
