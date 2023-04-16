@@ -222,32 +222,43 @@ namespace
             throw InvalidUserInputException("You can't fight a monster you already killed!");
         }
 
-        string tutorial = "You have started combat with " + current_room->monster_name() + "for each turn you can do 1 of 3 things \n" +
-                          "1) retreat out of combat with \"retreat\" \n 2) use an item with \"use [item name]\" \n" +
+        string tutorial = "You have started combat with " + current_room->monster_name() + " for each turn you can do 1 of 3 things \n" +
+                          "1) retreat out of combat with \"retreat\" \n2) use an item with \"use [item name]\" \n" +
                           "3) engage in combat with \"bludgeon\" or \"slash\" or \"pierce\" \n" +
                           "When you engae in combat you use one of the three attack types and the monster will chose an attack type as well \n"
                           "Bludgeon beats slash, slash beats pierce, and pierce beats bludgeon \n"
                           "depending on if you or the monster successfully hit the other damage will then be assigned";
 
         cout << tutorial << endl;
+        
+        string combat_input;
 
         while (p.player_alive() && current_room->monster_alive())
         {
-            cout << "What's your next move?" << endl;
-            string input;
-            iss >> input; // use health poyion
 
-            if (input == "help")
+            if (combat_input.empty())
+            {
+                continue;
+            }
+
+            cout << "What's your next move?" << endl;
+
+            istringstream iss_combat = istringstream(combat_input);
+            string combat_command;
+            iss_combat >> combat_command;
+
+            cout << combat_command << endl;
+            if (combat_command == "help")
             {
 
                 cout << tutorial << endl;
             }
-            else if (input == "retreat")
+            else if (combat_command == "retreat")
             {
                 cout << "you run away from the fight!" << endl;
                 break;
             }
-            else if (input == "use")
+            else if (combat_command == "use")
             {
                 try
                 {
@@ -266,12 +277,13 @@ namespace
                     cout << e.what() << endl;
                 }
             }
-            else if (input == "bludgeon" || input == "pierce" || input == "slash")
+            else if (combat_command == "bludgeon" || combat_command == "pierce" || combat_command == "slash")
             {
+                cout << "hit attack" << endl;
                 int monster_damage = current_room->montser_attack_damage();
                 string monster_type = current_room->monster_attack_type();
 
-                if (input == "bludgeon")
+                if (combat_command == "bludgeon")
                 {
                     if (monster_type == "slash")
                     {
@@ -290,8 +302,9 @@ namespace
                         cout << "You and the " + current_room->monster_name() + " miss!" << endl;
                     }
                 }
-                else if (input == "pierce")
+                else if (combat_command == "pierce")
                 {
+                    cout << "hit pierce" << endl;
                     if (monster_type == "bludgeon")
                     {
                         current_room->hit_monster(p.get_strength());
