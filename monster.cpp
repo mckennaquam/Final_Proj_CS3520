@@ -55,9 +55,14 @@ namespace final_proj
         case 0:
             return "The skeleton rattles their bones, stumbling fowards. His glowing green";
             //"eyes dimly light the room as they steadily approach you.";
+            break;
         case 1:
             return "to do";
+            break;
         case 2:
+            return "to do";
+            break;
+        default:
             return "to do";
         }
     }
@@ -91,9 +96,14 @@ namespace final_proj
         {
         case 0:
             return "to do";
+            break;
         case 1:
             return "to do";
+            break;
         case 2:
+            return "to do";
+            break;
+        default:
             return "to do";
         }
     }
@@ -110,10 +120,15 @@ namespace final_proj
         {
         case 0:
             return "pierce";
+            break;
         case 1:
             return "slash";
+            break;
         case 2:
             return "bludgeon";
+            break;
+        default:
+            return "error";
         }
     }
 
