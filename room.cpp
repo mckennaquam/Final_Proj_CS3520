@@ -15,16 +15,28 @@ namespace final_proj
         return m_x;
     }
 
-     // Returns an int representing a room's y coordinate
+    // Returns an int representing a room's y coordinate
     int Base_Room::get_y() const
     {
         return m_y;
     }
 
-     // Returns a string representing a room's type
+    // Returns a string representing a room's type
     string Base_Room::get_type() const
     {
         return m_type;
+    }
+
+    // returns a bool represeing if a room has been visted or not
+    bool Base_Room::room_visited() const
+    {
+        return m_visited;
+    }
+
+    // marks the visted boolean as true
+    void Base_Room::visit_room()
+    {
+        m_visited = true;
     }
 
     // Throws an InvalidUserInputException if the command is not supported for that room type
@@ -79,9 +91,10 @@ namespace final_proj
     // only works in riddle room
     bool Riddle_Room::answer_riddle(string &answer)
     {
-        if (answer == m_answer) {
+        if (answer == m_answer)
+        {
             m_has_been_answered = true;
-        } 
+        }
         return m_has_been_answered;
     }
 
@@ -111,45 +124,46 @@ namespace final_proj
         else
         {
             if (m_item == nullptr)
-        {
-            throw InvalidUserInputException("You have already picked up the item in this room.\n");
-        }
-        else
-        {
-            shared_ptr<Item> to_return = m_item;
-            m_item = nullptr;
-            return to_return;
-        }
+            {
+                throw InvalidUserInputException("You have already picked up the item in this room.\n");
+            }
+            else
+            {
+                shared_ptr<Item> to_return = m_item;
+                m_item = nullptr;
+                return to_return;
+            }
         }
     }
 
     // describe rooms
     string Object_Room::describe_room() const
     {
-        if (m_seed == 0 && m_item != nullptr) {
+        if (m_seed == 0 && m_item != nullptr)
+        {
             return "You enter a room filled wall to wall with gilded treasure, glistening under the light of \na singular beam peaking through a small opening in the ceiling. You spot a " + m_item->m_name + ".";
-        
-        } else if (m_seed == 0 && m_item == nullptr) 
+        }
+        else if (m_seed == 0 && m_item == nullptr)
         {
             return "You enter a room filled a little less with treasure, but still very shiny.";
-        
-        } else if (m_seed == 1 && m_item != nullptr)
+        }
+        else if (m_seed == 1 && m_item != nullptr)
         {
             return "You walk into the room to see a skeleton on the floor clutching a " + m_item->m_name + ". \nYou would feel bad to take it from them... however they aren’t using it.";
-
-        } else if (m_seed == 1 && m_item == nullptr)
+        }
+        else if (m_seed == 1 && m_item == nullptr)
         {
             return "The skeleton is still there... they look a little sadder.";
-
-        } else if (m_seed == 2 && m_item != nullptr)
+        }
+        else if (m_seed == 2 && m_item != nullptr)
         {
             return "You step into a damp, cold, moss-coated cavern. An aged chest sits in the leftmost corner, \nwhich you snap open due to its decaying lock. Inside is a " + m_item->m_name + "...";
-
-        } else if (m_seed == 2 && m_item == nullptr)
+        }
+        else if (m_seed == 2 && m_item == nullptr)
         {
             return "The room is still cold and damp, but now has nothing useful.";
-
-        } else 
+        }
+        else
         {
             throw UnsupportedBehavoir("tried to make a randomized description - describe object room");
         }
@@ -158,30 +172,31 @@ namespace final_proj
     string Riddle_Room::describe_room() const
     {
 
-        if (m_seed == 0 && !m_has_been_answered) {
+        if (m_seed == 0 && !m_has_been_answered)
+        {
             return "You step into the room to see a phase scrawled out on a wall... \n\n\"" + m_riddle + "\"\n";
-        
-        } else if (m_seed == 0 && m_has_been_answered) 
+        }
+        else if (m_seed == 0 && m_has_been_answered)
         {
             return "The phrase is still there, but you already solved it! Continue on.";
-        
-        } else if (m_seed == 1 && !m_has_been_answered)
+        }
+        else if (m_seed == 1 && !m_has_been_answered)
         {
             return "A leprechaun pops out of the corner of this room! Ah! He says a riddle... \n\n\"" + m_riddle + "\"\n";
-
-        } else if (m_seed == 1 && m_has_been_answered)
+        }
+        else if (m_seed == 1 && m_has_been_answered)
         {
             return "The leprechaun is now sobbing, purposeless. Better leave him be.";
-
-        } else if (m_seed == 2 && !m_has_been_answered)
+        }
+        else if (m_seed == 2 && !m_has_been_answered)
         {
             return "You step into this room and see a sleeping sphinx, so try your best to be silent but she \nwakes up. She doesn’t seem to be upset but she asks you this riddle: \n\n\"" + m_riddle + "\"\n";
-
-        } else if (m_seed == 2 && m_has_been_answered)
+        }
+        else if (m_seed == 2 && m_has_been_answered)
         {
             return "The sphinx is now fast asleep. You have nothing to do here, so you should leave as to not wake her.";
-
-        } else 
+        }
+        else
         {
             throw UnsupportedBehavoir("tried to make a randomized description - describe riddle room");
         }
@@ -192,31 +207,30 @@ namespace final_proj
         if (m_enemy->get_name() == "Skeleton" && m_enemy->is_alive())
         {
             return "Oh no a Skeleton who’s moving! He rattles his bones at you... he’s looking for a fight and he’s got a " + m_item->m_name + "!";
-
-        } else if (m_enemy->get_name() == "Skeleton" && !m_enemy->is_alive())
+        }
+        else if (m_enemy->get_name() == "Skeleton" && !m_enemy->is_alive())
         {
             return "The skeleton in this room is no longer moving. Good, that’s how it should be.";
-
-        } else if (m_enemy->get_name() == "Slime" && m_enemy->is_alive())
+        }
+        else if (m_enemy->get_name() == "Slime" && m_enemy->is_alive())
         {
             return "You enter the room to see a Slime! They hop up and down getting the floor covered in their \nooze, gross. However, you see inside their gelatinous body they are carrying a " + m_item->m_name + ".\nIf you slay the slime you will get to keep the (wet) " + m_item->m_name + ".";
-
-        } else if (m_enemy->get_name() == "Slime" && !m_enemy->is_alive())
+        }
+        else if (m_enemy->get_name() == "Slime" && !m_enemy->is_alive())
         {
             return "You enter the room where the Slime once stood.. the floor is... sticky...";
-
-        } else if (m_enemy->get_name() == "Lich" && m_enemy->is_alive())
+        }
+        else if (m_enemy->get_name() == "Lich" && m_enemy->is_alive())
         {
             return "Before you towers a 7ft tall ghostly figure. His arms stretch wide, daring you to come an \ninch closer. You’ve read about Lichs before, undead kings and queens who sold their soul \nto live forever and now you’ve come face to face with one. Do you dare fight it..?";
-
-        } else if (m_enemy->get_name() == "Lich" && !m_enemy->is_alive())
+        }
+        else if (m_enemy->get_name() == "Lich" && !m_enemy->is_alive())
         {
             return "All that is left of the Lich that once haunted this room is a red cape left on the floor. \nIt looks so humble compared to the great evil that used to wear it.";
-
-        } else
+        }
+        else
         {
             throw UnsupportedBehavoir("tried to make a randomized description - describe combat room");
-
         }
     }
 
@@ -229,7 +243,7 @@ namespace final_proj
     void Combat_Room::hit_monster(int damage)
     {
         m_enemy->take_damage(damage);
-        cout << "The " + m_enemy->get_name() + "'s health is now: " + to_string(m_enemy->get_health())<< endl;
+        cout << "The " + m_enemy->get_name() + "'s health is now: " + to_string(m_enemy->get_health()) << endl;
     }
 
     int Combat_Room::montser_attack_damage() const

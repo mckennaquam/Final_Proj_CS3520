@@ -14,7 +14,7 @@ namespace final_proj
 {
     class Base_Room
     {
-    // public methods for the Base_Room
+        // public methods for the Base_Room
     public:
         virtual bool answer_riddle(string &answer);
         virtual void hit_monster(int damage);
@@ -28,8 +28,10 @@ namespace final_proj
         int get_x() const;
         int get_y() const;
         string get_type() const;
+        bool room_visited() const;
+        void visit_room();
 
-    // protcted fields for Base_Room
+        // protcted fields for Base_Room
     protected:
         Base_Room(int x, int y, string type)
         {
@@ -37,12 +39,15 @@ namespace final_proj
             m_y = y;
             m_type = type;
             m_seed = rand() % 3;
+            // 0, 0 position starts as visited
+            m_visited = (m_x == 0 && m_y == 0);
         }
 
         int m_x;
         int m_y;
         string m_type;
         int m_seed;
+        bool m_visited;
     };
 
     class Object_Room : public Base_Room
@@ -56,7 +61,8 @@ namespace final_proj
             m_item = make_shared<Item>();
         }
 
-        Object_Room(int x, int y, Item & item) : Base_Room(x, y, "Treasure") {
+        Object_Room(int x, int y, Item &item) : Base_Room(x, y, "Treasure")
+        {
             m_item = make_shared<Item>(item);
         }
 
@@ -107,17 +113,20 @@ namespace final_proj
             // gotta put the monster stuff here
             int random = rand() % 100;
 
-            if (random <= 10) {
+            if (random <= 10)
+            {
                 m_enemy = make_unique<Lich>();
-            } else if (random > 10 && random <= 55)
+            }
+            else if (random > 10 && random <= 55)
             {
                 m_enemy = make_unique<Skeleton>();
-
-            } else if (random > 55 && random <= 100)
+            }
+            else if (random > 55 && random <= 100)
             {
                 m_enemy = make_unique<Slime>();
-
-            } else {
+            }
+            else
+            {
                 throw UnsupportedBehavoir("tried make a randomized enemy - combat room constructor");
             }
 

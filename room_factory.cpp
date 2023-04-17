@@ -11,9 +11,9 @@ namespace
     string add_divide(int width)
     {
         string divide;
-        for (int i = 0; i < width; i++)
+        for (int a = 0; a < width; a++)
         {
-            divide = "+-";
+            divide += "+-";
         }
         divide += "+\n";
         return divide;
@@ -21,7 +21,7 @@ namespace
 
     string room_type(shared_ptr<final_proj::Base_Room> room)
     {
-        if (room == nullptr)
+        if (!room->room_visited())
         {
             return " ";
         }
@@ -29,16 +29,17 @@ namespace
         {
             return "R";
         }
-        else if (room->get_type() == "Object")
+        else if (room->get_type() == "Treasure")
         {
             return "T";
         }
         else if (room->get_type() == "Combat")
         {
-            return "M";
+            return "C";
         }
         else
         {
+            // unfednied behavior
             return "?";
         }
     }
@@ -58,7 +59,7 @@ namespace final_proj
         {
             return make_shared<Object_Room>(x, y);
         }
-        else if (room_type > 40 && room_type <= 80 )
+        else if (room_type > 40 && room_type <= 80)
         {
             return make_shared<Combat_Room>(x, y);
         }
@@ -95,7 +96,7 @@ namespace final_proj
 
     // Returns a shared_ptr<Base_Room> at a given x and y position
     // Throws an InvalidUserException if the given x and y position are out of bounds
-    shared_ptr<Base_Room> Room_Factory::get_room_at(int x, int y)
+    shared_ptr<Base_Room> Room_Factory::get_room_at(int x, int y) const
     {
         if (x < 0 || x >= m_width || y < 0 || y >= m_height)
         {
@@ -106,6 +107,36 @@ namespace final_proj
         {
             return m_map.at((m_width * y) + x);
         }
+    }
+
+    string Room_Factory::show_map(int x, int y) const
+    {
+        string map;
+        map += add_divide(m_width);
+
+        for (int i = 0; i < m_height; i++)
+        {
+            for (int j = 0; j < m_width; j++)
+            {
+                if (i == y && j == x)
+                {
+                    map += "|X";
+                }
+                else
+                {
+                    map += "|" + room_type(get_room_at(j, i));
+                }
+            }
+            map += "|\n";
+            map += add_divide(m_width);
+        }
+
+        return map;
+    }
+
+    string Room_Factory::show_legend() const
+    {
+        return "Legend:\nX - You are here\nT - Treasure room\nR - Riddle room\nC - Combat room";
     }
 
 }

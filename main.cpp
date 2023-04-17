@@ -73,13 +73,15 @@ int main()
 
     string input;
 
-    Room_Factory rf = Room_Factory(10, 10);
+    Room_Factory rf = Room_Factory(5, 20);
 
     Player p = Player();
 
     cout << "Welcome weary traveler! Your journey through this trecherous dungeon begins now.\n"
-    "To view the scope of your abilities, type \"show_commands\"\n" << endl;
+            "To view the scope of your abilities, type \"show_commands\"\n"
+         << endl;
 
+    // tutorial
     while (std::getline(cin, input))
     {
         // Skip over blank lines (provided for you). You do not need to handle
@@ -100,19 +102,20 @@ int main()
 
             remove_extra(iss);
 
-        cout << "Amazing! Now that you know the ropes, your journey can begin.\n" << endl;
-        shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
-        p.update_location(start_room);
-        string prompt = "\nWhat do you do?\n";
-        cout << p.get_current_room()->describe_room() + prompt << endl;
-        break;
-    } else 
-    {
-        cout << "It would be wise to review your commands! \n" << endl;
+            cout << "Amazing! Now that you know the ropes, your journey can begin.\n"
+                 << endl;
+            shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
+            p.update_location(start_room);
+            string prompt = "\nWhat do you do?\n";
+            cout << p.get_current_room()->describe_room() + prompt << endl;
+            break;
+        }
+        else
+        {
+            cout << "It would be wise to review your commands! \n"
+                 << endl;
+        }
     }
-
-    }
-    // rf.player_start(p);
     //  Read lines from cin as long as the state of the stream is good.
     //  This while loop condition is provided for you.
     while (std::getline(cin, input) && p.player_alive())
@@ -147,7 +150,8 @@ int main()
 
         if (command_funcs.find(command) == cend(command_funcs))
         {
-            cout << "Unrecognized command, type \"show_commands\" to view the list of acceptable commands!\n" << endl;
+            cout << "Unrecognized command, type \"show_commands\" to view the list of acceptable commands!\n"
+                 << endl;
         }
         else
         {
@@ -182,7 +186,7 @@ namespace
     // define the commands declreaded above here
     void go(istringstream &iss, Player &p, Room_Factory &rf)
     {
-        
+
         string direction;
         iss >> direction;
 
@@ -219,40 +223,15 @@ namespace
             {
                 p.remove_buff();
                 vector<int> stats = p.check_stats();
-                cout << "You feel the effects of the potion wearing off... your strength is now " + to_string(stats.at(1)) + " and your defense is now " + to_string(stats.at(2)) + ".\n"<< endl;
+                cout << "You feel the effects of the potion wearing off... your strength is now " + to_string(stats.at(1)) + " and your defense is now " + to_string(stats.at(2)) + ".\n"
+                     << endl;
             }
         }
 
         p.update_location(new_room);
+        p.get_current_room()->visit_room();
         string prompt = "\nWhat do you do?\n";
         cout << "You enter the " + direction + " room.\n" + p.get_current_room()->describe_room() + prompt << endl;
-
-        /*
-        cout << p.get_current_room()->describe_room() << endl;
-        
-        string direction;
-        iss >> direction;
-
-        int current_x = p.get_current_room()->get_x();
-        shared_ptr<Base_Room> new_room;
-        if (direction == "forward")
-        {
-            new_room = rf.get_room_at(current_x + 1);
-        }
-        else if (direction == "backwards")
-        {
-            new_room = rf.get_room_at(current_x - 1);
-        }
-        else
-        {
-            throw InvalidUserInputException("Must use cardinal direction (forward, backwards) for movement");
-        }
-
-        p.update_location(new_room);
-    
-        cout << "now at " + to_string(p.get_current_room()->get_x()) << endl;
-        cout << "room type " + p.get_current_room()->get_type() << endl;
-        */
     }
 
     void fight(istringstream &iss, Player &p, Room_Factory &)
@@ -267,10 +246,10 @@ namespace
         }
 
         string preliminary_message = "You have started combat with the " + current_room->monster_name() + "! ";
-        //HELP HELP ITS SO DUMB
+        // HELP HELP ITS SO DUMB
         string blank = "";
 
-        string tutorial = blank +"For each turn you can do 1 of 3 things:\n" +
+        string tutorial = blank + "For each turn you can do 1 of 3 things:\n" +
                           "1) Retreat out of combat with \"retreat\" \n2) Use an item with \"use [item name]\" \n" +
                           "3) Engage in combat with \"bludgeon\" or \"slash\" or \"pierce\" \n" +
                           "\nWhen you engage in combat, you use one of the three attack types and the monster will chose an attack type as well.\n\n"
@@ -278,10 +257,11 @@ namespace
                           "Depending on if you or the monster successfully hit the other, damage will then be assigned.";
 
         cout << tutorial << endl;
-        
+
         string combat_input;
 
-        cout << "What do you do?\n" << endl;
+        cout << "What do you do?\n"
+             << endl;
 
         while (std::getline(cin, combat_input) && p.player_alive() && current_room->monster_alive())
         {
@@ -296,24 +276,25 @@ namespace
             }
             else if (combat_command == "retreat")
             {
-                cout << "You back away from the fight!\n" << endl;
+                cout << "You back away from the fight!\n"
+                     << endl;
                 break;
             }
             else if (combat_command == "use")
             {
                 try
                 {
-                string name;
-                string rank;
-                int stat;
-                string type;
-                iss >> name;
-                iss >> rank;
-                iss >> stat;
-                iss >> type;
-                name += (" " + rank + " " + to_string(stat) + " " + type);
+                    string name;
+                    string rank;
+                    int stat;
+                    string type;
+                    iss >> name;
+                    iss >> rank;
+                    iss >> stat;
+                    iss >> type;
+                    name += (" " + rank + " " + to_string(stat) + " " + type);
 
-                p.use_item(name, type, stat);
+                    p.use_item(name, type, stat);
                 }
                 catch (InvalidUserInputException e)
                 {
@@ -387,16 +368,19 @@ namespace
             remove_extra(iss);
 
             if (!current_room->monster_alive())
-        {
-            p.update_points(current_room->monster_points());
-            cout << "\nYou slay the " + current_room->monster_name() + "! and earn " + to_string(current_room->monster_points()) + " points. Heck yeah." << endl;
-            cout << "The item the " + current_room->monster_name() + " was holding drops to the floor.\n" << endl;
-            break;
-        } else {
-            cout << "What's your next move?\n" << endl;
+            {
+                p.update_points(current_room->monster_points());
+                cout << "\nYou slay the " + current_room->monster_name() + "! and earn " + to_string(current_room->monster_points()) + " points. Heck yeah." << endl;
+                cout << "The item the " + current_room->monster_name() + " was holding drops to the floor.\n"
+                     << endl;
+                break;
+            }
+            else
+            {
+                cout << "What's your next move?\n"
+                     << endl;
+            }
         }
-        }
-
     }
 
     void use(istringstream &iss, Player &p, Room_Factory &)
@@ -416,7 +400,8 @@ namespace
 
     void describe_room(istringstream &, const Player &p, Room_Factory &)
     {
-        cout << p.get_current_room()->describe_room() + "\n"<< endl;
+        cout << p.get_current_room()->describe_room() + "\n"
+             << endl;
     }
 
     void pick_up(istringstream &, Player &p, Room_Factory &)
@@ -429,12 +414,16 @@ namespace
     {
         cout << "Inventory contains: " << endl;
         vector<string> inventory = p.check_inventory();
-        if (inventory.empty()) {
-            cout << "Nothing! Collect more items.\n" << endl;
-        } else
+        if (inventory.empty())
+        {
+            cout << "Nothing! Collect more items.\n"
+                 << endl;
+        }
+        else
         {
             copy(cbegin(inventory), cend(inventory), std::ostream_iterator<string>(cout, "\n"));
-            cout << "\n" << endl;
+            cout << "\n"
+                 << endl;
         }
     }
 
@@ -443,12 +432,13 @@ namespace
         vector<int> stats = p.check_stats();
         cout << "Health: " + to_string(stats.at(0)) << endl;
         cout << "Strength: " + to_string(stats.at(1)) << endl;
-        cout << "Defense: " + to_string(stats.at(2)) + "\n"<< endl;
+        cout << "Defense: " + to_string(stats.at(2)) + "\n"
+             << endl;
     }
 
     void show_map(istringstream &, const Player &p, const Room_Factory &rf)
     {
-        /*
+
         // get the players current position for the map
         int x = p.get_current_room()->get_x();
         int y = p.get_current_room()->get_y();
@@ -456,7 +446,6 @@ namespace
         // display map and key
         cout << rf.show_map(x, y) << endl;
         cout << rf.show_legend() << endl;
-        */
     }
 
     void show_commands(istringstream &, Player &, Room_Factory &)
@@ -465,11 +454,17 @@ namespace
         vector<string> command_name;
         transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name), [](auto &iter)
                   { return iter.first; });
+
+        command_name.erase(find(begin(command_name), end(command_name), "answer_riddle"));
+        command_name.erase(find(begin(command_name), end(command_name), "use"));
+        command_name.erase(find(begin(command_name), end(command_name), "go"));
         copy(cbegin(command_name), cend(command_name), std::ostream_iterator<string>(cout, "\n"));
-        //remove go and answer_riddle from the list of commands, or add this below on to go and answer_riddle:
+        // remove go and answer_riddle from the list of commands, or add this below on to go and answer_riddle:
         cout << "answer_riddle [answer]" << endl;
+        cout << "use [name]" << endl;
         cout << "go [north][south][east][west]" << endl;
-        cout << "quit\n" << endl;
+        cout << "quit\n"
+             << endl;
     }
 
     void answer_riddle(istringstream &iss, Player &p, Room_Factory &)
@@ -480,11 +475,13 @@ namespace
         if (p.get_current_room()->answer_riddle(answer))
         {
             p.update_points(25);
-            cout << "You got it! Your score now is " + to_string(p.get_points()) + "\n"<< endl;
+            cout << "You got it! Your score now is " + to_string(p.get_points()) + "\n"
+                 << endl;
         }
         else
         {
-            cout << "Hmmm that's not it...\n" << endl;
+            cout << "Hmmm that's not it...\n"
+                 << endl;
         }
     }
 }
