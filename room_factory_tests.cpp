@@ -18,5 +18,5 @@ TEST(test_room_factory_constructor)
 {
     Room_Factory new_board = Room_Factory(10, 10);
 
-    new_board.get_room_at(0, 0);
+    new_board.get_room_at(0);
 }

@@ -69,12 +69,14 @@ const map<
 
 int main()
 {
+    srand(time(0));
+
     string input;
 
     Room_Factory rf = Room_Factory(10, 10);
     cout << "generation finished" << endl;
     Player p = Player();
-    shared_ptr<Base_Room> start_room = rf.get_room_at(0);
+    shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
     p.update_location(start_room);
     // rf.player_start(p);
     //  Read lines from cin as long as the state of the stream is good.
@@ -146,7 +148,7 @@ namespace
     // define the commands declreaded above here
     void go(istringstream &iss, Player &p, Room_Factory &rf)
     {
-        /*
+        
         string direction;
         iss >> direction;
 
@@ -179,6 +181,7 @@ namespace
 
         p.update_location(new_room);
 
+        /*
         if (old_room_type == "Combat")
         {
             p.remove_buff();
@@ -187,7 +190,7 @@ namespace
         }
 
         cout << p.get_current_room()->describe_room() << endl;
-        */
+        
         string direction;
         iss >> direction;
 
@@ -207,6 +210,7 @@ namespace
         }
 
         p.update_location(new_room);
+        */
         cout << "now at " + to_string(p.get_current_room()->get_x()) << endl;
         cout << "room type " + p.get_current_room()->get_type() << endl;
     }
@@ -233,21 +237,15 @@ namespace
         
         string combat_input;
 
-        while (p.player_alive() && current_room->monster_alive())
+        cout << "What's your next move?" << endl;
+
+        while (std::getline(cin, combat_input) && p.player_alive() && current_room->monster_alive())
         {
-
-            if (combat_input.empty())
-            {
-                continue;
-            }
-
-            cout << "What's your next move?" << endl;
 
             istringstream iss_combat = istringstream(combat_input);
             string combat_command;
             iss_combat >> combat_command;
 
-            cout << combat_command << endl;
             if (combat_command == "help")
             {
 
@@ -279,7 +277,6 @@ namespace
             }
             else if (combat_command == "bludgeon" || combat_command == "pierce" || combat_command == "slash")
             {
-                cout << "hit attack" << endl;
                 int monster_damage = current_room->montser_attack_damage();
                 string monster_type = current_room->monster_attack_type();
 
@@ -304,7 +301,6 @@ namespace
                 }
                 else if (combat_command == "pierce")
                 {
-                    cout << "hit pierce" << endl;
                     if (monster_type == "bludgeon")
                     {
                         current_room->hit_monster(p.get_strength());
@@ -344,13 +340,17 @@ namespace
             }
 
             remove_extra(iss);
-        }
 
-        if (!current_room->monster_alive())
+            if (!current_room->monster_alive())
         {
             p.update_points(current_room->monster_points());
             cout << "You slayed the " + current_room->monster_name() + "! and earned " + to_string(current_room->monster_points()) + " points!" << endl;
+            break;
+        } else {
+            cout << "What's your next move?" << endl;
         }
+        }
+
     }
 
     void use(istringstream &iss, Player &p, Room_Factory &)
@@ -368,7 +368,7 @@ namespace
 
     void describe_room(istringstream &, const Player &p, Room_Factory &)
     {
-        p.get_current_room()->describe_room();
+        cout << p.get_current_room()->describe_room() << endl;
     }
 
     void pick_up(istringstream &, Player &p, Room_Factory &)

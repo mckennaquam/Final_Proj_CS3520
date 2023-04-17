@@ -32,11 +32,13 @@ namespace final_proj
             m_x = x;
             m_y = y;
             m_type = type;
+            m_seed = rand() % 3;
         }
 
         int m_x;
         int m_y;
         string m_type;
+        int m_seed;
     };
 
     class Object_Room : public Base_Room
@@ -48,6 +50,10 @@ namespace final_proj
         Object_Room(int x, int y) : Base_Room(x, y, "Treasure")
         {
             m_item = make_shared<Item>();
+        }
+
+        Object_Room(int x, int y, Item & item) : Base_Room(x, y, "Treasure") {
+            m_item = make_shared<Item>(item);
         }
 
     protected:
@@ -71,11 +77,13 @@ namespace final_proj
         {
             m_riddle = riddle;
             m_answer = answer;
+            m_has_been_answered = false;
         }
 
     private:
         string m_riddle;
         string m_answer;
+        bool m_has_been_answered;
     };
 
     class Combat_Room : public Object_Room
@@ -93,7 +101,22 @@ namespace final_proj
         Combat_Room(int x, int y) : Object_Room(x, y, "Combat")
         {
             // gotta put the monster stuff here
-            m_enemy = make_unique<Slime>();
+            int random = rand() % 100;
+
+            if (random <= 10) {
+                m_enemy = make_unique<Lich>();
+            } else if (random > 10 && random <= 55)
+            {
+                m_enemy = make_unique<Skeleton>();
+
+            } else if (random > 55 && random <= 100)
+            {
+                m_enemy = make_unique<Slime>();
+
+            } else {
+                throw UnsupportedBehavoir("tried make a randomized enemy - combat room constructor");
+            }
+
             m_item = make_shared<Item>(m_enemy->get_item());
         }
 

@@ -5,6 +5,9 @@
 #include <string>
 #include <cstdlib>
 
+//to delete
+#include <iostream>
+
 using namespace std;
 
 namespace
@@ -116,7 +119,7 @@ namespace final_proj
         Item()
         {
             int type = rand() % 101;
-            if (type >= 10)
+            if (type <= 10)
             {
                 m_type = "weapon";
                 m_name = generate_name_weapon();

@@ -48,30 +48,30 @@ namespace
 namespace final_proj
 {
 
-    shared_ptr<Base_Room> Room_Factory::construct_room(int x)
+    shared_ptr<Base_Room> Room_Factory::construct_room(int x, int y)
     {
-        int room_type = rand() % 3;
+        int room_type = rand() % 100;
 
-        if (room_type == 0)
+        if (room_type <= 40)
         {
-            return make_shared<Object_Room>(x, 0);
+            return make_shared<Object_Room>(x, y);
         }
-        else if (room_type == 1)
+        else if (room_type > 40 && room_type <= 80 )
         {
-            return make_shared<Combat_Room>(x, 0);
+            return make_shared<Combat_Room>(x, y);
         }
-        else if (room_type == 2)
+        else if (room_type > 80)
         {
             if (m_riddle_iter == cend(m_riddle))
             {
                 int new_type = rand() % 2;
                 if (new_type == 0)
                 {
-                    return make_shared<Object_Room>(x, 0);
+                    return make_shared<Object_Room>(x, y);
                 }
                 else if (new_type == 1)
                 {
-                    return make_shared<Combat_Room>(x, 0);
+                    return make_shared<Combat_Room>(x, y);
                 }
                 else
                 {
@@ -80,7 +80,7 @@ namespace final_proj
             }
             else
             {
-                shared_ptr<Base_Room> to_return = make_shared<Riddle_Room>(x, 0, m_riddle_iter->first, m_riddle_iter->second);
+                shared_ptr<Base_Room> to_return = make_shared<Riddle_Room>(x, y, m_riddle_iter->first, m_riddle_iter->second);
                 m_riddle_iter++;
                 return to_return;
             }
@@ -91,15 +91,15 @@ namespace final_proj
         }
     }
 
-    shared_ptr<Base_Room> Room_Factory::get_room_at(int x)
+    shared_ptr<Base_Room> Room_Factory::get_room_at(int x, int y)
     {
-        if (x < 0 || x >= m_width)
+        if (x < 0 || x >= m_width || y < 0 || y >= m_height)
         {
             throw InvalidUserInputException("player is trying to go off the board");
         }
         else
         {
-            return m_map.at(x);
+            return m_map.at((m_width * y) + x);
         }
     }
 

@@ -8,6 +8,9 @@
 #include <iterator>
 #include <cstdlib>
 
+//to delete
+#include <iostream>
+
 using namespace std;
 
 namespace final_proj
@@ -16,7 +19,7 @@ namespace final_proj
     {
     public:
         // gets the room at specified cooidinates
-        shared_ptr<Base_Room> get_room_at(int x);
+        shared_ptr<Base_Room> get_room_at(int x, int y);
         // string show_map(int x, int y) const;
         // string show_legend() const;
 
@@ -37,17 +40,33 @@ namespace final_proj
                 {"How do you keep your pants up when you're preforming? it's amazing!", "belt"},
                 {"What is 3/7 chicken, 2/3 cat, and 2/4 goat?", "chicago"},
                 {"What goes all around the world but stays in a corner?", "stamp"}};
+
             m_riddle_iter = cbegin(m_riddle);
 
             // inialize the map
             m_map = vector<shared_ptr<Base_Room>>();
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < height; i++)
             {
-                m_map.push_back(construct_room(i));
-            }
+                for (int j = 0; j < width; j++) {
+                if (i == 0 && j == 0) {
+                    Item item1 = Item("Attack rank 50", "potion", 50);
+                    m_map.push_back(make_shared<Object_Room>(0, 0, item1));
 
-            // set the first room
-            m_map.at(0) = make_shared<Object_Room>(0, 0);
+                } else if (i == 0 && j == 1) {
+                    m_map.push_back(make_shared<Riddle_Room>(1, 0, m_riddle_iter->first, m_riddle_iter->second));
+                    m_riddle_iter++;
+
+                } else if (i == 0 && j == 2) {
+                    m_map.push_back(make_shared<Combat_Room>(2, 0));
+
+                } else {
+                    m_map.push_back(construct_room(j, i));
+                }
+
+                }
+                
+                
+            }
         }
 
     private:
@@ -57,7 +76,7 @@ namespace final_proj
         map<string, string> m_riddle;
         map<string, string>::const_iterator m_riddle_iter;
 
-        shared_ptr<Base_Room> construct_room(int x);
+        shared_ptr<Base_Room> construct_room(int x, int y);
     };
 }
 

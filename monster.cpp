@@ -74,12 +74,15 @@ namespace final_proj
 
     int Slime::deal_damage() const
     {
-        return rand() % m_stength;
+        //to do stength
+        return rand() % m_stength + 1;
     }
 
     string Slime::attack_type() const
     {
+        cout << to_string(m_health) << endl;
         int attack = rand() % 100;
+
         if (attack <= 25)
         {
             return "pierce";
