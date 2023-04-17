@@ -74,10 +74,25 @@ int main()
     string input;
 
     Room_Factory rf = Room_Factory(10, 10);
-    cout << "generation finished" << endl;
+
     Player p = Player();
-    shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
-    p.update_location(start_room);
+
+    cout << "Welcome weary traveler! Your journey through this trecherous dungeon begins now.\n"
+    "To view the scope of your abilities, type \"show_commands\"\n" << endl;
+
+    istringstream preliminary_iss = istringstream(input);
+    string preliminary_command;
+    preliminary_iss >> preliminary_command;
+
+    if (preliminary_command == "show_commands")
+    {
+        cout << "Amazing! Now that you know the ropes, your journey can begin.\n" << endl;
+        shared_ptr<Base_Room> start_room = rf.get_room_at(0, 0);
+        p.update_location(start_room);
+    } else 
+    {
+        cout << "It would be wise to review your " << endl;
+    }
     // rf.player_start(p);
     //  Read lines from cin as long as the state of the stream is good.
     //  This while loop condition is provided for you.
@@ -407,11 +422,12 @@ namespace
 
     void show_commands(istringstream &, Player &, Room_Factory &)
     {
+        cout << "\n" << endl;
         vector<string> command_name;
         transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name), [](auto &iter)
                   { return iter.first; });
         copy(cbegin(command_name), cend(command_name), std::ostream_iterator<string>(cout, "\n"));
-        cout << "quit" << endl;
+        cout << "quit \n" << endl;
     }
 
     void answer_riddle(istringstream &iss, Player &p, Room_Factory &)
