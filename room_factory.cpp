@@ -1,11 +1,11 @@
 #include "room_factory.hpp"
 #include "exceptions.hpp"
 
-// delete this
-#include <iostream>
-
 using namespace std;
 
+// A class representing a room_factory
+
+// Empty namespace for helper methods
 namespace
 {
     string add_divide(int width)
@@ -48,6 +48,8 @@ namespace
 namespace final_proj
 {
 
+    // Returns a shared_ptr<Base_Room> of one of three constructed Rooms, created at a given
+    // x and y position
     shared_ptr<Base_Room> Room_Factory::construct_room(int x, int y)
     {
         int room_type = rand() % 100;
@@ -91,11 +93,14 @@ namespace final_proj
         }
     }
 
+    // Returns a shared_ptr<Base_Room> at a given x and y position
+    // Throws an InvalidUserException if the given x and y position are out of bounds
     shared_ptr<Base_Room> Room_Factory::get_room_at(int x, int y)
     {
         if (x < 0 || x >= m_width || y < 0 || y >= m_height)
         {
-            throw InvalidUserInputException("player is trying to go off the board");
+            // player is trying to go off the board
+            throw InvalidUserInputException("You can't go that way! Perhaps you should review your map.\n");
         }
         else
         {

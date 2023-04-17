@@ -74,7 +74,7 @@ TEST(test_pick_up_object_strength_weaker)
     }
     catch (InvalidUserInputException &e)
     {
-        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed on.", e.what());
+        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed on.\n", e.what());
     }
 }
 
@@ -114,7 +114,7 @@ TEST(test_pick_up_object_defense_weaker)
     }
     catch (InvalidUserInputException &e)
     {
-        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed on.", e.what());
+        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed on.\n", e.what());
     }
 }
 
@@ -135,12 +135,14 @@ TEST(test_use_item_health_potion_low_health_and_take_damage)
     Item health_potion_item = Item("Health rank 5", "potion", 5);
     shared_ptr<Item> health_potion_item_pointer = make_shared<Item>(health_potion_item);
     string health_potion_item_name = "Health rank 5";
+    string health_potion_item_type = "potion";
+    int health_potion_item_rank = 5;
 
     player1.pick_up_object(health_potion_item_pointer);
 
     player1.take_damage(50);
 
-    player1.use_item(health_potion_item_name);
+    player1.use_item(health_potion_item_name, health_potion_item_type, health_potion_item_rank);
 
     vector<int> test_vector;
 
@@ -157,12 +159,14 @@ TEST(test_use_item_health_potion_high_health_and_take_damage)
     Item health_potion_item = Item("Health rank 5", "potion", 5);
     shared_ptr<Item> health_potion_item_pointer = make_shared<Item>(health_potion_item);
     string health_potion_item_name = "Health rank 5";
+    string health_potion_item_type = "potion";
+    int health_potion_item_rank = 5;
 
     player1.pick_up_object(health_potion_item_pointer);
 
     player1.take_damage(3);
 
-    player1.use_item(health_potion_item_name);
+    player1.use_item(health_potion_item_name, health_potion_item_type, health_potion_item_rank);
 
     vector<int> test_vector;
 
@@ -179,16 +183,18 @@ TEST(test_use_item_health_potion_full_health)
     Item health_potion_item = Item("Health rank 5", "potion", 5);
     shared_ptr<Item> health_potion_item_pointer = make_shared<Item>(health_potion_item);
     string health_potion_item_name = "Health rank 5";
+    string health_potion_item_type = "potion";
+    int health_potion_item_rank = 5;
 
     player1.pick_up_object(health_potion_item_pointer);
 
     try
     {
-        player1.use_item(health_potion_item_name);
+        player1.use_item(health_potion_item_name, health_potion_item_type, health_potion_item_rank);
     }
     catch (InvalidUserInputException &e)
     {
-        ASSERT_EQUAL("Your health is full!", e.what());
+        ASSERT_EQUAL("Your health is full! No need to use this item.\n", e.what());
     }
 }
 
@@ -198,10 +204,12 @@ TEST(test_use_item_attack_potion)
     Item attack_potion_item = Item("Attack rank 5", "potion", 5);
     shared_ptr<Item> attack_potion_item_pointer = make_shared<Item>(attack_potion_item);
     string attack_potion_item_name = "Attack rank 5";
+    string attack_potion_item_type = "potion";
+    int attack_potion_item_rank = 5;
 
     player1.pick_up_object(attack_potion_item_pointer);
 
-    player1.use_item(attack_potion_item_name);
+    player1.use_item(attack_potion_item_name, attack_potion_item_type, attack_potion_item_rank);
 
     vector<int> test_vector;
 
@@ -218,10 +226,12 @@ TEST(test_use_item_defense_potion)
     Item defense_potion_item = Item("Defense rank 5", "potion", 5);
     shared_ptr<Item> defense_potion_item_pointer = make_shared<Item>(defense_potion_item);
     string defense_potion_item_name = "Defense rank 5";
+    string defense_potion_item_type = "potion";
+    int defense_potion_item_rank = 5;
 
     player1.pick_up_object(defense_potion_item_pointer);
 
-    player1.use_item(defense_potion_item_name);
+    player1.use_item(defense_potion_item_name, defense_potion_item_type, defense_potion_item_rank);
 
     vector<int> test_vector;
 
@@ -235,16 +245,17 @@ TEST(test_use_item_defense_potion)
 TEST(test_use_item_empty_inventory) 
 {
     Player player1 = Player();
-    string potion_item_name = "Attack rank 5";
+    string attack_potion_item_name = "Attack rank 5";
+    string attack_potion_item_type = "potion";
+    int attack_potion_item_rank = 5;
 
-    player1.use_item(potion_item_name);
     try
     {
-        player1.use_item(potion_item_name);
+        player1.use_item(attack_potion_item_name, attack_potion_item_type, attack_potion_item_rank);
     }
     catch (InvalidUserInputException &e)
     {
-        ASSERT_EQUAL("Item " + potion_item_name + " not found", e.what());
+        ASSERT_EQUAL("Item " + attack_potion_item_name + " not found", e.what());
     }
 }
 
@@ -254,10 +265,12 @@ TEST(test_remove_buff_attack_potion)
     Item attack_potion_item = Item("Attack rank 5", "potion", 5);
     shared_ptr<Item> attack_potion_item_pointer = make_shared<Item>(attack_potion_item);
     string attack_potion_item_name = "Attack rank 5";
+    string attack_potion_item_type = "potion";
+    int attack_potion_item_rank = 5;
 
     player1.pick_up_object(attack_potion_item_pointer);
 
-    player1.use_item(attack_potion_item_name);
+    player1.use_item(attack_potion_item_name, attack_potion_item_type, attack_potion_item_rank);
 
     player1.remove_buff();
 
@@ -276,10 +289,12 @@ TEST(test_remove_buff_defense_potion)
     Item defense_potion_item = Item("Defense rank 5", "potion", 5);
     shared_ptr<Item> defense_potion_item_pointer = make_shared<Item>(defense_potion_item);
     string defense_potion_item_name = "Defense rank 5";
+    string defense_potion_item_type = "potion";
+    int defense_potion_item_rank = 5;
 
     player1.pick_up_object(defense_potion_item_pointer);
 
-    player1.use_item(defense_potion_item_name);
+    player1.use_item(defense_potion_item_name, defense_potion_item_type, defense_potion_item_rank);
 
     player1.remove_buff();
 
@@ -321,5 +336,6 @@ TEST(test_player_alive_dead)
 
     ASSERT_FALSE(player1.player_alive());
 }
+
 
 TEST_MAIN()

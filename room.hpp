@@ -8,10 +8,13 @@
 
 using namespace std;
 
+// A class representing a room
+
 namespace final_proj
 {
     class Base_Room
     {
+    // public methods for the Base_Room
     public:
         virtual bool answer_riddle(string &answer);
         virtual void hit_monster(int damage);
@@ -26,6 +29,7 @@ namespace final_proj
         int get_y() const;
         string get_type() const;
 
+    // protcted fields for Base_Room
     protected:
         Base_Room(int x, int y, string type)
         {

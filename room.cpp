@@ -5,69 +5,74 @@
 
 using namespace std;
 
-// Empty namespace for helper methods
-namespace
-{
-
-}
+// A class representing a room
 
 namespace final_proj
 {
-    // basic functions for getting x and y coordinates and room type
+    // Returns an int representing a room's x coordinate
     int Base_Room::get_x() const
     {
         return m_x;
     }
 
+     // Returns an int representing a room's y coordinate
     int Base_Room::get_y() const
     {
         return m_y;
     }
 
+     // Returns a string representing a room's type
     string Base_Room::get_type() const
     {
         return m_type;
     }
 
-    // throwing errors if the command is not supported for that room type
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     bool Base_Room::answer_riddle(string &answer)
     {
-        throw InvalidUserInputException("There is no riddle to answer in here!");
+        throw InvalidUserInputException("There is no riddle to answer in here!\n");
     }
 
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     void Base_Room::hit_monster(int)
     {
-        throw InvalidUserInputException("There is no monster to fight here!");
+        throw InvalidUserInputException("There is no monster to fight here!\n");
     }
 
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     bool Base_Room::monster_alive() const
     {
-        throw InvalidUserInputException("There is no monster here!");
+        throw InvalidUserInputException("There is no monster here!\n");
     }
 
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     shared_ptr<Item> Base_Room::remove_obj()
     {
-        throw InvalidUserInputException("There is no item to pick up here!");
+        throw InvalidUserInputException("There is no item to pick up here!\n");
     }
 
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     int Base_Room::montser_attack_damage() const
     {
-        throw InvalidUserInputException("There is no monster here!");
+        throw InvalidUserInputException("There is no monster here!\n");
     }
 
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     string Base_Room::monster_attack_type() const
     {
-        throw InvalidUserInputException("There is no monster here!");
+        throw InvalidUserInputException("There is no monster here!\n");
     }
 
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     string Base_Room::monster_name() const
     {
-        throw InvalidUserInputException("There is no monster here!");
+        throw InvalidUserInputException("There is no monster here!\n");
     }
 
+    // Throws an InvalidUserInputException if the command is not supported for that room type
     int Base_Room::monster_points() const
     {
-        throw InvalidUserInputException("There is no monster here!");
+        throw InvalidUserInputException("There is no monster here!\n");
     }
 
     // returns true if player enters the correct answer to the riddle
@@ -87,7 +92,7 @@ namespace final_proj
     {
         if (m_item == nullptr)
         {
-            throw InvalidUserInputException("You have already picked up the item in this room");
+            throw InvalidUserInputException("You have already picked up the item in this room.\n");
         }
         else
         {
@@ -101,13 +106,13 @@ namespace final_proj
     {
         if (m_enemy->is_alive())
         {
-            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy->get_name() + " here!");
+            throw InvalidUserInputException("You cant pick up the " + m_item->m_name + " there is a " + m_enemy->get_name() + " here!\n");
         }
         else
         {
             if (m_item == nullptr)
         {
-            throw InvalidUserInputException("You have already picked up the item in this room");
+            throw InvalidUserInputException("You have already picked up the item in this room.\n");
         }
         else
         {
@@ -122,15 +127,15 @@ namespace final_proj
     string Object_Room::describe_room() const
     {
         if (m_seed == 0 && m_item != nullptr) {
-            return "You enter a room filled wall to wall with gilded treasure, glistening under the light of a singular beam peaking through a small opening in the ceiling.";
+            return "You enter a room filled wall to wall with gilded treasure, glistening under the light of \na singular beam peaking through a small opening in the ceiling. You spot a " + m_item->m_name + ".";
         
         } else if (m_seed == 0 && m_item == nullptr) 
         {
-            return "You enter a room filled a little less with treasure, but still very shiny";
+            return "You enter a room filled a little less with treasure, but still very shiny.";
         
         } else if (m_seed == 1 && m_item != nullptr)
         {
-            return "You walk into the room to see a skeleton on the floor clutching a " + m_item->m_name + ". You would feel bad to take it from them... however they aren’t using it.";
+            return "You walk into the room to see a skeleton on the floor clutching a " + m_item->m_name + ". \nYou would feel bad to take it from them... however they aren’t using it.";
 
         } else if (m_seed == 1 && m_item == nullptr)
         {
@@ -138,7 +143,7 @@ namespace final_proj
 
         } else if (m_seed == 2 && m_item != nullptr)
         {
-            return "You step into a damp, cold, moss-coated cavern. An aged chest sits in the leftmost corner, which you seem able to open because of its decaying lock.";
+            return "You step into a damp, cold, moss-coated cavern. An aged chest sits in the leftmost corner, \nwhich you snap open due to its decaying lock. Inside is a " + m_item->m_name + "...";
 
         } else if (m_seed == 2 && m_item == nullptr)
         {
@@ -154,7 +159,7 @@ namespace final_proj
     {
 
         if (m_seed == 0 && !m_has_been_answered) {
-            return "You step into the room to see a phase scrawled out on a wall... \"" + m_riddle + "\"";
+            return "You step into the room to see a phase scrawled out on a wall... \n\n\"" + m_riddle + "\"\n";
         
         } else if (m_seed == 0 && m_has_been_answered) 
         {
@@ -162,7 +167,7 @@ namespace final_proj
         
         } else if (m_seed == 1 && !m_has_been_answered)
         {
-            return "A leprechaun pops our of the corner of this room! Ah! He says a riddle... \"" + m_riddle + "\"";
+            return "A leprechaun pops out of the corner of this room! Ah! He says a riddle... \n\n\"" + m_riddle + "\"\n";
 
         } else if (m_seed == 1 && m_has_been_answered)
         {
@@ -170,7 +175,7 @@ namespace final_proj
 
         } else if (m_seed == 2 && !m_has_been_answered)
         {
-            return "You step into this room and see a sleeping sphinx, so try your best to be silent but she wakes up. She doesn’t seem to be upset but she asks you this riddle: \"" + m_riddle + "\"";
+            return "You step into this room and see a sleeping sphinx, so try your best to be silent but she \nwakes up. She doesn’t seem to be upset but she asks you this riddle: \n\n\"" + m_riddle + "\"\n";
 
         } else if (m_seed == 2 && m_has_been_answered)
         {
@@ -186,7 +191,7 @@ namespace final_proj
     {
         if (m_enemy->get_name() == "Skeleton" && m_enemy->is_alive())
         {
-            return "Oh no a skeleton who’s moving! He rattles his bones at you... he’s looking for a fight and he’s got a " + m_item->m_name + "!";
+            return "Oh no a Skeleton who’s moving! He rattles his bones at you... he’s looking for a fight and he’s got a " + m_item->m_name + "!";
 
         } else if (m_enemy->get_name() == "Skeleton" && !m_enemy->is_alive())
         {
@@ -194,19 +199,19 @@ namespace final_proj
 
         } else if (m_enemy->get_name() == "Slime" && m_enemy->is_alive())
         {
-            return "You enter the room to see a slime! They hop up and down getting the floor covered in their ooze, gross. However, you see inside their gelatinous body they are carrying a " + m_item->m_name + ". If you slay the slime you will get to keep the (wet) " + m_item->m_name + ".";
+            return "You enter the room to see a Slime! They hop up and down getting the floor covered in their \nooze, gross. However, you see inside their gelatinous body they are carrying a " + m_item->m_name + ".\nIf you slay the slime you will get to keep the (wet) " + m_item->m_name + ".";
 
         } else if (m_enemy->get_name() == "Slime" && !m_enemy->is_alive())
         {
-            return "You enter the room where the slime once stood.. the floor is... sticky...";
+            return "You enter the room where the Slime once stood.. the floor is... sticky...";
 
         } else if (m_enemy->get_name() == "Lich" && m_enemy->is_alive())
         {
-            return "Before you towers a 7ft tall ghostly figure. His arms stretch wide, daring you to come an inch closer. You’ve read about lichs before, undead kings and queens who sold their soul to live forever and now you’ve come face to face with one. Do you dare fight it?";
+            return "Before you towers a 7ft tall ghostly figure. His arms stretch wide, daring you to come an \ninch closer. You’ve read about Lichs before, undead kings and queens who sold their soul \nto live forever and now you’ve come face to face with one. Do you dare fight it..?";
 
         } else if (m_enemy->get_name() == "Lich" && !m_enemy->is_alive())
         {
-            return "All that is left of the Lich that once haunted this room is a red cape left on the floor. It looks so humble compared to the great evil that used to wear it.";
+            return "All that is left of the Lich that once haunted this room is a red cape left on the floor. \nIt looks so humble compared to the great evil that used to wear it.";
 
         } else
         {
@@ -224,6 +229,7 @@ namespace final_proj
     void Combat_Room::hit_monster(int damage)
     {
         m_enemy->take_damage(damage);
+        cout << "The " + m_enemy->get_name() + "'s health is now: " + to_string(m_enemy->get_health())<< endl;
     }
 
     int Combat_Room::montser_attack_damage() const

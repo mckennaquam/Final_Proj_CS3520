@@ -30,7 +30,7 @@ namespace
         }
         else if (name == 3)
         {
-            return "Battle Ax";
+            return "Battle Axe";
         }
         else if (name == 4)
         {
@@ -59,11 +59,11 @@ namespace
         }
         else if (name == 3)
         {
-            return "Greaves";
+            return "pair of Greaves";
         }
         else if (name == 4)
         {
-            return "Chainmail";
+            return "Chainmail vest";
         }
         else
         {
@@ -76,15 +76,15 @@ namespace
         int name = rand() % 5;
         if (name == 0)
         {
-            return "Gold";
+            return "Gold Bar";
         }
         else if (name == 1)
         {
-            return "Jewels";
+            return "bag of Jewels";
         }
         else if (name == 2)
         {
-            return "a Sense of Satisfaction";
+            return "Sense of Satisfaction";
         }
         else if (name == 3)
         {
@@ -92,7 +92,7 @@ namespace
         }
         else if (name == 4)
         {
-            return "Doubloons";
+            return "pile of Doubloons";
         }
         else
         {
@@ -139,15 +139,15 @@ namespace final_proj
                 int name = rand() % 3;
                 if (name == 0)
                 {
-                    m_name = "Health rank " + to_string(m_stat);
+                    m_name = "Health rank " + to_string(m_stat) + " Potion";
                 }
                 else if (name == 1)
                 {
-                    m_name = "Attack rank " + to_string(m_stat);
+                    m_name = "Attack rank " + to_string(m_stat) + " Potion";
                 }
                 else if (name == 2)
                 {
-                    m_name = "Defense rank " + to_string(m_stat);
+                    m_name = "Defense rank " + to_string(m_stat) + " Potion";
                 }
                 else
                 {

@@ -8,21 +8,21 @@
 #include <iterator>
 #include <cstdlib>
 
-//to delete
-#include <iostream>
-
 using namespace std;
+
+// A class representing a room_factory
 
 namespace final_proj
 {
     class Room_Factory
     {
     public:
-        // gets the room at specified cooidinates
+        // public methods for the player
         shared_ptr<Base_Room> get_room_at(int x, int y);
         // string show_map(int x, int y) const;
         // string show_legend() const;
 
+        // custom constrctor for room_factory
         Room_Factory(int height, int width)
         {
             // set the height and width of the game board
@@ -37,7 +37,7 @@ namespace final_proj
                 {"What occurs one in a minuet, twice in a moment and never in 1,000 years?", "m"},
                 {"What has 13 hearts but no other organs?", "cards"},
                 {"What do you bury when it's alive and dig up when it's dead?", "plant"},
-                {"How do you keep your pants up when you're preforming? it's amazing!", "belt"},
+                {"How do you keep your pants up when you're performing? it's amazing!", "belt"},
                 {"What is 3/7 chicken, 2/3 cat, and 2/4 goat?", "chicago"},
                 {"What goes all around the world but stays in a corner?", "stamp"}};
 
@@ -49,7 +49,7 @@ namespace final_proj
             {
                 for (int j = 0; j < width; j++) {
                 if (i == 0 && j == 0) {
-                    Item item1 = Item("Attack rank 50", "potion", 50);
+                    Item item1 = Item("Rusty Spoon", "weapon", 1);
                     m_map.push_back(make_shared<Object_Room>(0, 0, item1));
 
                 } else if (i == 0 && j == 1) {
@@ -65,11 +65,11 @@ namespace final_proj
 
                 }
                 
-                
             }
         }
 
-    private:
+        private:
+        // private fields for player
         int m_width;
         int m_height;
         vector<shared_ptr<Base_Room>> m_map;

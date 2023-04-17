@@ -12,20 +12,21 @@
 
 using namespace std;
 
+// A class representing a Player
+
 namespace final_proj
 {
 
-    // class to represent the player
     class Player
     {
 
+    // public methods for the player
     public:
-        // public methods for the player
         vector<int> check_stats() const;
         vector<string> check_inventory() const;
         int get_strength() const;
         void pick_up_object(shared_ptr<Item> &new_item);
-        void use_item(string &item_name);
+        void use_item(string &item_name, string &item_type, int &item_stat);
         void take_damage(int damage_taken);
         void remove_buff();
         shared_ptr<Base_Room> get_current_room() const;
@@ -33,6 +34,7 @@ namespace final_proj
         bool player_alive() const;
         void update_points(int points);
         int get_points() const;
+        bool is_item_in_use() const;
 
         // custom constrctor for player
         Player()
@@ -45,11 +47,12 @@ namespace final_proj
             m_defense = m_baseDefense;
             m_inventory = vector<Item>();
             m_in_use = nullptr;
+            m_is_item_in_use = false;
             m_points = 0;
         }
 
         // private fields for player
-    private:
+        private:
         int m_maxHealth;
         int m_baseStrength;
         int m_baseDefense;
@@ -59,6 +62,7 @@ namespace final_proj
         int m_points;
         vector<Item> m_inventory;
         unique_ptr<Item> m_in_use;
+        bool m_is_item_in_use;
         shared_ptr<Base_Room> m_current_room;
     };
 

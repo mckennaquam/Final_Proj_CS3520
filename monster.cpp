@@ -10,6 +10,19 @@ namespace final_proj
         m_health -= damage;
     }
 
+    int Base_Monster::get_health() const
+    {
+        int health;
+        if (m_health >= 0)
+        {
+            health = m_health;
+        } else
+        {
+            health = 0;
+        }
+        return health;
+    }
+
     bool Base_Monster::is_alive() const
     {
         return m_health > 0;
@@ -80,7 +93,6 @@ namespace final_proj
 
     string Slime::attack_type() const
     {
-        cout << to_string(m_health) << endl;
         int attack = rand() % 100;
 
         if (attack <= 25)
