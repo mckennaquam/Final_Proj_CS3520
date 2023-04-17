@@ -31,6 +31,9 @@ namespace final_proj
         bool room_visited() const;
         void visit_room();
 
+        // empty destuctor for this class and it's derived classes
+        virtual ~Base_Room() {}
+
         // protcted fields for Base_Room
     protected:
         Base_Room(int x, int y, string type)

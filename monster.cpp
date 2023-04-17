@@ -5,7 +5,7 @@ using namespace std;
 
 namespace final_proj
 {
-    void Base_Monster::take_damage(int damage)
+    void Base_Monster::take_damage(int const damage)
     {
         m_health -= damage;
     }
@@ -16,7 +16,8 @@ namespace final_proj
         if (m_health >= 0)
         {
             health = m_health;
-        } else
+        }
+        else
         {
             health = 0;
         }
@@ -65,29 +66,9 @@ namespace final_proj
         }
     }
 
-    string Skeleton::describe_enemy() const
-    {
-        int descriptions = rand() % 3;
-        switch (descriptions)
-        {
-        case 0:
-            return "The skeleton rattles their bones, stumbling fowards. His glowing green";
-            //"eyes dimly light the room as they steadily approach you.";
-            break;
-        case 1:
-            return "to do";
-            break;
-        case 2:
-            return "to do";
-            break;
-        default:
-            return "to do";
-        }
-    }
-
     int Slime::deal_damage() const
     {
-        //to do stength
+        // to do stength
         return rand() % m_stength + 1;
     }
 
@@ -106,25 +87,6 @@ namespace final_proj
         else
         {
             return "bludgeon";
-        }
-    }
-
-    string Slime::describe_enemy() const
-    {
-        int descriptions = rand() % 3;
-        switch (descriptions)
-        {
-        case 0:
-            return "to do";
-            break;
-        case 1:
-            return "to do";
-            break;
-        case 2:
-            return "to do";
-            break;
-        default:
-            return "to do";
         }
     }
 
@@ -151,20 +113,6 @@ namespace final_proj
         else
         {
             return "error";
-        }
-    }
-
-    string Lich::describe_enemy() const
-    {
-        int descriptions = rand() % 3;
-        switch (descriptions)
-        {
-        case 0:
-            return "to do";
-        case 1:
-            return "to do";
-        case 2:
-            return "to do";
         }
     }
 }

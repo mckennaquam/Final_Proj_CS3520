@@ -11,15 +11,17 @@ namespace final_proj
     class Base_Monster
     {
     public:
-        void take_damage(int damage);
+        void take_damage(int const damage);
         virtual int deal_damage() const = 0;
         virtual string attack_type() const = 0;
-        virtual string describe_enemy() const = 0;
         bool is_alive() const;
         int get_health() const;
         string get_name() const;
         int point_val() const;
         Item get_item() const;
+
+        // empty destuctor for this class and its dervied classes
+        virtual ~Base_Monster() {}
 
     protected:
         string m_name;
@@ -35,7 +37,6 @@ namespace final_proj
     public:
         int deal_damage() const override;
         string attack_type() const override;
-        string describe_enemy() const override;
 
         Skeleton()
         {
@@ -62,7 +63,6 @@ namespace final_proj
     public:
         int deal_damage() const override;
         string attack_type() const override;
-        string describe_enemy() const override;
 
         Slime()
         {
@@ -80,7 +80,6 @@ namespace final_proj
     public:
         int deal_damage() const override;
         string attack_type() const override;
-        string describe_enemy() const override;
 
         Lich()
         {
