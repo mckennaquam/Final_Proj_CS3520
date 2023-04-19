@@ -56,7 +56,8 @@ namespace final_proj
     {
         vector<string> inventory;
 
-        transform(cbegin(m_inventory), cend(m_inventory), back_inserter(inventory), [](const auto &element)
+        transform(cbegin(m_inventory), cend(m_inventory), back_inserter(inventory), 
+        [](const auto &element)
                   { return element.m_name; });
 
         return inventory;
@@ -70,7 +71,8 @@ namespace final_proj
         {
             m_inventory.insert(m_inventory.end(), *new_item);
 
-            cout << "You pick up the potion of " + new_item->m_name + ", to use it type the command \"use " + new_item->m_name + "\"\n" << endl;
+            cout << "You pick up the potion of " + new_item->m_name + ", to use it type the "
+            "command \"use " + new_item->m_name + "\"\n" << endl;
 
         }
         // Check if item is type "strength". If so, set item into use if and only if it is a
@@ -83,11 +85,13 @@ namespace final_proj
             {
                 m_strength = new_item->m_stat + m_baseStrength;
 
-                cout << "You pick up the " + new_item->m_name + "! Your strength is now " + to_string(m_strength)  + ".\n"<< endl;
+                cout << "You pick up the " + new_item->m_name + "! Your strength is now " + 
+                to_string(m_strength)  + ".\n"<< endl;
             }
             else
             {
-                throw InvalidUserInputException("The " + new_item->m_name + " you picked up is weak! You drop it an proceed on.\n");
+                throw InvalidUserInputException("The " + new_item->m_name + " you picked up is "
+                "weak! You drop it an proceed on.\n");
             }
         }
         // Check if item is type "defense". If so, set item into use if and only if it is a
@@ -100,11 +104,13 @@ namespace final_proj
             {
                 m_defense = new_item->m_stat;
                 // message that says we added it
-                cout << "You pick up the " + new_item->m_name + "! Your defense is now " + to_string(m_defense)  + ".\n"<< endl;
+                cout << "You pick up the " + new_item->m_name + "! Your defense is now " + 
+                to_string(m_defense)  + ".\n"<< endl;
             }
             else
             {
-                throw InvalidUserInputException("The " + new_item->m_name + " you picked up is weak! You drop it an proceed on.\n");
+                throw InvalidUserInputException("The " + new_item->m_name + " you picked up is "
+                "weak! You drop it an proceed on.\n");
             }
         }
         // Checks if the item is type "treasure". If so, adds the alloted point value to the
@@ -112,7 +118,8 @@ namespace final_proj
         else if (new_item->m_type == "treasure")
         {
             m_points += new_item->m_stat;
-            cout << "You pick up the " + new_item->m_name + "! Your score is now " + to_string(m_points) + ".\n" << endl;
+            cout << "You pick up the " + new_item->m_name + "! Your score is now " + 
+            to_string(m_points) + ".\n" << endl;
         }
         else
         {
@@ -132,8 +139,10 @@ namespace final_proj
             m_in_use = make_unique<Item>(iter->m_name, iter->m_type, iter->m_stat);
             m_inventory.erase(iter);
             m_is_item_in_use = true;
-            cout << "You used your " + item_name + "! Your attack is now " + to_string(m_strength) + "." << endl;
-            cout << "If you enter a combat room, and then exit, your buff will be lost! Be careful...\n" << endl;
+            cout << "You used your " + item_name + "! Your attack is now " + 
+            to_string(m_strength) + "." << endl;
+            cout << "If you enter a combat room, and then exit, your buff will be lost! Be "
+            "careful...\n" << endl;
         }
         // If type "Defense", adds the stat of the item to a player's attack
         else if (str_contains(iter->m_name, "Defense"))
@@ -142,8 +151,10 @@ namespace final_proj
             m_in_use = make_unique<Item>(iter->m_name, iter->m_type, iter->m_stat);
             m_inventory.erase(iter);
             m_is_item_in_use = true;
-            cout << "You used your " + item_name + "! Your defense is now " + to_string(m_defense) + "." << endl;
-            cout << "If you enter a combat room, and then exit, your buff will be lost! Be careful...\n" << endl;
+            cout << "You used your " + item_name + "! Your defense is now " + to_string(m_defense) + 
+            "." << endl;
+            cout << "If you enter a combat room, and then exit, your buff will be lost! Be "
+            "careful...\n" << endl;
         }
         // If type "Health", adds the stat of the item to a player's attack
         else if (str_contains(iter->m_name, "Health"))
@@ -157,7 +168,8 @@ namespace final_proj
                 {
                     m_health = m_maxHealth;
                     m_inventory.erase(iter);
-                    cout << "You used your " + item_name + "! Your health is now " + to_string(m_health) + ".\n" << endl;
+                    cout << "You used your " + item_name + "! Your health is now " + 
+                    to_string(m_health) + ".\n" << endl;
 
                 }
                 // If item will not surpass the max health, apply item normally
@@ -165,7 +177,8 @@ namespace final_proj
                 {
                     m_health += iter->m_stat;
                     m_inventory.erase(iter);
-                    cout << "You used your " + item_name + "! Your health is now " + to_string(m_health) + ".\n" << endl;
+                    cout << "You used your " + item_name + "! Your health is now " + 
+                    to_string(m_health) + ".\n" << endl;
                 }
             }
             // Throws an InvalidUserInputException if the player is using a health-increasing item 

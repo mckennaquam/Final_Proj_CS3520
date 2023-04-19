@@ -12,6 +12,7 @@ using namespace std;
 
 namespace final_proj
 {
+    // a class representing an Base_Room
     class Base_Room
     {
         // public methods for the Base_Room
@@ -19,7 +20,7 @@ namespace final_proj
         virtual bool answer_riddle(string &answer);
         virtual void hit_monster(int damage);
         virtual bool monster_alive() const;
-        virtual int montser_attack_damage() const;
+        virtual int monster_attack_damage() const;
         virtual string monster_attack_type() const;
         virtual string monster_name() const;
         virtual int monster_points() const;
@@ -34,7 +35,7 @@ namespace final_proj
         // empty destuctor for this class and it's derived classes
         virtual ~Base_Room() {}
 
-        // protcted fields for Base_Room
+        // protected fields for Base_Room
     protected:
         Base_Room(int x, int y, string type)
         {
@@ -53,8 +54,10 @@ namespace final_proj
         bool m_visited;
     };
 
+    // a class representing an Object_Room, derrived from Base_Room
     class Object_Room : public Base_Room
     {
+        // public methods for the Object_Room, derived from Base_Room
     public:
         string describe_room() const override;
         shared_ptr<Item> remove_obj() override;
@@ -71,21 +74,24 @@ namespace final_proj
 
     protected:
         // constructor for derrived classes to use base room constructor for name
-        // and do custom item
+        // and do a custom item
         Object_Room(int x, int y, string name) : Base_Room(x, y, name)
         {
-            // m_item = make_shared<Item>(item);
         }
 
         shared_ptr<Item> m_item;
     };
 
+    // a class representing an Riddle_Room, derrived from Base_Room
     class Riddle_Room : public Base_Room
     {
+        // public methods for the Riddle_Room, derived from Base_Room
     public:
         bool answer_riddle(string &answer) override;
         string describe_room() const override;
 
+        // constructor for derrived classes to use base room constructor, in addition to 
+        // a riddle and the riddle answer
         Riddle_Room(int x, int y, string riddle, string answer) : Base_Room(x, y, "Riddle")
         {
             m_riddle = riddle;
@@ -93,27 +99,32 @@ namespace final_proj
             m_has_been_answered = false;
         }
 
+        // private fields for Base_Room
     private:
         string m_riddle;
         string m_answer;
         bool m_has_been_answered;
     };
 
+    // a class representing a Combat_Room, derrived from Base_Room
     class Combat_Room : public Object_Room
     {
+        // public methods for the Combat_Room, derived from Base_Room
     public:
         void hit_monster(int damage) override;
         bool monster_alive() const override;
-        int montser_attack_damage() const override;
+        int monster_attack_damage() const override;
         string monster_attack_type() const override;
         string monster_name() const override;
         int monster_points() const override;
         string describe_room() const override;
         shared_ptr<Item> remove_obj() override;
 
+        // constructor for derrived classes to use Object_Room constructor, which would assign an
+        // item to the Combat_Room
         Combat_Room(int x, int y) : Object_Room(x, y, "Combat")
         {
-            // gotta put the monster stuff here
+            // generates a random mob to spawn in the combat room
             int random = rand() % 100;
 
             if (random <= 10)
@@ -130,12 +141,43 @@ namespace final_proj
             }
             else
             {
-                throw UnsupportedBehavoir("tried make a randomized enemy - combat room constructor");
+                throw UnsupportedBehavoir
+                ("tried make a randomized enemy - combat room constructor");
             }
 
+            // gives the generated item to the enemy
             m_item = make_shared<Item>(m_enemy->get_item());
         }
 
+        // combat_room constructor for testing purposes
+        Combat_Room(int x, int y, Item &item) : Object_Room(x, y, "Combat")
+        {
+            // generates a random mob to spawn in the combat room
+            int random = rand() % 100;
+
+            if (random <= 10)
+            {
+                m_enemy = make_unique<Lich>();
+            }
+            else if (random > 10 && random <= 55)
+            {
+                m_enemy = make_unique<Skeleton>();
+            }
+            else if (random > 55 && random <= 100)
+            {
+                m_enemy = make_unique<Slime>();
+            }
+            else
+            {
+                throw UnsupportedBehavoir
+                ("tried make a randomized enemy - combat room constructor");
+            }
+
+            // gives the chosen item to the enemy
+            m_item = make_shared<Item>(item);
+        }
+
+        // protected fields for Base_Room
     private:
         unique_ptr<Base_Monster> m_enemy;
     };

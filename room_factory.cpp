@@ -8,6 +8,7 @@ using namespace std;
 // Empty namespace for helper methods
 namespace
 {
+    // returns a string of "+-" as long as a provided width
     string add_divide(int width)
     {
         string divide;
@@ -19,6 +20,7 @@ namespace
         return divide;
     }
 
+    // returns a string depending on the room type of a provided room
     string room_type(shared_ptr<final_proj::Base_Room> room)
     {
         if (!room->room_visited())
@@ -43,7 +45,6 @@ namespace
             return "?";
         }
     }
-
 }
 
 namespace final_proj
@@ -78,19 +79,22 @@ namespace final_proj
                 }
                 else
                 {
-                    throw UnsupportedBehavoir("tried to generate a room that doesn't exsist - construct room no riddle");
+                    throw UnsupportedBehavoir
+                    ("tried to generate a room that doesn't exsist - construct room no riddle");
                 }
             }
             else
             {
-                shared_ptr<Base_Room> to_return = make_shared<Riddle_Room>(x, y, m_riddle_iter->first, m_riddle_iter->second);
+                shared_ptr<Base_Room> to_return = make_shared<Riddle_Room>(x, y, 
+                m_riddle_iter->first, m_riddle_iter->second);
                 m_riddle_iter++;
                 return to_return;
             }
         }
         else
         {
-            throw UnsupportedBehavoir("tried to generate a room that doesn't exsist - construct room");
+            throw UnsupportedBehavoir
+            ("tried to generate a room that doesn't exsist - construct room");
         }
     }
 
@@ -101,7 +105,8 @@ namespace final_proj
         if (x < 0 || x >= m_width || y < 0 || y >= m_height)
         {
             // player is trying to go off the board
-            throw InvalidUserInputException("You can't go that way! Perhaps you should review your map.\n");
+            throw InvalidUserInputException
+            ("You can't go that way! Perhaps you should review your map.\n");
         }
         else
         {
@@ -109,6 +114,8 @@ namespace final_proj
         }
     }
 
+    // returns a string detailing a map of the dungeon. Dependent on a provided x and y coordinate,
+    // generates an "X" at the player's location on the map
     string Room_Factory::show_map(int x, int y) const
     {
         string map;
@@ -134,9 +141,10 @@ namespace final_proj
         return map;
     }
 
+    // returns a string decribing the legend for the map
     string Room_Factory::show_legend() const
     {
-        return "Legend:\nX - You are here\nT - Treasure room\nR - Riddle room\nC - Combat room";
+        return "Legend:\nX - You are here\nT - Treasure room\nR - Riddle room\nC - Combat room\n";
     }
 
 }

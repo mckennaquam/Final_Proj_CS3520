@@ -6,7 +6,7 @@
 
 namespace final_proj
 {
-
+    // An InvalidUserException to throw whenever there is an exception
     class InvalidUserInputException : public std::exception
     {
     public:
@@ -21,6 +21,7 @@ namespace final_proj
         std::string m_msg;
     };
 
+    // An UnsupportedBehavoir to throw whenever there is unsupported behavior 
     class UnsupportedBehavoir : public std::exception
     {
     public:

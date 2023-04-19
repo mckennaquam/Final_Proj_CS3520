@@ -5,13 +5,13 @@
 #include <string>
 #include <cstdlib>
 
-//to delete
-#include <iostream>
-
 using namespace std;
+
+// a struct representing an Item
 
 namespace
 {
+    // returns a string of a randomly generated weapon item name
     string generate_name_weapon()
     {
         int name = rand() % 5;
@@ -42,6 +42,7 @@ namespace
         }
     }
 
+    // returns a string of a randomly generated defense item name
     string generate_name_defense()
     {
         int name = rand() % 5;
@@ -71,6 +72,7 @@ namespace
         }
     }
 
+    // returns a string of a randomly generated treasure item name
     string generate_name_treasure()
     {
         int name = rand() % 5;
@@ -103,12 +105,14 @@ namespace
 
 namespace final_proj
 {
+    // a struct representing an Item
     struct Item
     {
         string m_name;
         string m_type;
         int m_stat;
 
+        // a constructor for an item that takes in a given name, given type, and given stat
         Item(string name, string type, int stat)
         {
             m_name = name;
@@ -116,6 +120,7 @@ namespace final_proj
             m_stat = stat;
         }
 
+        // a constructor for a randomized item
         Item()
         {
             int type = rand() % 101;

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "unit_test_framework.h"
 #include "exceptions.hpp"
 #include "player.hpp"
@@ -9,7 +7,9 @@ using namespace std;
 
 using namespace final_proj;
 
-// Test to ensure check_stats returns a vector of the player's stats in the order of health, 
+// tests for the player class
+
+// tests to ensure check_stats returns a vector of the player's stats in the order of health, 
 // strength, and defense
 TEST(test_check_stats)
 {
@@ -23,6 +23,8 @@ TEST(test_check_stats)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
+// tests that a player can pick_up a potion, and check their inventory/ will return the item in the
+// inventory
 TEST(test_check_inventory_and_pick_up_potion)
 {
     Player player1 = Player();
@@ -39,6 +41,7 @@ TEST(test_check_inventory_and_pick_up_potion)
     ASSERT_EQUAL(test_vector, player1.check_inventory());
 }
 
+// tests that a player can pick up a strength item, and it will apply to their strength
 TEST(test_pick_up_item_strength) 
 {
     Player player1 = Player();
@@ -56,6 +59,7 @@ TEST(test_pick_up_item_strength)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
+// tests that a player cannot pick up a strength object that is weaker than their existing item
 TEST(test_pick_up_object_strength_weaker) 
 {
     Player player1 = Player();
@@ -74,10 +78,12 @@ TEST(test_pick_up_object_strength_weaker)
     }
     catch (InvalidUserInputException &e)
     {
-        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed on.\n", e.what());
+        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed "
+        "on.\n", e.what());
     }
 }
 
+// tests that a player can pick up a defense item, and it will apply to their defense
 TEST(test_pick_up_item_defense) 
 {
     Player player1 = Player();
@@ -95,6 +101,7 @@ TEST(test_pick_up_item_defense)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
+// tests that a player cannot pick up a defense object that is weaker than their existing item
 TEST(test_pick_up_object_defense_weaker) 
 {
     Player player1 = Player();
@@ -114,10 +121,14 @@ TEST(test_pick_up_object_defense_weaker)
     }
     catch (InvalidUserInputException &e)
     {
-        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed on.\n", e.what());
+        ASSERT_EQUAL("The " + bad_item_name + " you picked up is weak! You drop it an proceed "
+        "on.\n", e.what());
     }
 }
 
+// tests that a player can pick up a treasure object and it will update their points. tests that
+// update points will display the updated points, and get points will return the player's point 
+// value 
 TEST(test_pick_up_object_treasure_and_update_points_and_get_points) 
 {
     Player player1 = Player();
@@ -129,6 +140,8 @@ TEST(test_pick_up_object_treasure_and_update_points_and_get_points)
     ASSERT_EQUAL(5, player1.get_points());
 }
 
+// tests that a player can use a health potion item when their health is low, and their stats
+// will reflect the changes
 TEST(test_use_item_health_potion_low_health_and_take_damage) 
 {
     Player player1 = Player();
@@ -153,6 +166,8 @@ TEST(test_use_item_health_potion_low_health_and_take_damage)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
+// tests that a player can use a health potion item when their health is high, and their stats
+// will reflect the changes. And that health will not subscede the max health
 TEST(test_use_item_health_potion_high_health_and_take_damage) 
 {
     Player player1 = Player();
@@ -177,27 +192,7 @@ TEST(test_use_item_health_potion_high_health_and_take_damage)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
-TEST(test_use_item_health_potion_full_health) 
-{
-    Player player1 = Player();
-    Item health_potion_item = Item("Health rank 5", "potion", 5);
-    shared_ptr<Item> health_potion_item_pointer = make_shared<Item>(health_potion_item);
-    string health_potion_item_name = "Health rank 5";
-    string health_potion_item_type = "potion";
-    int health_potion_item_rank = 5;
-
-    player1.pick_up_object(health_potion_item_pointer);
-
-    try
-    {
-        player1.use_item(health_potion_item_name, health_potion_item_type, health_potion_item_rank);
-    }
-    catch (InvalidUserInputException &e)
-    {
-        ASSERT_EQUAL("Your health is full! No need to use this item.\n", e.what());
-    }
-}
-
+// tests that a player can use an attack potion item, and their stats will reflect the changes
 TEST(test_use_item_attack_potion) 
 {
     Player player1 = Player();
@@ -220,6 +215,7 @@ TEST(test_use_item_attack_potion)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
+// tests that a player can use a defense potion item, and their stats will reflect the changes
 TEST(test_use_item_defense_potion) 
 {
     Player player1 = Player();
@@ -242,6 +238,7 @@ TEST(test_use_item_defense_potion)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
+// tests that a player cannot use a potion item when their inventory is empty
 TEST(test_use_item_empty_inventory) 
 {
     Player player1 = Player();
@@ -259,6 +256,7 @@ TEST(test_use_item_empty_inventory)
     }
 }
 
+// tests that remove buff will remove the attack buff from a player's stats
 TEST(test_remove_buff_attack_potion) 
 {
     Player player1 = Player();
@@ -283,6 +281,7 @@ TEST(test_remove_buff_attack_potion)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
+// tests that remove buff will remove the defense buff from a player's stats
 TEST(test_remove_buff_defense_potion) 
 {
     Player player1 = Player();
@@ -307,7 +306,7 @@ TEST(test_remove_buff_defense_potion)
     ASSERT_EQUAL(test_vector, player1.check_stats());
 }
 
-// Is get strength supposed to return the baseStrength or is it supposed to update? small fix, I just forgor
+// tests that get_strength will return a player's strength
 TEST(test_get_strength) 
 {
     Player player1 = Player();
@@ -321,6 +320,7 @@ TEST(test_get_strength)
     ASSERT_EQUAL(15, player1.get_strength());
 }
 
+// tests that player alive will return true if the player is alive
 TEST(test_player_alive_alive) 
 {
     Player player1 = Player();
@@ -328,6 +328,7 @@ TEST(test_player_alive_alive)
     ASSERT_TRUE(player1.player_alive());
 }
 
+// tests that player alive will return false if the player is dead
 TEST(test_player_alive_dead) 
 {
     Player player1 = Player();

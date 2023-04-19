@@ -16,8 +16,8 @@ namespace final_proj
 {
     class Room_Factory
     {
-    public:
         // public methods for the player
+    public:
         shared_ptr<Base_Room> get_room_at(int x, int y) const;
         string show_map(int x, int y) const;
         string show_legend() const;
@@ -55,7 +55,8 @@ namespace final_proj
                     }
                     else if (i == 0 && j == 1)
                     {
-                        m_map.push_back(make_shared<Riddle_Room>(1, 0, m_riddle_iter->first, m_riddle_iter->second));
+                        m_map.push_back(make_shared<Riddle_Room>(1, 0, m_riddle_iter->
+                        first, m_riddle_iter->second));
                         m_riddle_iter++;
                     }
                     else if (i == 0 && j == 2)

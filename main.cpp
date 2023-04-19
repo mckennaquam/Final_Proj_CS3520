@@ -16,6 +16,9 @@ using namespace std;
 
 using namespace final_proj;
 
+// the main function of our project. Acts as the controller and controlls all the interactions 
+// between our model
+
 namespace
 {
     void remove_extra(istringstream &iss)
@@ -117,7 +120,7 @@ int main()
         }
     }
     //  Read lines from cin as long as the state of the stream is good.
-    //  This while loop condition is provided for you.
+    //  the main game portion.
     while (std::getline(cin, input) && p.player_alive())
     {
         // Skip over blank lines (provided for you). You do not need to handle
@@ -150,7 +153,8 @@ int main()
 
         if (command_funcs.find(command) == cend(command_funcs))
         {
-            cout << "Unrecognized command, type \"show_commands\" to view the list of acceptable commands!\n"
+            cout << "Unrecognized command, type \"show_commands\" to view the list of acceptable "
+            "commands!\n"
                  << endl;
         }
         else
@@ -170,12 +174,15 @@ int main()
 
     if (p.player_alive())
     {
-        cout << "Thanks for playing! Your final score was: " + to_string(p.get_points()) + "!" << endl;
+        cout << "Thanks for playing! Your final score was: " + to_string(p.get_points()) + "!" 
+        << endl;
     }
     else
     {
-        cout << "The" + p.get_current_room()->monster_name() + " stikes you down! You are forced to leave the dungeon in disgrace." << endl;
-        cout << "Your final score was " + to_string(p.get_points()) + "! Thanks for playing!" << endl;
+        cout << "The" + p.get_current_room()->monster_name() + " stikes you down! You are forced "
+        "to leave the dungeon in disgrace." << endl;
+        cout << "Your final score was " + to_string(p.get_points()) + "! Thanks for playing!" 
+        << endl;
     }
 
     return 0;
@@ -183,7 +190,7 @@ int main()
 
 namespace
 {
-    // define the commands declreaded above here
+    // go command implementation
     void go(istringstream &iss, Player &p, Room_Factory &rf)
     {
 
@@ -214,7 +221,8 @@ namespace
         }
         else
         {
-            throw InvalidUserInputException("You must use cardinal direction (north, east, south, west) for movement.\n");
+            throw InvalidUserInputException("You must use cardinal direction (north, east, south, "
+            "west) for movement.\n");
         }
 
         if (old_room_type == "Combat")
@@ -223,17 +231,20 @@ namespace
             {
                 p.remove_buff();
                 vector<int> stats = p.check_stats();
-                cout << "You feel the effects of the potion wearing off... your strength is now " + to_string(stats.at(1)) + " and your defense is now " + to_string(stats.at(2)) + ".\n"
-                     << endl;
+                cout << "You feel the effects of the potion wearing off... your strength is now " + 
+                to_string(stats.at(1)) + " and your defense is now " + to_string(stats.at(2)) + 
+                ".\n" << endl;
             }
         }
 
         p.update_location(new_room);
         p.get_current_room()->visit_room();
         string prompt = "\nWhat do you do?\n";
-        cout << "You enter the " + direction + " room.\n" + p.get_current_room()->describe_room() + prompt << endl;
+        cout << "You enter the " + direction + " room.\n" + p.get_current_room()->describe_room() + 
+        prompt << endl;
     }
 
+    // fight commands implementation
     void fight(istringstream &iss, Player &p, Room_Factory &)
     {
         shared_ptr<Base_Room> current_room = p.get_current_room();
@@ -245,16 +256,20 @@ namespace
             throw InvalidUserInputException("You can't fight a monster you already killed!");
         }
 
-        string preliminary_message = "You have started combat with the " + current_room->monster_name() + "! ";
-        // HELP HELP ITS SO DUMB
+        string preliminary_message = "You have started combat with the " + 
+        current_room->monster_name() + "! ";
         string blank = "";
 
         string tutorial = blank + "For each turn you can do 1 of 3 things:\n" +
-                          "1) Retreat out of combat with \"retreat\" \n2) Use an item with \"use [item name]\" \n" +
+                          "1) Retreat out of combat with \"retreat\" \n2) Use an item with \"use "
+                          "[item name]\" \n" +
                           "3) Engage in combat with \"bludgeon\" or \"slash\" or \"pierce\" \n" +
-                          "\nWhen you engage in combat, you use one of the three attack types and the monster will chose an attack type as well.\n\n"
-                          "\"bludgeon\" beats \"slash\", \"slash\" beats \"pierce\", and \"pierce\" beats \"bludgeon\"\n\n"
-                          "Depending on if you or the monster successfully hit the other, damage will then be assigned.";
+                          "\nWhen you engage in combat, you use one of the three attack types and "
+                          "the monster will chose an attack type as well.\n\n"
+                          "\"bludgeon\" beats \"slash\", \"slash\" beats \"pierce\", and "
+                          "\"pierce\" beats \"bludgeon\"\n\n"
+                          "Depending on if you or the monster successfully hit the other, damage "
+                          "will then be assigned.";
 
         cout << tutorial << endl;
 
@@ -296,67 +311,76 @@ namespace
 
                     p.use_item(name, type, stat);
                 }
-                catch (InvalidUserInputException e)
+                catch (InvalidUserInputException &e)
                 {
-                    cout << e.what() << endl;
+                    throw InvalidUserInputException("You can't use this item!"); 
                 }
             }
-            else if (combat_command == "bludgeon" || combat_command == "pierce" || combat_command == "slash")
+            // defines how combat will function
+            else if (combat_command == "bludgeon" || combat_command == "pierce" || 
+            combat_command == "slash")
             {
-                int monster_damage = current_room->montser_attack_damage();
+                int monster_damage = current_room->monster_attack_damage();
                 string monster_type = current_room->monster_attack_type();
 
                 if (combat_command == "bludgeon")
                 {
                     if (monster_type == "slash")
                     {
-                        cout << "You hit the " + current_room->monster_name() + " and deal " + to_string(p.get_strength()) +
-                                    " points of damage!"
-                             << endl;
+                        cout << "You hit the " + current_room->monster_name() + " and deal " + 
+                        to_string(p.get_strength()) + " points of damage!" << endl;
                         current_room->hit_monster(p.get_strength());
                     }
                     else if (monster_type == "pierce")
                     {
-                        cout << "The " + current_room->monster_name() + "dealt " + to_string(monster_damage) + " points of damage! Ouch!" << endl;
+                        cout << "The " + current_room->monster_name() + " dealt " + 
+                        to_string(monster_damage) + " points of damage! Ouch!" << endl;
                         p.take_damage(monster_damage);
                     }
                     else
                     {
-                        cout << "You and the " + current_room->monster_name() + " both miss!" << endl;
+                        cout << "You and the " + current_room->monster_name() + " both miss!" 
+                        << endl;
                     }
                 }
                 else if (combat_command == "pierce")
                 {
                     if (monster_type == "bludgeon")
                     {
-                        cout << "You hit the " + current_room->monster_name() + " and deal " + to_string(p.get_strength()) + " points of damage!" << endl;
+                        cout << "You hit the " + current_room->monster_name() + " and deal " + 
+                        to_string(p.get_strength()) + " points of damage!" << endl;
                         current_room->hit_monster(p.get_strength());
                     }
                     else if (monster_type == "slash")
                     {
-                        cout << "The " + current_room->monster_name() + " dealt " + to_string(monster_damage) + " points of damage! Ouch!" << endl;
+                        cout << "The " + current_room->monster_name() + " dealt " + 
+                        to_string(monster_damage) + " points of damage! Ouch!" << endl;
                         p.take_damage(monster_damage);
                     }
                     else
                     {
-                        cout << "You and the " + current_room->monster_name() + " both miss!" << endl;
+                        cout << "You and the " + current_room->monster_name() + " both miss!" 
+                        << endl;
                     }
                 }
                 else
                 {
                     if (monster_type == "pierce")
                     {
-                        cout << "You hit the " + current_room->monster_name() + " and deal " + to_string(p.get_strength()) + " points of damage!" << endl;
+                        cout << "You hit the " + current_room->monster_name() + " and deal " + 
+                        to_string(p.get_strength()) + " points of damage!" << endl;
                         current_room->hit_monster(p.get_strength());
                     }
                     else if (monster_type == "bludgeon")
                     {
-                        cout << "The " + current_room->monster_name() + " dealt " + to_string(monster_damage) + " points of damage! Ouch!" << endl;
+                        cout << "The " + current_room->monster_name() + " dealt " + 
+                        to_string(monster_damage) + " points of damage! Ouch!" << endl;
                         p.take_damage(monster_damage);
                     }
                     else
                     {
-                        cout << "You and the " + current_room->monster_name() + " both miss!" << endl;
+                        cout << "You and the " + current_room->monster_name() + " both miss!" 
+                        << endl;
                     }
                 }
             }
@@ -370,8 +394,10 @@ namespace
             if (!current_room->monster_alive())
             {
                 p.update_points(current_room->monster_points());
-                cout << "\nYou slay the " + current_room->monster_name() + "! and earn " + to_string(current_room->monster_points()) + " points. Heck yeah." << endl;
-                cout << "The item the " + current_room->monster_name() + " was holding drops to the floor.\n"
+                cout << "\nYou slay the " + current_room->monster_name() + "! and earn " + 
+                to_string(current_room->monster_points()) + " points. Heck yeah." << endl;
+                cout << "The item the " + current_room->monster_name() + " was holding drops to "
+                "the floor.\n"
                      << endl;
                 break;
             }
@@ -383,6 +409,7 @@ namespace
         }
     }
 
+    // use command implementation
     void use(istringstream &iss, Player &p, Room_Factory &)
     {
         string name;
@@ -398,18 +425,21 @@ namespace
         p.use_item(name, type, stat);
     }
 
+    // describe_room command implementation
     void describe_room(istringstream &, const Player &p, Room_Factory &)
     {
         cout << p.get_current_room()->describe_room() + "\n"
              << endl;
     }
 
+    // pick_up command implementation
     void pick_up(istringstream &, Player &p, Room_Factory &)
     {
         shared_ptr<Item> new_item = p.get_current_room()->remove_obj();
         p.pick_up_object(new_item);
     }
 
+    // check_inventory command implementation
     void check_inventory(istringstream &, const Player &p, Room_Factory &)
     {
         cout << "Inventory contains: " << endl;
@@ -427,6 +457,7 @@ namespace
         }
     }
 
+    // check_stats command implementation
     void check_stats(istringstream &, const Player &p, Room_Factory &)
     {
         vector<int> stats = p.check_stats();
@@ -436,6 +467,7 @@ namespace
              << endl;
     }
 
+    // show_map command implementation
     void show_map(istringstream &, const Player &p, const Room_Factory &rf)
     {
 
@@ -448,18 +480,21 @@ namespace
         cout << rf.show_legend() << endl;
     }
 
+    // show_commands command implementation
     void show_commands(istringstream &, Player &, Room_Factory &)
     {
+        // pushes command names into a printable list
         cout << "\n";
         vector<string> command_name;
-        transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name), [](auto &iter)
+        transform(cbegin(command_funcs), cend(command_funcs), back_inserter(command_name), 
+        [](auto &iter)
                   { return iter.first; });
 
+        // erases commands that will appear differently in the show_commands list
         command_name.erase(find(begin(command_name), end(command_name), "answer_riddle"));
         command_name.erase(find(begin(command_name), end(command_name), "use"));
         command_name.erase(find(begin(command_name), end(command_name), "go"));
         copy(cbegin(command_name), cend(command_name), std::ostream_iterator<string>(cout, "\n"));
-        // remove go and answer_riddle from the list of commands, or add this below on to go and answer_riddle:
         cout << "answer_riddle [answer]" << endl;
         cout << "use [name]" << endl;
         cout << "go [north][south][east][west]" << endl;
@@ -467,6 +502,7 @@ namespace
              << endl;
     }
 
+    // answer_riddle command implementation
     void answer_riddle(istringstream &iss, Player &p, Room_Factory &)
     {
         string answer;
